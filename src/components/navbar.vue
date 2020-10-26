@@ -7,6 +7,7 @@
       <b-navbar-nav class="ml-auto my-auto">
       
         <b-nav-item href="#" to="/">Home</b-nav-item>
+        <b-nav-item href="#" to="/login">Login</b-nav-item>
         <b-nav-item href="#" to="/about">About</b-nav-item>
       </b-navbar-nav>
       <!-- Right aligned nav items -->
