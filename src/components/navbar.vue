@@ -8,7 +8,9 @@
       
         <b-nav-item href="#" to="/">Home</b-nav-item>
         <b-nav-item href="#" to="/login">Login</b-nav-item>
+        <b-nav-item href="#" to="/create">Create</b-nav-item>
         <b-nav-item href="#" to="/about">About</b-nav-item>
+
       </b-navbar-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
