@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import login from "../views/login.vue"
 import Create from "../views/Create.vue"
+import registeration from '../views/registeration.vue';
+import forgetcertificate from '../views/forgetcertificate.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,6 +19,11 @@ const routes = [
     component: login
   },
   {
+    path: "/registeration",
+    name: "registeration",
+    component: registeration
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting
@@ -29,7 +36,12 @@ const routes = [
     path:"/create",
     name:"Create",
     component: Create
-  }
+  },
+  {
+    path: "/forgetcertificate",
+    name: "forgetcertificate",
+    component: forgetcertificate
+  },
 ];
 
 const router = new VueRouter({

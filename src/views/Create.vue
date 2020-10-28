@@ -1,10 +1,18 @@
 <template>
-  <div class="home">
-    <div style="float:left">
-      <Certificate />
-    </div>
-    <div style="float:left">
-      <CertificateInfo />
+  <div class="container" style="margin-top: 10%;">
+    <div class="row ">
+      <div class="col ">
+        <div class=" row justify-content-center ">
+          <div class=" col-8 d-flex justify-content-center ">
+            <div class="d-none d-md-block d-xl-block">
+              <Certificate />
+            </div>
+          </div>
+          <div class="col d-flex justify-content-center">
+            <CertificateInfo />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

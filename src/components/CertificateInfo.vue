@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-card no-body class="overflow-hidden shadow" style="width: 350px">
+    <b-card no-body class=" shadow " style="width: 320px;" >
       <center>
-        <b-col md="10" sm="5" cols="12">
+        <b-col>
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
             <form class="mt-5" @submit="CreateCertificate" @submit.prevent>
               <input

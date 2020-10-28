@@ -1,6 +1,6 @@
 <template>
   <div>
-  <b-navbar toggleable="lg" class="p-4 shadow" type="light" variant="white">
+  <b-navbar toggleable="lg" class="p-4 shadow fixed-top"  type="light" variant="white">
     <b-navbar-brand href="#" class="ml-auto my-auto">E-CERT</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
