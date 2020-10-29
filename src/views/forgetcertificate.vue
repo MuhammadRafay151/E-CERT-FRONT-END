@@ -1,8 +1,8 @@
 <template>
     
-    <div class="container " style="margin-top:10%">
+    <div class="container " style="margin-top:120px">
     <div class="row  justify-content-center">
-      <div class="col-6 ">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6">
          <forget/>
        
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="scroll">
     <div class="container1">
       <img
         src="../assets/f2b08cc2a4da932e542734ae797563d1.png"
@@ -70,9 +70,10 @@ export default {
   position: relative;
   text-align: center;
   color: white;
+  width: 800px;
 }
 .scroll {
-  width: 790px;
+  width: 800px;
   overflow-x: scroll;
   overflow-y: hidden;
 }

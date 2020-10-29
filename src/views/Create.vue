@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin-top: 10%;">
+  <div class="container" style="margin-top: 120px;">
     <div class="row ">
       <div class="col ">
         <div class=" row justify-content-center ">

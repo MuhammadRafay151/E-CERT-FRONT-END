@@ -5,6 +5,7 @@ import login from "../views/login.vue"
 import Create from "../views/Create.vue"
 import registeration from '../views/registeration.vue';
 import forgetcertificate from '../views/forgetcertificate.vue'
+import verification from '../views/verification.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -22,6 +23,11 @@ const routes = [
     path: "/registeration",
     name: "registeration",
     component: registeration
+  },
+  {
+    path: "/verification",
+    name: "verification",
+    component: verification
   },
   {
     path: "/about",
