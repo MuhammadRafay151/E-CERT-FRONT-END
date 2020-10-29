@@ -44,13 +44,11 @@
 </template>
 
 <script>
-import image from "../assets/f2b08cc2a4da932e542734ae797563d1.png";
+
 export default {
   name: "certificate",
   data() {
-    return {
-      image
-    };
+    
   }
 };
 </script>
