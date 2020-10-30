@@ -6,6 +6,8 @@ import Create from "../views/Create.vue"
 import registeration from '../views/registeration.vue';
 import forgetcertificate from '../views/forgetcertificate.vue'
 import verification from '../views/verification.vue'
+import dashboard from'../views/dashboard.vue'
+import store from "../store"
 Vue.use(VueRouter);
 
 const routes = [
@@ -15,6 +17,12 @@ const routes = [
     component: Home
   },
   {
+    path: "/dashboard",
+    name: "dashboard",
+    component: dashboard,
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/login",
     name: "Login",
     component: login
@@ -22,7 +30,8 @@ const routes = [
   {
     path: "/registeration",
     name: "registeration",
-    component: registeration
+    component: registeration,
+    meta: { requiresAuth: true }
   },
   {
     path: "/verification",
@@ -41,7 +50,8 @@ const routes = [
   {
     path:"/create",
     name:"Create",
-    component: Create
+    component: Create,
+    meta: { requiresAuth: true }
   },
   {
     path: "/forgetcertificate",
@@ -55,5 +65,20 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.getters["user_state/IsLoggedIn"]) {
+      next({
+        path: '/login',
+     
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
 export default router;
