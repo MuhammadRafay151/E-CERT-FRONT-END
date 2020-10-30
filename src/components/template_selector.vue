@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow ">
+  <div class="shadow bg-white ">
     <div class="row p-2 ">
       <div class="col d-flex justify-content-center">
         <temp path="/665858c95c31b60.jpg" />
