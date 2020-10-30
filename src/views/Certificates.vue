@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="container-fluid p-5" style="margin-top:120px">
     <BatchView v-if="BatchDetail" />
     <div v-else>
-      <b-card no-body class="overflow-hidden shadow">
+      <b-card no-body class=" shadow">
         <b-card-body>
-          <b-row align-v="center">
-            <b-col sm="3">
+          <b-row  align-v="center">
+            <b-col class="d-flex justify-content-start">
               <div v-if="Display">
                 <b-link href="#" v-on:click="ShowDetail('single')"
                   ><small style="color: blue; text-decoration: underline"
@@ -30,55 +30,48 @@
               </div>
             </b-col>
 
-            <b-col sm="6">
+            <b-col class="d-flex justify-content-center">
               <h3>CERTIFICATES</h3>
             </b-col>
 
-            <b-col sm="3">
-              <b-nav-form @submit.prevent>
-                <div class="form-group">
-                  <b-form-input placeholder="Search"></b-form-input>
-                  <b-button
-                    variant="outline-dark"
-                    class="my-2 my-sm-0"
-                    type="submit"
-                    ><b-icon icon="search"></b-icon
-                  ></b-button>
+            <b-col class="d-flex justify-content-end">
+             <div class="align-self-center">
+                 
+                  <div class="input-group ">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Username"
+                    />
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <b-icon icon="search"></b-icon
+                  >
+                      </div>
+                    </div>
+                    
+                  </div>
                 </div>
-              </b-nav-form>
             </b-col>
           </b-row>
         </b-card-body>
       </b-card>
 
-      <div style="border: ridge" class="d-flex justify-content-end">
-        <div style="border: ridge; width: 500px; margin: 5px">
-          <b-row style="margin: 5px">
-            <b-col sm="1" align-self="center">
-              <b-icon icon="funnel-fill"></b-icon>
-            </b-col>
-
-            <b-col sm="5"
-              ><input type="date" class="form-control" placeholder="From Date"
-            /></b-col>
-
-            <b-col sm="1"> ... </b-col>
-            
-            <b-col sm="5"
-              ><input type="date" class="form-control" placeholder="To Date"
-            /></b-col>
-          </b-row>
+     
+     
+      <div class="row mt-3">
+        <div class="col">
+          <SingleCertificates v-if="Display" />
+          <BatchCertificates v-else v-on:BatchDetail="DisplayBatchDetail" />
         </div>
       </div>
-      <SingleCertificates v-if="Display" />
-      <BatchCertificates v-else v-on:BatchDetail="DisplayBatchDetail" />
     </div>
   </div>
 </template>
 <script>
-import SingleCertificates from "./SingleCertificates";
-import BatchCertificates from "./BatchCertificates";
-import BatchView from "./BatchView";
+import SingleCertificates from "../components/SingleCertificates";
+import BatchCertificates from "../components/BatchCertificates";
+import BatchView from "../components/BatchView";
 
 export default {
   name: "CertificateView",
@@ -86,7 +79,7 @@ export default {
   components: {
     SingleCertificates,
     BatchCertificates,
-    BatchView,
+    BatchView
   },
 
   methods: {
@@ -100,14 +93,14 @@ export default {
 
     DisplayBatchDetail() {
       this.BatchDetail = true;
-    },
+    }
   },
   data() {
     return {
       Display: true,
-      BatchDetail: false,
+      BatchDetail: false
     };
-  },
+  }
 };
 </script>
 

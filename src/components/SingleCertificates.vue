@@ -1,5 +1,6 @@
 <template>
   <div>
+     
     <b-table
       id="SingleCertificateData"
       striped
@@ -8,8 +9,16 @@
       :fields="fields"
       :per-page="perPage"
       :current-page="currentPage"
-      small
+    
     >
+     <template #head(issue_date)="data">
+    <daterange class="d-inline"/>
+        <span class="d-inline">{{ data.label }}</span>
+      </template>
+      <template  #head(expiry_date)="data">
+       <span class="d-inline"></span>
+        <span class="align-middle text-center" >{{ data.label }}</span>
+      </template>
       <template #cell(status)="Status">
         <span v-if="Status.value" class="badge badge-success">Active</span>
         <span v-else class="badge badge-danger">Expire</span>
@@ -38,9 +47,14 @@
 </template>
 
 <script>
+import daterange from '../components/daterange'
 export default {
   name: "SingleCertificates",
-
+components:{
+daterange
+},methods:{
+ 
+},
   data() {
     return {
       perPage: 3,
@@ -49,29 +63,36 @@ export default {
         {
           key: "issue_date",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "expiry_date",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "name",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "title",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "status",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "issued_by",
           sortable: true,
+          class:"align-middle"
         },
         {
           key: "Actions",
+          class:"align-middle"
         },
       ],
       items: [

@@ -8,6 +8,7 @@ import forgetcertificate from '../views/forgetcertificate.vue'
 import verification from '../views/verification.vue'
 import dashboard from'../views/dashboard.vue'
 import store from "../store"
+import certificates from "../views/Certificates.vue"
 Vue.use(VueRouter);
 
 const routes = [
@@ -51,6 +52,12 @@ const routes = [
     path:"/create",
     name:"Create",
     component: Create,
+    meta: { requiresAuth: true }
+  },
+  {
+    path:"/certificates",
+    name:"certificates",
+    component:certificates,
     meta: { requiresAuth: true }
   },
   {
