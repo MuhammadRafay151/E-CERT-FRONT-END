@@ -17,7 +17,7 @@
             <b-spinner small type="grow"></b-spinner>verifying...
           </span>
         </button>
-       
+       <sub>Forgot certificates? <router-link to="/forgetcertificate">click here</router-link> </sub>
       </div>
     </div>
   </div>

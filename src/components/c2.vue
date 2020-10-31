@@ -1,13 +1,17 @@
 <template>
-  <div class="scroll">
-    <div class="container1">
+  <div >
+    <div class="container1 border">
+      <img src="../assets/certificate.jpeg" class="cert" alt="">
       <img
-        src="../assets/f2b08cc2a4da932e542734ae797563d1.png"
-        width="800"
+        src="../assets/logo.png"
+        width="80"
         alt=""
+        class="logo"
       />
+
       <h3 class="t">Certified hyperledger farbric</h3>
       <p class="desc text-left">
+        It is to certify that <b>Muhammad Rafay</b> has
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
         since the 1500s, when an unknown printer took a galley of type and
@@ -21,6 +25,16 @@
       <p class="p3 text-left">
         verfication code: asd85810asdew23423
       </p>
+       <div >
+         <p class="sign">Signature: _____________________</p>
+         <img
+        src="https://upload.wikimedia.org/wikipedia/en/f/f4/Timothy_Spall_Signature.png"
+        width="150"
+        height="100"
+        alt=""
+        class="isign"
+      />
+       </div>
       <!-- <div class="row  "  >
      <div class="col d-flex  justify-content-center">
        
@@ -46,12 +60,33 @@
 <script>
 
 export default {
-  name: "certificate",
- 
+  name: "c2",
+  
 };
 </script>
 
-<style>
+<style scoped>
+.cert{
+  width:   842px;
+  height: 595px;
+}
+.logo{
+  position: absolute;
+  top:20px;
+  left:700px
+}
+.sign{
+   position: absolute;
+  top:550px;
+  left: 550px;
+  color: black;
+}
+.isign{
+   position: absolute;
+  top:460px;
+  left: 640px;
+ 
+}
 .t {
   position: absolute;
   top: 160px;
@@ -66,10 +101,11 @@ export default {
   position: relative;
   text-align: center;
   color: white;
-  width: 800px;
+  width:   842px;
+  height: 595px;
 }
 .scroll {
-  width: 800px;
+  width: 842px;
   overflow-x: scroll;
   overflow-y: hidden;
 }
@@ -85,14 +121,14 @@ export default {
 }
 .p2 {
    position: absolute;
-  top: 490px;
+  top: 530px;
   color: black;
   left: 60px;
   right: 0;
 }
 .p3 {
   position: absolute;
-  top: 520px;
+  top: 550px;
   color: black;
   left: 60px;
   right: 0;

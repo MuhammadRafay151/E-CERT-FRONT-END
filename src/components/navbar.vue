@@ -18,6 +18,7 @@
           <b-nav-item v-if="IsLoggedIn" href="#" to="/create">Create</b-nav-item>
           <b-nav-item v-if="IsLoggedIn && user.SuperAdmin" href="#" to="">Organizations</b-nav-item>
           <b-nav-item v-if="IsLoggedIn" href="#" to="/certificates">Certificates</b-nav-item>
+          <b-nav-item href="#" to="/verification">Verify Certificate</b-nav-item>
           <b-nav-item href="#" to="/about">About</b-nav-item>
         </b-navbar-nav>
         <!-- Right aligned nav items -->

@@ -1,23 +1,19 @@
 <template>
-  <div class="container" style="margin-top: 120px;">
+  <div class="container-fluid" style="margin-top: 120px;">
     <div class="row" v-if="!is_selected">
       <div class="col">
-       <templateselector/>
+        <templateselector />
       </div>
-       
     </div>
-    <div v-else class="row ">
-      <div class="col ">
-        <div class=" row justify-content-center ">
-          <div class=" col-8 d-flex justify-content-center ">
-            <div class="d-none d-md-block d-xl-block">
-              <Certificate />
-            </div>
-          </div>
-          <div class="col d-flex justify-content-center">
-            <CertificateInfo />
-          </div>
+    <div class=" row justify-content-center">
+      <div class=" col-8 d-flex justify-content-center">
+        <div class="d-none d-md-block d-xl-block">
+          <component v-bind:is="template" />
+          <!-- <Certificate /> -->
         </div>
+      </div>
+      <div class="col d-flex justify-content-center ">
+        <CertificateInfo />
       </div>
     </div>
   </div>
@@ -25,18 +21,21 @@
 
 <script>
 import CertificateInfo from "../components/CertificateInfo";
-import Certificate from "../components/Certificate";
+import c1 from "../components/Certificate";
+import c2 from "../components/c2";
 import templateselector from "../components/template_selector";
 export default {
   name: "Create",
   components: {
     CertificateInfo,
-    Certificate,
+    c1,
     templateselector,
+    c2
   },
   data: function() {
     return {
-      is_selected:false,
+      template: "c2",
+      is_selected: true
     };
   }
 };
