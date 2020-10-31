@@ -1,40 +1,44 @@
 <template>
-  <div>
-     
+  <div class="shadow p-3">
     <b-table
       id="SingleCertificateData"
-      striped
+      white
       hover
       :items="items"
       :fields="fields"
       :per-page="perPage"
       :current-page="currentPage"
-    
     >
-     <template #head(issue_date)="data">
-    <daterange class="d-inline"/>
+      <template #head(issue_date)="data">
+        <filters
+          search_label="Enter Code"
+          class="d-inline"
+          v-on:TextSearch="CodeSearch"
+          v-on:DateSearch="DateSearch"
+        />
         <span class="d-inline">{{ data.label }}</span>
       </template>
-      <template  #head(expiry_date)="data">
-       <span class="d-inline"></span>
-        <span class="align-middle text-center" >{{ data.label }}</span>
-      </template>
+
       <template #cell(status)="Status">
         <span v-if="Status.value" class="badge badge-success">Active</span>
         <span v-else class="badge badge-danger">Expire</span>
       </template>
 
       <template #cell(Actions)>
-        <b-button variant="outline-dark" class="my-2 my-sm-0"
-          ><b-icon icon="eye"></b-icon></b-button
-        ><b-button variant="outline-dark" class="my-2 my-sm-0"
-          ><b-icon icon="pencil"></b-icon></b-button
-        ><b-button variant="outline-dark" class="my-2 my-sm-0"
-          ><b-icon icon="x-circle"></b-icon
-        ></b-button>
+        <div class="row">
+          <div class="col ">
+            <b-icon icon="eye-fill"> </b-icon>
+          </div>
+          <div class="col ">
+            <b-icon icon="pencil-square"></b-icon>
+          </div>
+          <div class="col ">
+            <b-icon icon="x-circle-fill"></b-icon>
+          </div>
+        </div>
       </template>
     </b-table>
-    
+
     <div class="d-flex justify-content-end">
       <b-pagination
         v-model="currentPage"
@@ -47,14 +51,22 @@
 </template>
 
 <script>
-import daterange from '../components/daterange'
+// import daterange from '../components/daterange'
+import filters from "../components/filter";
 export default {
   name: "SingleCertificates",
-components:{
-daterange
-},methods:{
- 
-},
+  components: {
+    filters
+    // daterange
+  },
+  methods: {
+    CodeSearch(value) {
+      console.log(value);
+    },
+    DateSearch(value) {
+      console.log(value);
+    }
+  },
   data() {
     return {
       perPage: 3,
@@ -63,37 +75,37 @@ daterange
         {
           key: "issue_date",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "expiry_date",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "name",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "title",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "status",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "issued_by",
           sortable: true,
-          class:"align-middle"
+          class: "align-middle"
         },
         {
           key: "Actions",
-          class:"align-middle"
-        },
+          class: "align-middle"
+        }
       ],
       items: [
         {
@@ -102,7 +114,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -110,7 +122,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -118,7 +130,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -126,7 +138,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -134,7 +146,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -142,7 +154,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -150,7 +162,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -158,7 +170,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -166,7 +178,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -174,7 +186,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -182,7 +194,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -190,7 +202,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -198,7 +210,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -206,7 +218,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -214,7 +226,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -222,7 +234,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -230,7 +242,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -238,7 +250,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -246,7 +258,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -254,7 +266,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -262,7 +274,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -270,7 +282,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -278,7 +290,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -286,7 +298,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -294,7 +306,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -302,7 +314,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -310,7 +322,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -318,7 +330,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -326,7 +338,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -334,7 +346,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -342,7 +354,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -350,7 +362,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -358,7 +370,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -366,7 +378,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -374,7 +386,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -382,7 +394,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -390,7 +402,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -398,7 +410,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -406,7 +418,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -414,7 +426,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -422,7 +434,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -430,7 +442,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -438,7 +450,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: true,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -446,7 +458,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -454,7 +466,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -462,7 +474,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -470,7 +482,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -478,7 +490,7 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "20-oct-2020",
@@ -486,7 +498,7 @@ daterange
           name: "Muhammad Ismail",
           title: "Vuejs",
           status: true,
-          issued_by: "Rafay (Admin)",
+          issued_by: "Rafay (Admin)"
         },
         {
           issue_date: "30-sep-2020",
@@ -494,7 +506,7 @@ daterange
           name: "Muhammad Rafay",
           title: "All rounder",
           status: true,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "20-jan-2020",
@@ -502,7 +514,7 @@ daterange
           name: "Muhammad Sabih",
           title: "graphics",
           status: false,
-          issued_by: "AAmir (issuer)",
+          issued_by: "AAmir (issuer)"
         },
         {
           issue_date: "10-feb-2020",
@@ -510,7 +522,7 @@ daterange
           name: "Muhammad Aamir",
           title: "Vuejs",
           status: false,
-          issued_by: "smail (issuer)",
+          issued_by: "smail (issuer)"
         },
         {
           issue_date: "05-feb-2020",
@@ -518,7 +530,7 @@ daterange
           name: "Muhammad Umair",
           title: "tango",
           status: false,
-          issued_by: "ismail (issuer)",
+          issued_by: "ismail (issuer)"
         },
         {
           issue_date: "10-oct-2020",
@@ -526,7 +538,7 @@ daterange
           name: "Hassan Ahmeed Sidiqqi ",
           title: "mango",
           status: true,
-          issued_by: "Rafay (issuer)",
+          issued_by: "Rafay (issuer)"
         },
         {
           issue_date: "20-oct-2019",
@@ -534,7 +546,7 @@ daterange
           name: "Abdul Rafay",
           title: "flutter",
           status: false,
-          issued_by: "Sabih (Admin)",
+          issued_by: "Sabih (Admin)"
         },
         {
           issue_date: "30-jan-2018",
@@ -542,16 +554,16 @@ daterange
           name: "Faizan",
           title: "jango",
           status: true,
-          issued_by: "Rafay (Admin)",
-        },
-      ],
+          issued_by: "Rafay (Admin)"
+        }
+      ]
     };
   },
 
   computed: {
     rows() {
       return this.items.length;
-    },
-  },
+    }
+  }
 };
 </script>

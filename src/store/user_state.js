@@ -3,7 +3,7 @@ import axios from "axios"
 export default {
   namespaced: true,
   state: {
-    user: { Name: "Muhammad Rafay", SuperAdmin: false,IsAdmin: true, Token: null }
+    user: { Name: "Muhammad Rafay", SuperAdmin: false,IsAdmin: true, Token: "a" }
   },
   mutations: {
     signout(state) {

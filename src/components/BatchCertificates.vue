@@ -1,15 +1,20 @@
 <template>
-  <div>
+  <div class="shadow p-3">
     <b-table
       id="BatchCertificateData"
-      striped
+      white
       hover
       :items="BatchesInfo"
       :fields="fields"
       :per-page="perPage"
       :current-page="currentPage"
-      small
+      
     >
+     <template #head(Creation_Date)="data">
+
+    <filters search_label="Enter Batch Name" class="d-inline" v-on:TextSearch="NameSearch"  v-on:DateSearch="DateSearch"/>
+        <span class="d-inline">{{ data.label }}</span>
+      </template>
       <template #cell(Status)="status">
         <span v-if="status.value" class="badge badge-success">Active</span>
         <span v-else class="badge badge-danger">Expire</span>
@@ -38,9 +43,12 @@
 </template>
 
 <script>
+import filters from '../components/filter'
 export default {
   name: "BatchCertificates",
-
+components:{
+  filters
+},
   data() {
     return {
       currentPage: 1,
@@ -49,29 +57,36 @@ export default {
         {
           key: "Creation_Date",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Expiry_Date",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Batch_Name",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Certification",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Status",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Created_By",
           sortable: true,
+           class:"align-middle"
         },
         {
           key: "Actions",
+           class:"align-middle"
         },
       ],
       BatchesInfo: [
@@ -206,6 +221,12 @@ export default {
   },
   
   methods: {
+     NameSearch(value) {
+      console.log(value);
+    },
+    DateSearch(value) {
+      console.log(value);
+    },
     View() {
       this.$emit("BatchDetail");
     },
