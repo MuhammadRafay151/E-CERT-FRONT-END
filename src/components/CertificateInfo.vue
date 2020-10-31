@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-card no-body class=" shadow " style="width: 320px;" >
+    <img :src="src" alt="" />
+    <b-card no-body class=" shadow " style="width: 320px;">
       <center>
         <b-col>
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
@@ -9,41 +10,47 @@
                 type="text"
                 class="form-control form-group"
                 placeholder="Title"
-                v-model="tilte"
+                v-model="cert.title"
+                v-on:input="updatecert"
               />
 
               <input
                 type="text"
                 class="form-control form-group"
                 placeholder="Candidate Name"
-                v-model="name"
+                v-model="cert.name"
+                v-on:input="updatecert"
               />
 
               <input
                 type="email"
                 class="form-control form-group"
                 placeholder="Candidate Email"
-                v-model="email"
+                v-model="cert.email"
+                v-on:change="updatecert"
               />
 
               <input
                 type="text"
                 class="form-control form-group"
                 placeholder="Instructor Name"
-                v-model="instructor"
+                v-model="cert.instructor"
+                v-on:input="updatecert"
               />
 
               <input
                 type="date"
                 class="form-control form-group"
                 placeholder="Title"
-                v-model="expiry_date"
+                v-model="cert.expiry_date"
+                v-on:change="updatecert"
               />
 
               <b-form-textarea
                 class="form-control form-group"
                 placeholder="Description"
-                v-model="description"
+                v-model="cert.description"
+                v-on:input="updatecert"
               ></b-form-textarea>
 
               <label for="UploadLogo" class="btn btn-dark btn-block"
@@ -97,24 +104,33 @@ export default {
     },
     HandleFileUpload(flag) {
       if (flag) {
-        this.logo = this.$refs.logo.files[0];
+        var logo = this.$refs.logo.files[0];
+        this.cert.logo = URL.createObjectURL(logo);
       } else {
-        this.signature = this.$refs.signature.files[0];
+        var signature = this.$refs.signature.files[0];
+        this.cert.signature = URL.createObjectURL(signature);
       }
+     this.updatecert()
     },
+    updatecert() {
+      this.$store.commit("cert_state/updatecert", this.cert);
+    }
   },
   data() {
     return {
-      tilte: null,
-      name: null,
-      email: null,
-      instructor: null,
-      expiry_date: null,
-      description: null,
-      logo: null,
-      signature: null,
-      templateid: null,
+      src: "",
+      cert: {
+        title: null,
+        name: null,
+        email: null,
+        instructor: null,
+        expiry_date: null,
+        description: null,
+        logo: null,
+        signature: null,
+        templateid: null
+      }
     };
-  },
+  }
 };
 </script>

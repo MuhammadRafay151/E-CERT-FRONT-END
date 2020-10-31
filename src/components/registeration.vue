@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import {sayhello} from '../js/test';
+
 export default {
   props: ['id','orgname'],
 
@@ -69,7 +69,7 @@ return{
    methods:{
     onclick:function()
     {
-      alert(sayhello())
+      
     }
   }
 };

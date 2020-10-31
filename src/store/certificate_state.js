@@ -1,22 +1,36 @@
 export default {
   namespaced: true,
   state: {
-    certificates=[]
+    cert:{
+      title: "Certificate Title",
+      name: "\"Name\"",
+      email: null,
+      instructor: null,
+      expiry_date: null,
+      description: "\"discription goes here\"",
+      logo: null,
+      signature: null,
+      templateid: null,},
+    certificates:[]
   },
-  mutations: {},
-  actions: {
-    Createbatch({ commit }) {
-
-    },
-    certificate({ commit }) {
-
-    },
-    VerifyCertificate({ commit }) {
-
-    },
-    GetCertificateHistory({ commit }) {
-
+  mutations: {
+    updatecert(state,value){
+      state.cert=value
     }
+  },
+  actions: {
+    // Createbatch({ commit }) {
+
+    // },
+    // certificate({ commit }) {
+
+    // },
+    // VerifyCertificate({ commit }) {
+
+    // },
+    // GetCertificateHistory({ commit }) {
+
+    // }
   },
 
 }

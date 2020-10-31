@@ -3,21 +3,15 @@
     <div class="container1 border">
       <img src="../assets/certificate.jpeg" class="cert" alt="">
       <img
-        src="../assets/logo.png"
+        :src="cert.logo"
         width="80"
         alt=""
         class="logo"
       />
 
-      <h3 class="t">Certified hyperledger farbric</h3>
+      <h3 class="t">{{cert.title}}</h3>
       <p class="desc text-left">
-        It is to certify that <b>Muhammad Rafay</b> has
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged.
+        It is to certify that <b>{{cert.name}}</b> {{cert.description}}
       </p>
       <p class="p2 text-left">
         Date: 19-05-2020
@@ -28,7 +22,7 @@
        <div >
          <p class="sign">Signature: _____________________</p>
          <img
-        src="https://upload.wikimedia.org/wikipedia/en/f/f4/Timothy_Spall_Signature.png"
+        :src="cert.signature"
         width="150"
         height="100"
         alt=""
@@ -58,9 +52,12 @@
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
   name: "c2",
+  computed:{
+    ...mapState("cert_state",["cert"])
+  }
   
 };
 </script>
@@ -85,6 +82,7 @@ export default {
    position: absolute;
   top:460px;
   left: 640px;
+  object-fit: contain;
  
 }
 .t {
