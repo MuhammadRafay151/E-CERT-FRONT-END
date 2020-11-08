@@ -1,7 +1,8 @@
 <template>
   <div>
+     <imageviewer ref="i1" v-bind:path="path" />
     <div class="card" style="width: 25rem;">
-      <img :src="path" class="card-img-top" alt="..." />
+      <img :src="path" class="card-img-top p-1" alt="..." />
       <div class="card-body">
         <p class="card-text text-justify">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -14,18 +15,28 @@
       </div>
       <div class="row mb-3 mr-2 ml-2">
         <div class="col">
-           <b-button squared block  variant="dark">View</b-button>
+          <b-button squared block variant="dark" v-on:click="view">View</b-button>
         </div>
         <div class="col">
-       <b-button squared block  variant="dark">Start</b-button>
+          <b-button squared block variant="dark" v-on:click="select">Start</b-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import imageviewer from "../components/imageviewer";
 export default {
-  props: ["path"],
-  name: "template"
+  props: ["path", "tid"],
+  name: "temp",
+  components:{ imageviewer},
+  methods: {
+    select() {
+      this.$emit("select",this.tid)
+    },
+    view(){
+      this.$refs.i1.modalShow=true
+    }
+  }
 };
 </script>

@@ -1,50 +1,59 @@
 import axios from "axios"
 
+import { url } from '../js/config'
 export default {
   namespaced: true,
   state: {
-    user: { Name: "Muhammad Rafay", SuperAdmin: false,IsAdmin: true, Token: "a" }
+    roles: { SuperAdmin: false, Admin: false, Issuer: false },
+    user: { token: null }
   },
   mutations: {
     signout(state) {
-      state.user.Token = null
+      state.user = { token: null }
+      state.roles = { SuperAdmin: false, Admin: false, Issuer: false }
     },
-    signin(state, Token) {
-      state.user.Token = Token
+    signin(state, user) {
+
+      // delete user.token
+      state.user = user
+      for (var i = 0; i < user.roles.length; i++) {
+        state.roles[user.roles[i]] = true
+      }
     }
   },
   actions: {
-    authenticate({commit}) {
+    authenticate({ commit }, auth) {
       return new Promise((res, rej) => {
         axios({
-          method: "get",
-          url: 'https://jsonplaceholder.typicode.com/todos/1'
+          method: "post",
+          data: { email: auth.email, password: auth.password },
+          url: url + 'api/account/login'
         }).then(resposne => {
-          commit("signin", "123sdfysdvfg0asd")
+          commit("signin", resposne.data)
           console.log(resposne.data)
           res()
-   
-        }).catch(() => {
-          rej("log in failed")
+
+        }).catch(err => {
+          rej(err)
 
         })
       })
 
     },
     signout({ commit }) {
-      return new Promise(res=>{
+      return new Promise(res => {
         commit("signout")
         res()
       })
     },
-    changepassword(){
+    changepassword() {
 
     }
   },
   getters: {
     IsLoggedIn(state) {
-      return state.user.Token != null
+      return state.user.token != null
     },
-    
+
   }
 }

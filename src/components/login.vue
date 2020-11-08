@@ -22,6 +22,7 @@
                   placeholder="Enter email"
                   v-model="email"
                   required
+                  autocomplete="on"
                 />
               </div>
               <div class="form-group text-left">
@@ -41,6 +42,7 @@
                 </span>
                 <span v-else>Login</span>
               </button>
+              <p class="mt-1 text-danger" v-if="message">{{message}}</p>
             </form>
           </b-card-body>
         </b-col>
@@ -55,19 +57,31 @@ export default {
     return {
       email: "",
       password: "",
-      show: false
+      show: false,
+      message:""
     };
   },
   methods: {
     async onclick() {
       this.show = true;
-      this.$store.dispatch("user_state/authenticate")
+      this.$store
+        .dispatch("user_state/authenticate", {
+          email: this.email,
+          password: this.password
+        })
         .then(() => {
           this.show = false;
-          this.$router.push("/dashboard")
+          this.$router.push("/dashboard");
         })
         .catch(err => {
-          console.log(err)
+          this.show = false;
+          if (!err.response) {
+            this.message="no network"
+          } else if (err.response.status == 401||err.response.status == 403) {
+            console.log(err.response.data);
+            this.message=err.response.data.message
+          }
+        
         });
     }
   }

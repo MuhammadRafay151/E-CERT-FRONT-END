@@ -1,41 +1,54 @@
 <template>
   <div>
-    <img :src="src" alt="" />
     <b-card no-body class=" shadow " style="width: 320px;">
       <center>
         <b-col>
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
-            <form class="mt-5" @submit="CreateCertificate" @submit.prevent>
+            <form @submit.prevent="Create_Cert">
               <input
                 type="text"
                 class="form-control form-group"
                 placeholder="Title"
-                v-model="cert.title"
+                v-model.trim="$v.cert.title.$model"
                 v-on:input="updatecert"
               />
-
+              <div class="text-danger text-left" v-if="$v.cert.title.$error">
+                Field is required
+              </div>
               <input
                 type="text"
                 class="form-control form-group"
                 placeholder="Candidate Name"
-                v-model="cert.name"
+                v-model.trim="$v.cert.name.$model"
                 v-on:input="updatecert"
               />
-
+              <div class="text-danger text-left" v-if="$v.cert.name.$error">
+                Field is required
+              </div>
               <input
                 type="email"
                 class="form-control form-group"
                 placeholder="Candidate Email"
-                v-model="cert.email"
+                v-model.trim="$v.cert.email.$model"
                 v-on:change="updatecert"
+                required
               />
-
+              <div
+                class="text-danger text-left"
+                v-if="$v.cert.email.$error && !$v.cert.email.required"
+              >
+                Field is required
+              </div>
+              <div class="text-danger text-left" v-if="!$v.cert.email.email">
+                Not a valid email
+              </div>
               <input
                 type="text"
                 class="form-control form-group"
                 placeholder="Instructor Name"
                 v-model="cert.instructor"
                 v-on:input="updatecert"
+                required
               />
 
               <input
@@ -44,6 +57,7 @@
                 placeholder="Title"
                 v-model="cert.expiry_date"
                 v-on:change="updatecert"
+                required
               />
 
               <b-form-textarea
@@ -51,6 +65,7 @@
                 placeholder="Description"
                 v-model="cert.description"
                 v-on:input="updatecert"
+                required
               ></b-form-textarea>
 
               <label for="UploadLogo" class="btn btn-dark btn-block"
@@ -63,6 +78,7 @@
                 ref="logo"
                 v-on:change="HandleFileUpload(true)"
                 hidden
+                required
               />
 
               <label for="UploadSignature" class="btn btn-dark btn-block"
@@ -80,6 +96,7 @@
               <button type="submit" class="btn btn-dark btn-block">
                 CREATE
               </button>
+              <button type="button" @click="$v.cert.$touch">as</button>
             </form>
           </b-card-body>
         </b-col>
@@ -89,48 +106,81 @@
 </template>
 
 <script>
+import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "certificateinfo",
   methods: {
-    CreateCertificate() {
-      console.warn("title ", this.tilte);
-      console.warn("name", this.name);
-      console.warn("email", this.email);
-      console.warn("instructor", this.instructor);
-      console.warn("date", this.expiry_date);
-      console.warn("description", this.description);
-      console.warn(this.logo);
-      console.warn(this.signature);
-    },
     HandleFileUpload(flag) {
       if (flag) {
         var logo = this.$refs.logo.files[0];
+        this.logo_file = logo;
         this.cert.logo = URL.createObjectURL(logo);
       } else {
         var signature = this.$refs.signature.files[0];
+        this.signature_file = signature;
         this.cert.signature = URL.createObjectURL(signature);
       }
-     this.updatecert()
+      this.updatecert();
     },
     updatecert() {
       this.$store.commit("cert_state/updatecert", this.cert);
-    }
+    },
+    Create_Cert() {
+      var form = new FormData();
+      for (const [key, value] of Object.entries(this.cert)) {
+        form.append(key, value);
+      }
+      form.append("logo", this.logo_file);
+      form.append("signature", this.signature_file);
+      // for (var key of form.entries()) {
+      //   console.log(key[0] + ", " + key[1]);
+      // }
+      this.$store
+        .dispatch("cert_state/Create_Certificate", form)
+        .then(() => {
+          console.log("Save succefully");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getBase64(file) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function() {
+        console.log(reader.result);
+      };
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+    },
+    
   },
   data() {
     return {
       src: "",
+      logo_file: null,
+      signature_file: null,
       cert: {
-        title: null,
+        title: "",
         name: null,
         email: null,
-        instructor: null,
+        instructor_name: null,
         expiry_date: null,
         description: null,
         logo: null,
         signature: null,
-        templateid: null
+        templateid: null,
+        certificate_img: "base64"
       }
     };
+  },
+  validations: {
+    cert: {
+      title: { required },
+      name: { required },
+      email: { required, email }
+    }
   }
 };
 </script>

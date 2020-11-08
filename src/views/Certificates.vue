@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid p-5" style="margin-top:120px">
+   
     <BatchView v-if="BatchDetail" />
     <div v-else>
       <b-card no-body class=" shadow">
@@ -33,6 +34,7 @@
         </div>
       </div>
     </div>
+       
   </div>
 </template>
 <script>

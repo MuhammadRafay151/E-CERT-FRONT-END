@@ -16,7 +16,7 @@
           >
        
           <b-nav-item v-if="IsLoggedIn" href="#" to="/create">Create</b-nav-item>
-          <b-nav-item v-if="IsLoggedIn && user.SuperAdmin" href="#" to="">Organizations</b-nav-item>
+          <b-nav-item v-if="IsLoggedIn && roles.SuperAdmin" href="#" to="">Organizations</b-nav-item>
           <b-nav-item v-if="IsLoggedIn" href="#" to="/certificates">Certificates</b-nav-item>
           <b-nav-item href="#" to="/verification">Verify Certificate</b-nav-item>
           <b-nav-item href="#" to="/about">About</b-nav-item>
@@ -30,6 +30,10 @@
               <span class="mr-1">{{ user.Name }}</span
               ><img src="../assets/ssswees22.png" width="30" alt="" />
             </template>
+            <b-dropdown-item href="#">Name: {{user.name}}</b-dropdown-item>
+            <b-dropdown-item href="#">Email: {{user.email}}</b-dropdown-item>
+             <b-dropdown-item href="#">Org: {{user.organization.name}}</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#" v-on:click="signout"
               >Sign Out</b-dropdown-item
@@ -49,7 +53,7 @@ export default {
   name: "navbar",
   computed: {
     ...mapGetters("user_state", ["IsLoggedIn"]),
-    ...mapState("user_state", ["user"])
+    ...mapState("user_state", ["user","roles"])
   },
   methods: {
     signout() {
