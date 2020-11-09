@@ -31,7 +31,6 @@
                 placeholder="Candidate Email"
                 v-model.trim="$v.cert.email.$model"
                 v-on:change="updatecert"
-                required
               />
               <div
                 class="text-danger text-left"
@@ -48,7 +47,6 @@
                 placeholder="Instructor Name"
                 v-model="cert.instructor"
                 v-on:input="updatecert"
-                required
               />
 
               <input
@@ -57,17 +55,20 @@
                 placeholder="Title"
                 v-model="cert.expiry_date"
                 v-on:change="updatecert"
-                required
               />
 
               <b-form-textarea
                 class="form-control form-group"
                 placeholder="Description"
-                v-model="cert.description"
+                v-model.trim="$v.cert.description.$model"
                 v-on:input="updatecert"
-                required
               ></b-form-textarea>
-
+              <div
+                class="text-danger text-left"
+                v-if="$v.cert.description.$error"
+              >
+                Discription is required
+              </div>
               <label for="UploadLogo" class="btn btn-dark btn-block"
                 >UPLOAD LOGO</label
               >
@@ -78,9 +79,10 @@
                 ref="logo"
                 v-on:change="HandleFileUpload(true)"
                 hidden
-                required
               />
-
+              <div class="text-danger text-left" v-if="$v.cert.logo.$error">
+                logo is required
+              </div>
               <label for="UploadSignature" class="btn btn-dark btn-block"
                 >UPLOAD SIGNATURE</label
               >
@@ -92,11 +94,15 @@
                 v-on:change="HandleFileUpload(false)"
                 hidden
               />
-
+              <div
+                class="text-danger text-left"
+                v-if="$v.cert.signature.$error"
+              >
+                signature is required
+              </div>
               <button type="submit" class="btn btn-dark btn-block">
                 CREATE
               </button>
-              <button type="button" @click="$v.cert.$touch">as</button>
             </form>
           </b-card-body>
         </b-col>
@@ -125,25 +131,51 @@ export default {
     updatecert() {
       this.$store.commit("cert_state/updatecert", this.cert);
     },
-    Create_Cert() {
-      var form = new FormData();
-      for (const [key, value] of Object.entries(this.cert)) {
-        form.append(key, value);
-      }
-      form.append("logo", this.logo_file);
-      form.append("signature", this.signature_file);
-      // for (var key of form.entries()) {
-      //   console.log(key[0] + ", " + key[1]);
-      // }
-      this.$store
-        .dispatch("cert_state/Create_Certificate", form)
-        .then(() => {
-          console.log("Save succefully");
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    reset_cert() {
+      this.cert = {
+        title: "",
+        name: null,
+        email: null,
+        instructor_name: null,
+        expiry_date: null,
+        description: null,
+        logo: null,
+        signature: null,
+        templateid: null,
+        certificate_img: "base64"
+      };
     },
+    Create_Cert() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.$emit("start");
+
+        var form = new FormData();
+        for (const [key, value] of Object.entries(this.cert)) {
+          form.append(key, value);
+        }
+        form.append("logo", this.logo_file);
+        form.append("signature", this.signature_file);
+        // for (var key of form.entries()) {
+        //   console.log(key[0] + ", " + key[1]);
+        // }
+        this.$store
+          .dispatch("cert_state/Create_Certificate", form)
+          .then(r => {
+            console.log("Save succefully");
+            this.reset_cert()
+            this.updatecert()
+            this.$v.$reset()
+            this.$emit("stop");
+            console.log(r);
+          })
+          .catch(err => {
+            this.$emit("stop");
+            console.log(err);
+          });
+      }
+    },
+    
     getBase64(file) {
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -153,8 +185,7 @@ export default {
       reader.onerror = function(error) {
         console.log("Error: ", error);
       };
-    },
-    
+    }
   },
   data() {
     return {
@@ -179,7 +210,10 @@ export default {
     cert: {
       title: { required },
       name: { required },
-      email: { required, email }
+      email: { required, email },
+      description: { required },
+      logo: { required },
+      signature: { required }
     }
   }
 };

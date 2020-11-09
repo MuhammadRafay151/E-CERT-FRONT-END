@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid" style="margin-top: 120px;">
-        <!-- <b-overlay show no-wrap rounded="sm"  >
+        <b-overlay :show="process" no-wrap rounded="sm"  >
           <template #overlay>
         <div class="text-center">
             <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
@@ -9,7 +9,7 @@
         
         </div>
       </template>
-        </b-overlay> -->
+        </b-overlay>
     <div class=" row justify-content-center mb-2" v-if="template">
       <div class="col-11 shadow p-2 text-left align-middle ">
        <a href="#" class="text-dark" v-on:click="show_selector"> <b-icon  class="h1 " icon="arrow-left-circle"></b-icon></a>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col d-flex justify-content-center ">
-        <CertificateInfo />
+        <CertificateInfo v-on:start="start_process" v-on:stop="stop_process" />
       </div>
     </div>
    
@@ -39,7 +39,7 @@
 <script>
 import CertificateInfo from "../components/CertificateInfo";
 
-import c1 from "../components/c1";
+import c1 from "../components/templates/c1";
 import templateselector from "../components/template_selector";
 export default {
   name: "Create",
@@ -51,20 +51,27 @@ export default {
   data: function() {
     return {
       template: "",
-      spin:false
+      process:false
     };
   },
   methods: {
     select(tid) {
       this.template = tid;
-      this.spin=true
+   
     },
     show_selector(){
       this.template=""
         this.$store.commit("cert_state/clearcert");
     },
    
-    
+     start_process()
+    {
+      this.process=true
+    },
+    stop_process()
+    {
+      this.process=false
+    }
   }
 };
 </script>

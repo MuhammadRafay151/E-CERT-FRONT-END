@@ -1,13 +1,17 @@
 <template>
   <div class="shadow p-3">
-    <b-table
+    <!-- <p>{{this.single_certificates}}</p> -->
+    <b-overlay :show="loading" rounded="sm">
+          <b-table
       id="SingleCertificateData"
       white
       hover
-      :items="items"
+      sticky-header="500px"
+      responsive
+      no-border-collapse
+      :items="this.single_certificates.list"
       :fields="fields"
-      :per-page="perPage"
-      :current-page="currentPage"
+     
     >
       <template #head(issue_date)="data">
         <filters
@@ -18,12 +22,17 @@
         />
         <span class="d-inline">{{ data.label }}</span>
       </template>
-
-      <template #cell(status)="Status">
-        <span v-if="Status.value" class="badge badge-success">Active</span>
-        <span v-else class="badge badge-danger">Expire</span>
+      <template #cell(issue_date)="data">
+        <p>{{ new Date(data.value).toLocaleString() }}</p>
+      </template>
+      <template #cell(expiry_date)="data">
+        <p v-if="data.value!=''">{{ new Date(data.value).toLocaleDateString() }}</p>
+        <p v-else>Life time</p>
       </template>
 
+      <template #cell(issuedby)="data">
+        <p>{{ data.value.issuer_name }}</p>
+      </template>
       <template #cell(Actions)>
         <div class="row">
           <div class="col ">
@@ -38,37 +47,60 @@
         </div>
       </template>
     </b-table>
-
-    <div class="d-flex justify-content-end">
+     <div class="d-flex justify-content-end">
+     
       <b-pagination
         v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
+        :total-rows=this.single_certificates.totalcount
+        :per-page=5
         aria-controls="SingleCertificateData"
+        v-on:input="page"
       ></b-pagination>
+     
     </div>
+    </b-overlay>
+
+    <!-- <div v-if="loading" class="text-center">
+      <b-spinner label="Spinning"></b-spinner>
+    </div> -->
+   
   </div>
 </template>
 
 <script>
 // import daterange from '../components/daterange'
 import filters from "../components/filter";
+import { mapState } from "vuex";
 export default {
   name: "SingleCertificates",
   components: {
     filters
     // daterange
   },
+
   methods: {
     CodeSearch(value) {
       console.log(value);
     },
     DateSearch(value) {
       console.log(value);
-    }
+    },
+    page(evt){
+      this.loading=true
+     this.$store
+      .dispatch("cert_state/GetSingleCertificates",evt)
+      .then(() => {
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },
+    
   },
   data() {
     return {
+      loading: true,
       perPage: 3,
       currentPage: 1,
       fields: [
@@ -92,13 +124,9 @@ export default {
           sortable: true,
           class: "align-middle"
         },
+
         {
-          key: "status",
-          sortable: true,
-          class: "align-middle"
-        },
-        {
-          key: "issued_by",
+          key: "issuedby",
           sortable: true,
           class: "align-middle"
         },
@@ -106,464 +134,22 @@ export default {
           key: "Actions",
           class: "align-middle"
         }
-      ],
-      items: [
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: true,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Ismail",
-          title: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          issue_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          name: "Muhammad Rafay",
-          title: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          name: "Muhammad Sabih",
-          title: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          issue_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          name: "Muhammad Aamir",
-          title: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          issue_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          name: "Muhammad Umair",
-          title: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          name: "Hassan Ahmeed Sidiqqi ",
-          title: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          issue_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          name: "Abdul Rafay",
-          title: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          issue_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          name: "Faizan",
-          title: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        }
       ]
     };
   },
 
   computed: {
-    rows() {
-      return this.items.length;
-    }
+    ...mapState("cert_state", ["single_certificates"])
+  },
+  created() {
+    this.$store
+      .dispatch("cert_state/GetSingleCertificates")
+      .then(() => {
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

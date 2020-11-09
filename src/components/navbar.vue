@@ -5,8 +5,12 @@
       class="p-4 shadow fixed-top"
       type="light"
       variant="white"
+  
     >
-      <b-navbar-brand href="#" class="ml-auto my-auto" >CERTIFIS</b-navbar-brand>
+      
+      <b-navbar-brand href="#"  >
+        <img width="120" src="/logo1.jpg" class="d-inline-block align-top" alt="Kitten">
+     </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav >

@@ -30,7 +30,7 @@ export default {
           url: url + 'api/account/login'
         }).then(resposne => {
           commit("signin", resposne.data)
-          console.log(resposne.data)
+          // console.log(resposne.data)
           res()
 
         }).catch(err => {

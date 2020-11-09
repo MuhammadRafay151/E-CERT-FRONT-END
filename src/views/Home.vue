@@ -1,16 +1,7 @@
 <template>
   <div class="home" style="margin-top:120px">
-     <!-- <b-overlay show no-wrap rounded="sm"  >
-          <template #overlay>
-        <div class="text-center">
-            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
-        
-          <p id="cancel-label">Processing...</p>
-        
-        </div>
-      </template>
-        </b-overlay> -->
-   <h1>HOME</h1>
+    <!-- <img src="/home.jpg" alt="">
+   <h1>HOME</h1> -->
   </div>
 </template>
 
@@ -20,7 +11,23 @@
 import { mapState } from "vuex";
 export default {
   name: "Home",
- 
-  computed: { ...mapState("user_state",["user"]), }
+
+  computed: { ...mapState("user_state", ["user"]) },
+  // mounted() {
+  //   document.body.classList.add("back");
+  // },
+  // destroyed() {
+  //   document.body.classList.remove("back");
+  // }
 };
 </script>
+
+<style  >
+.back {
+  background-image: url("/home.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+</style>

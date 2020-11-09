@@ -23,7 +23,7 @@
 </template>
 <script>
 import verify from "../components/verify";
-import certificate from "../components/Certificate";
+import certificate from "../components/templates/Certificate";
 export default {
   name: "verification",
   data: function() {
