@@ -9,6 +9,7 @@ import verification from '../views/verification.vue'
 import dashboard from'../views/dashboard.vue'
 import store from "../store"
 import certificates from "../views/Certificates.vue"
+import notfound from '../views/404.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -65,6 +66,7 @@ const routes = [
     name: "forgetcertificate",
     component: forgetcertificate
   },
+  { path: '*', component: notfound}
 ];
 
 const router = new VueRouter({
