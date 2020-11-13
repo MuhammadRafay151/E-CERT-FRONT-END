@@ -1,11 +1,10 @@
 <template>
   <div>
-    <b-card no-body class=" shadow " style="width: 320px;">
-    
+    <b-card no-body class="shadow" style="width: 320px">
       <center>
         <b-col>
-          <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
-            <form @submit.prevent="Create_Cert">
+          <b-card-body title="BATCH INFORMATION" class="h-100">
+            <form @submit.prevent="Create_Batch">
               <input
                 type="text"
                 class="form-control form-group"
@@ -19,29 +18,14 @@
               <input
                 type="text"
                 class="form-control form-group"
-                placeholder="Candidate Name"
-                v-model.trim="$v.cert.name.$model"
+                placeholder="Batch Name"
+                v-model.trim="$v.batchname.$model"
                 v-on:input="updatecert"
               />
-              <div class="text-danger text-left" v-if="$v.cert.name.$error">
+              <div class="text-danger text-left" v-if="$v.batchname.$error">
                 Field is required
               </div>
-              <input
-                type="email"
-                class="form-control form-group"
-                placeholder="Candidate Email"
-                v-model.trim="$v.cert.email.$model"
-                v-on:change="updatecert"
-              />
-              <div
-                class="text-danger text-left"
-                v-if="$v.cert.email.$error && !$v.cert.email.required"
-              >
-                Field is required
-              </div>
-              <div class="text-danger text-left" v-if="!$v.cert.email.email">
-                Not a valid email
-              </div>
+
               <input
                 type="text"
                 class="form-control form-group"
@@ -113,10 +97,10 @@
 </template>
 
 <script>
-import { required, email } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 export default {
-  name: "certificateinfo",
- 
+  name: "batchinfo",
+
   methods: {
     HandleFileUpload(flag) {
       if (flag) {
@@ -144,10 +128,10 @@ export default {
         logo: null,
         signature: null,
         templateid: null,
-        certificate_img: "base64"
+        certificate_img: "base64",
       };
     },
-    Create_Cert() {
+    Create_Batch() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$emit("start");
@@ -163,37 +147,27 @@ export default {
         // }
         this.$store
           .dispatch("cert_state/Create_Certificate", form)
-          .then(r => {
+          .then((r) => {
             console.log("Save succefully");
-            this.reset_cert()
-            this.updatecert()
-            this.$v.$reset()
+            this.reset_cert();
+            this.updatecert();
+            this.$v.$reset();
             this.$emit("stop");
             console.log(r);
           })
-          .catch(err => {
+          .catch((err) => {
             this.$emit("stop");
             console.log(err);
           });
       }
     },
-    
-    getBase64(file) {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function() {
-        console.log(reader.result);
-      };
-      reader.onerror = function(error) {
-        console.log("Error: ", error);
-      };
-    }
   },
   data() {
     return {
       src: "",
       logo_file: null,
       signature_file: null,
+      batchname: null,
       cert: {
         title: "",
         name: null,
@@ -204,19 +178,18 @@ export default {
         logo: null,
         signature: null,
         templateid: null,
-        certificate_img: "base64"
-      }
+        certificate_img: "base64",
+      },
     };
   },
   validations: {
+    batchname: { required },
     cert: {
       title: { required },
-      name: { required },
-      email: { required, email },
       description: { required },
       logo: { required },
-      signature: { required }
-    }
-  }
+      signature: { required },
+    },
+  },
 };
 </script>

@@ -1,0 +1,26 @@
+.btn_purp{
+    color: #fff;
+    background:   linear-gradient(60deg,#ab47bc,#7b1fa2);
+    }
+.btn_gray{
+    color: black;
+    background: linear-gradient(60deg,#eee,#bdbdbd);
+}
+.btn_green{
+    color: white;
+    background: linear-gradient(60deg,#66bb6a,#388e3c);
+}
+.btn_th{
+    color: white;
+    background: rgb(24,97,104);
+background: radial-gradient(circle, rgba(24,97,104,1) 0%, rgba(1,148,164,1) 100%);
+}
+.btn_fr{
+    color: #fff;
+    background: linear-gradient(60deg,#26c6da,#0097a7);;
+}
+    /* .btn-primary {
+     
+      background-color: #007bff;
+      border-color: #007bff;
+    } */

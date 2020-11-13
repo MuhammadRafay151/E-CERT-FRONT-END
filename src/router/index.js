@@ -10,6 +10,7 @@ import dashboard from'../views/dashboard.vue'
 import store from "../store"
 import certificates from "../views/Certificates.vue"
 import notfound from '../views/404.vue'
+import ViewCertificate from '../views/ViewCertificate.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -65,6 +66,12 @@ const routes = [
     path: "/forgetcertificate",
     name: "forgetcertificate",
     component: forgetcertificate
+  },
+  {
+    path: "/viewcertificate/:id",
+    name: "ViewCertificate",
+    component: ViewCertificate,
+    props:true
   },
   { path: '*', component: notfound}
 ];

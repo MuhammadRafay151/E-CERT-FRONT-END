@@ -1,8 +1,9 @@
 <template>
     <div class="container-fluid">
-        <div class="row justify-content-text-center" style="margin-top:120px">
-        <div class="col-2 ">
+        <div class="row justify-content-center" style="margin-top:120px">
+        <div class="col">
           <div class="shadow">
+              <h1>Hello {{user.name}}</h1>
                 <!-- <h3 class="text-center">Profile</h3>
           <table class="mt-2 table table-hover">
               <tbody>

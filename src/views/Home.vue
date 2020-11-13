@@ -2,6 +2,8 @@
   <div class="home" style="margin-top:120px">
     <!-- <img src="/home.jpg" alt="">
    <h1>HOME</h1> -->
+  
+  <button class="btn test">Hello World</button>
   </div>
 </template>
 

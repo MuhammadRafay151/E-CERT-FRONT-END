@@ -5,7 +5,7 @@ import cert_state from "./certificate_state"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state:{},
   mutations: {},
   actions: {},
   modules: {
