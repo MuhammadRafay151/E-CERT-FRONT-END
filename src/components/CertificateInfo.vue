@@ -46,7 +46,7 @@
                 type="text"
                 class="form-control form-group"
                 placeholder="Instructor Name"
-                v-model="cert.instructor"
+                v-model="cert.instructor_name"
                 v-on:input="updatecert"
               />
 

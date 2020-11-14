@@ -64,7 +64,7 @@
         </div>
       </div>
       <div v-if="IsBatch">
-        <BatchInfo/>
+        <BatchInfo v-on:start="start_process" v-on:stop="stop_process" />
       </div>
       <div v-else class="col d-flex justify-content-center">
         <CertificateInfo v-on:start="start_process" v-on:stop="stop_process" />

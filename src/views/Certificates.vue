@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid p-5" style="margin-top:120px">
    
-    <BatchView v-if="BatchDetail" />
-    <div v-else>
+    
+    <div >
       <b-card no-body class=" shadow">
         <b-card-body>
           <b-row >
@@ -30,7 +30,7 @@
       <div class="row mt-1">
         <div class="col">
           <SingleCertificates v-if="Display" />
-          <BatchCertificates v-else v-on:BatchDetail="DisplayBatchDetail" />
+          <batches v-else v-on:BatchDetail="DisplayBatchDetail" />
         </div>
       </div>
     </div>
@@ -39,18 +39,19 @@
 </template>
 <script>
 import SingleCertificates from "../components/SingleCertificates";
-import BatchCertificates from "../components/BatchCertificates";
-import BatchView from "../components/BatchView";
+
+import Batches from "../components/Batches";
+
 
 export default {
   name: "CertificateView",
 
   components: {
     SingleCertificates,
-    BatchCertificates,
-    BatchView
+    Batches
   },
 
+   
   methods: {
     showsingle() {
       this.Display = true;
@@ -60,7 +61,7 @@ export default {
     },
 
     DisplayBatchDetail() {
-      this.BatchDetail = true;
+     
     }
   },
   data() {

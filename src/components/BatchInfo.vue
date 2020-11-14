@@ -19,10 +19,10 @@
                 type="text"
                 class="form-control form-group"
                 placeholder="Batch Name"
-                v-model.trim="$v.batchname.$model"
+                v-model.trim="$v.batch_name.$model"
                 v-on:input="updatecert"
               />
-              <div class="text-danger text-left" v-if="$v.batchname.$error">
+              <div class="text-danger text-left" v-if="$v.batch_name.$error">
                 Field is required
               </div>
 
@@ -30,7 +30,7 @@
                 type="text"
                 class="form-control form-group"
                 placeholder="Instructor Name"
-                v-model="cert.instructor"
+                v-model="cert.instructor_name"
                 v-on:input="updatecert"
               />
 
@@ -140,13 +140,15 @@ export default {
         for (const [key, value] of Object.entries(this.cert)) {
           form.append(key, value);
         }
+        form.append("batch_name",this.batch_name);
         form.append("logo", this.logo_file);
         form.append("signature", this.signature_file);
+        
         // for (var key of form.entries()) {
         //   console.log(key[0] + ", " + key[1]);
         // }
         this.$store
-          .dispatch("cert_state/Create_Certificate", form)
+          .dispatch("cert_state/Create_Batch", form)
           .then((r) => {
             console.log("Save succefully");
             this.reset_cert();
@@ -167,10 +169,10 @@ export default {
       src: "",
       logo_file: null,
       signature_file: null,
-      batchname: null,
+      batch_name: null,
       cert: {
         title: "",
-        name: null,
+        name: "\"Name\"",
         email: null,
         instructor_name: null,
         expiry_date: null,
@@ -183,7 +185,7 @@ export default {
     };
   },
   validations: {
-    batchname: { required },
+    batch_name: { required },
     cert: {
       title: { required },
       description: { required },

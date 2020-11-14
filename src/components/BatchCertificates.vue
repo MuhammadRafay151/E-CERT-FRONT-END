@@ -1,234 +1,170 @@
 <template>
-  <div class="shadow p-3">
+  <div>
     <b-table
-      id="BatchCertificateData"
-      white
+      id="BatchDetail"
+      striped
       hover
-      :items="BatchesInfo"
+      :items="BatchDetail"
       :fields="fields"
       :per-page="perPage"
       :current-page="currentPage"
-      
+      small
     >
-     <template #head(Creation_Date)="data">
-
-    <filters search_label="Enter Batch Name" class="d-inline" v-on:TextSearch="NameSearch"  v-on:DateSearch="DateSearch"/>
-        <span class="d-inline">{{ data.label }}</span>
-      </template>
-      <template #cell(Status)="status">
-        <span v-if="status.value" class="badge badge-success">Active</span>
+      <template #cell(status)="Status">
+        <span v-if="Status.value" class="badge badge-success">Active</span>
         <span v-else class="badge badge-danger">Expire</span>
       </template>
 
       <template #cell(Actions)>
-        <b-button variant="outline-dark" class="my-2 my-sm-0" v-on:click="View"
+        <b-button variant="outline-dark" class="my-2 my-sm-0"
           ><b-icon icon="eye"></b-icon></b-button
         ><b-button variant="outline-dark" class="my-2 my-sm-0"
           ><b-icon icon="pencil"></b-icon></b-button
+        ><b-button variant="outline-dark" class="my-2 my-sm-0"
+          ><b-icon icon="envelope"></b-icon></b-button
         ><b-button variant="outline-dark" class="my-2 my-sm-0"
           ><b-icon icon="x-circle"></b-icon
         ></b-button>
       </template>
     </b-table>
-
+    
     <div class="d-flex justify-content-end">
       <b-pagination
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="BatchCertificateData"
+        aria-controls="BatchDetail"
       ></b-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import filters from '../components/filter'
 export default {
-  name: "BatchCertificates",
-components:{
-  filters
-},
+  name: "BatchInformation",
+
   data() {
     return {
-      currentPage: 1,
       perPage: 3,
+      currentPage: 1,
       fields: [
         {
-          key: "Creation_Date",
+          key: "issue_date",
           sortable: true,
-           class:"align-middle"
         },
         {
-          key: "Expiry_Date",
+          key: "expiry_date",
           sortable: true,
-           class:"align-middle"
         },
         {
-          key: "Batch_Name",
+          key: "Candidate_Name",
           sortable: true,
-           class:"align-middle"
         },
         {
           key: "Certification",
           sortable: true,
-           class:"align-middle"
         },
         {
           key: "Status",
           sortable: true,
-           class:"align-middle"
         },
         {
-          key: "Created_By",
+          key: "Issued_by",
           sortable: true,
-           class:"align-middle"
         },
         {
           key: "Actions",
-           class:"align-middle"
         },
       ],
-      BatchesInfo: [
+      BatchDetail: [
         {
-          Creation_Date: "20-oct-2020",
-          Expiry_Date: "20-dec-2021",
-          Batch_Name: "17B",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
           Certification: "Vuejs",
-          Status: true,
-          Created_By: "Rafay (Admin)",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-sep-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "18B",
-          Certification: "newjs",
-          Status: false,
-          Created_By: "sabih (Admin)",
-        },
-        {
-          Creation_Date: "20-feb-2019",
-          Expiry_Date: "20-dec-2019",
-          Batch_Name: "16B",
-          Certification: "jango",
-          Status: true,
-          Created_By: "AAMIR (issuer)",
-        },
-        {
-          Creation_Date: "20-oct-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "17B",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
           Certification: "Vuejs",
-          Status: true,
-          Created_By: "Rafay (Admin)",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-sep-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "18B",
-          Certification: "newjs",
-          Status: false,
-          Created_By: "sabih (Admin)",
-        },
-        {
-          Creation_Date: "20-feb-2019",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "16B",
-          Certification: "jango",
-          Status: true,
-          Created_By: "AAMIR (issuer)",
-        },
-        {
-          Creation_Date: "20-oct-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "17B",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
           Certification: "Vuejs",
-          Status: true,
-          Created_By: "Rafay (Admin)",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-sep-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "18B",
-          Certification: "newjs",
-          Status: false,
-          Created_By: "sabih (Admin)",
-        },
-        {
-          Creation_Date: "20-feb-2019",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "16B",
-          Certification: "jango",
-          Status: true,
-          Created_By: "AAMIR (issuer)",
-        },
-        {
-          Creation_Date: "20-oct-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "17B",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
           Certification: "Vuejs",
-          Status: true,
-          Created_By: "Rafay (Admin)",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-sep-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "18B",
-          Certification: "newjs",
-          Status: false,
-          Created_By: "sabih (Admin)",
-        },
-        {
-          Creation_Date: "20-feb-2019",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "16B",
-          Certification: "jango",
-          Status: true,
-          Created_By: "AAMIR (issuer)",
-        },
-        {
-          Creation_Date: "20-oct-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "17B",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
           Certification: "Vuejs",
-          Status: true,
-          Created_By: "Rafay (Admin)",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-sep-2020",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "18B",
-          Certification: "newjs",
-          Status: false,
-          Created_By: "sabih (Admin)",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
+          Certification: "Vuejs",
+          Status: "true",
+          Issued_by: "Ismail",
         },
         {
-          Creation_Date: "20-feb-2019",
-          Expiry_Date: "20-dec-2020",
-          Batch_Name: "16B",
-          Certification: "jango",
-          Status: true,
-          Created_By: "AAMIR (issuer)",
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
+          Certification: "Vuejs",
+          Status: "true",
+          Issued_by: "Ismail",
         },
+        {
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
+          Certification: "Vuejs",
+          Status: "true",
+          Issued_by: "Ismail",
+        },
+        {
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
+          Certification: "Vuejs",
+          Status: "true",
+          Issued_by: "Ismail",
+        },
+        {
+          issue_date: "10-oct-2020",
+          expiry_date: "10-dec-2020",
+          Candidate_Name: "Ismail",
+          Certification: "Vuejs",
+          Status: "true",
+          Issued_by: "Ismail",
+        },
+        1,
       ],
     };
   },
 
   computed: {
     rows() {
-      return this.BatchesInfo.length;
-    },
-  },
-  
-  methods: {
-     NameSearch(value) {
-      console.log(value);
-    },
-    DateSearch(value) {
-      console.log(value);
-    },
-    View() {
-      this.$emit("BatchDetail");
+      return this.BatchDetail.length;
     },
   },
 };
