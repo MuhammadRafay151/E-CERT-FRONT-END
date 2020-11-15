@@ -9,6 +9,7 @@ import verification from '../views/verification.vue'
 import dashboard from'../views/dashboard.vue'
 import store from "../store"
 import certificates from "../views/Certificates.vue"
+import organizations from "../views/Organizations"
 import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 Vue.use(VueRouter);
@@ -29,6 +30,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: login
+  },
+  {
+    path: "/organizations",
+    name: "Organizations",
+    component: organizations
   },
   {
     path: "/registeration",
