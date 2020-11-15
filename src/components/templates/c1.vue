@@ -14,10 +14,10 @@
         It is to certify that <b>{{cert.name}}</b> {{cert.description}}
       </p>
       <p class="p2 text-left">
-        Date: 19-05-2020
+        Date: {{new Date(cert.issue_date).toLocaleDateString()}}
       </p>
       <p class="p3 text-left">
-        verfication code: asd85810asdew23423
+        verfication code: {{cert._id}}
       </p>
        <div >
          <p class="sign">Signature: _____________________</p>

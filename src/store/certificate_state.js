@@ -41,16 +41,15 @@ export default {
         state.single_certificates.totalcount = value.totalcount
       }
     },
-    batches(state,value){
-      state.batches=value
+    batches(state, value) {
+      state.batches = value
     }
-    
+
   },
   actions: {
     GetSingleCertificates({ commit }, value) {
       return new Promise((res, rej) => {
         if (!value) { value = 1 }
-        console.log(value)
         var temp = url + "api/certificate?pageno=" + value
         axios({
           method: "GET",
@@ -63,12 +62,30 @@ export default {
         })
       })
     },
-    // Createbatch({ commit }) {
+    GetCertificate({ rootState, commit }, value) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
 
-    // },
+          },
+          url: url + "api/certificate/" + value,
+          method: "GET",
+
+        }).then(response => {
+          var x=response.data
+          x.logo=`data:${x.logo.mimetype};base64,${x.logo.image}`
+          x.signature=`data:${x.signature.mimetype};base64,${x.signature.image}`
+          commit("updatecert", response.data)
+          res(response.data.template_id)
+        }).catch(err => {
+
+          rej(err)
+        })
+      })
+    },
     Create_Certificate({ rootState }, form) {
       return new Promise((res, rej) => {
-
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -112,7 +129,7 @@ export default {
 
 
     },
-    GetBatches({ commit,rootState },pageno) {
+    GetBatches({ commit, rootState }, pageno) {
       return new Promise((res, rej) => {
         if (!pageno) { pageno = 1 }
         var temp = url + "api/batch?pageno=" + pageno
