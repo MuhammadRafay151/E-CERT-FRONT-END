@@ -71,6 +71,7 @@ const routes = [
     path: "/viewcertificate/:id",
     name: "ViewCertificate",
     component: ViewCertificate,
+    meta: { requiresAuth: true },
     props:true
   },
   { path: '*', component: notfound}

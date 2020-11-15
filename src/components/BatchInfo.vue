@@ -100,7 +100,7 @@
 import { required } from "vuelidate/lib/validators";
 export default {
   name: "batchinfo",
-
+  props: ["template_id"],
   methods: {
     HandleFileUpload(flag) {
       if (flag) {
@@ -140,10 +140,10 @@ export default {
         for (const [key, value] of Object.entries(this.cert)) {
           form.append(key, value);
         }
-        form.append("batch_name",this.batch_name);
+        form.append("batch_name", this.batch_name);
         form.append("logo", this.logo_file);
         form.append("signature", this.signature_file);
-        
+
         // for (var key of form.entries()) {
         //   console.log(key[0] + ", " + key[1]);
         // }
@@ -172,7 +172,7 @@ export default {
       batch_name: null,
       cert: {
         title: "",
-        name: "\"Name\"",
+        name: '"Name"',
         email: null,
         instructor_name: null,
         expiry_date: null,

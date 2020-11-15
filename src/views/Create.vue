@@ -64,10 +64,10 @@
         </div>
       </div>
       <div v-if="IsBatch">
-        <BatchInfo v-on:start="start_process" v-on:stop="stop_process" />
+        <BatchInfo v-on:start="start_process" v-on:stop="stop_process" v-bind:template_id="template" />
       </div>
       <div v-else class="col d-flex justify-content-center">
-        <CertificateInfo v-on:start="start_process" v-on:stop="stop_process" />
+        <CertificateInfo v-on:start="start_process" v-on:stop="stop_process" v-bind:template_id="template" />
       </div>
     </div>
   </div>

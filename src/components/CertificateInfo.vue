@@ -1,7 +1,6 @@
 <template>
   <div>
-    <b-card no-body class=" shadow " style="width: 320px;">
-    
+    <b-card no-body class="shadow" style="width: 320px">
       <center>
         <b-col>
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
@@ -116,7 +115,7 @@
 import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "certificateinfo",
- 
+  props: ["template_id"],
   methods: {
     HandleFileUpload(flag) {
       if (flag) {
@@ -144,7 +143,7 @@ export default {
         logo: null,
         signature: null,
         templateid: null,
-        certificate_img: "base64"
+        certificate_img: "base64",
       };
     },
     Create_Cert() {
@@ -158,36 +157,37 @@ export default {
         }
         form.append("logo", this.logo_file);
         form.append("signature", this.signature_file);
+        form.append("template_id", this.template_id);
         // for (var key of form.entries()) {
         //   console.log(key[0] + ", " + key[1]);
         // }
         this.$store
           .dispatch("cert_state/Create_Certificate", form)
-          .then(r => {
+          .then((r) => {
             console.log("Save succefully");
-            this.reset_cert()
-            this.updatecert()
-            this.$v.$reset()
+            this.reset_cert();
+            this.updatecert();
+            this.$v.$reset();
             this.$emit("stop");
             console.log(r);
           })
-          .catch(err => {
+          .catch((err) => {
             this.$emit("stop");
             console.log(err);
           });
       }
     },
-    
+
     getBase64(file) {
       var reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = function() {
+      reader.onload = function () {
         console.log(reader.result);
       };
-      reader.onerror = function(error) {
+      reader.onerror = function (error) {
         console.log("Error: ", error);
       };
-    }
+    },
   },
   data() {
     return {
@@ -204,8 +204,8 @@ export default {
         logo: null,
         signature: null,
         templateid: null,
-        certificate_img: "base64"
-      }
+        certificate_img: "base64",
+      },
     };
   },
   validations: {
@@ -215,8 +215,8 @@ export default {
       email: { required, email },
       description: { required },
       logo: { required },
-      signature: { required }
-    }
-  }
+      signature: { required },
+    },
+  },
 };
 </script>
