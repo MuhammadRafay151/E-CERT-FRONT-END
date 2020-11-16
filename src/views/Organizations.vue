@@ -46,7 +46,6 @@ export default {
     data() {
         return {
             Display: true,
-            BatchDetail: false
         };
     }
 };

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {url} from '../js/config'
+import { url } from '../js/config'
 
 export default {
     namespaced: true,
@@ -11,7 +11,7 @@ export default {
         ecertcount:null,
         status:null
       },
-      organizations=[]
+      organizations: { list: null, totalcount: null }
     },
     mutations: {
       updateorg(state, value) {
@@ -25,24 +25,52 @@ export default {
           ecertcount:null,
           status:null
         }
-      }
+      },
+      organizations(state, value) {
+        state.organizations.list = value.list
+        console.log(value.list)
+        if (value.totalcount) {
+          state.organizations.totalcount = value.totalcount
+        }
+      },
     },
     actions: {
-      CreateOrganization({ commit }) {
+      GetOrg({ commit }, value) {
+        return new Promise((res, rej) => {
+          
+          if (!value) { value = 1 }
+          console.log(value)
   
-      },
-      GetOrgCerts({ commit }) {
+          var temp = url + "api/organization?pageno=" + value
+          axios({
+            method: "GET",
+            url: temp
+          }).then(response => {
+            commit("organizations", response.data)
+            res()
+          }).catch(err => {
+            rej(err)
+          })
+        })
+      }
+      
+
+
+      //CreateOrganization({ commit }) {
   
-      },
-      AddOrgUser({ commit }) {
+      ///},
+      //GetOrgCerts({ commit }) {
   
-      },
-      GetOrgCertCount({ commit }) {
+      //},
+      //AddOrgUser({ commit }) {
   
-      },
-      AddOrgCertCount({ commit }) {
+      //},
+      //GetOrgCertCount({ commit }) {
   
-    }
+      //},
+      //AddOrgCertCount({ commit }) {
+  
+    //}
     },
   
   }

@@ -1,559 +1,183 @@
 <template>
   <div class="shadow p-3">
-    <b-table
-      id="OrganizationData"
-      white
-      hover
-      :items="items"
-      :fields="fields"
-      :per-page="perPage"
-      :current-page="currentPage"
-    >
-      <template #head(register_date)="data">
-        <filters
-          search_label="Enter Code"
-          class="d-inline"
-          v-on:TextSearch="CodeSearch"
-          v-on:DateSearch="DateSearch"
-        />
-        <span class="d-inline">{{ data.label }}</span>
-      </template>
+  
+    <!-- <p>{{organizations}}</p> -->
+    <b-overlay :show="loading" rounded="sm">
+      <b-table
+        id="OrganizationData"
+        white
+        hover
+        sticky-header="500px"
+        responsive
+        no-border-collapse
+        :items="organizations.list"
+        :fields="fields"
+      >
+        <template #head(register_date)="data">
+          <filters
+            search_label="Enter Code"
+            class="d-inline"
+            v-on:TextSearch="CodeSearch"
+            v-on:DateSearch="DateSearch"
+          />
+          <span class="d-inline">{{ data.label }}</span>
+        </template>
+        <template #cell(register_date)="data">
+          <p>{{ new Date(data.value).toISOString().split('T')[0] }}</p>
+        </template>
 
-      <template #cell(status)="Status">
+        <template #cell(status)="Status">
         <span v-if="Status.value" class="badge badge-success">Active</span>
         <span v-else class="badge badge-danger">Disable</span>
       </template>
 
-      <template #cell(Actions)>
-        <div class="row">
-          <div class="col ">
-            <b-icon icon="eye-fill"> </b-icon>
+        <template #cell(Actions)="data">
+          <div class="row">
+            <div class="col">
+              <a
+                href="#"
+                class="text-dark"
+                v-on:click="view_Org(data.item._id)"
+              >
+                <b-icon icon="eye-fill"> </b-icon>
+              </a>
+            </div>
+            <div class="col">
+              <a
+                href="#"
+                class="text-dark"
+                v-on:click="Edit_Org(data.item._id)"
+              >
+                <b-icon icon="pencil-square"></b-icon>
+              </a>
+            </div>
           </div>
-          <div class="col ">
-            <b-icon icon="pencil-square"></b-icon>
-          </div>
-          <div class="col ">
-            <b-icon icon="x-circle-fill"></b-icon>
-          </div>
-        </div>
-      </template>
-    </b-table>
+        </template>
+      </b-table>
+      <div class="d-flex justify-content-end">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="this.organizations.totalcount"
+          :per-page="5"
+          aria-controls="OrganizationData"
+          v-on:input="page"
+          pills
+        ></b-pagination>
+      </div>
+    </b-overlay>
 
-    <div class="d-flex justify-content-end">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="OrganizationData"
-      ></b-pagination>
-    </div>
   </div>
 </template>
 
 <script>
-// import daterange from '../components/daterange'
 import filters from "../components/filter";
+import { mapState } from "vuex";
+
 export default {
-  organization_name: "OrganizationsDetails",
+  name: "Organizations",
   components: {
-    filters
-    // daterange
+    filters,
   },
+
   methods: {
     CodeSearch(value) {
       console.log(value);
     },
     DateSearch(value) {
       console.log(value);
-    }
+    },
+    page(evt) {
+      this.loading = true;
+      this.$store
+        .dispatch("org_state/GetOrg", evt)
+        .then(() => {
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    view_Org(id) {
+      this.$router.push({ name: "ViewOrg", params: { id: id } });
+    },
+    Edit_Org(id) {
+     this.$router.push({ name: "ViewOrg", params: { id: id } });
+    },
   },
   data() {
     return {
+      loading: true,
       perPage: 3,
       currentPage: 1,
       fields: [
         {
           key: "register_date",
           sortable: true,
-          class: "align-middle"
+          class: "align-middle",
         },
         {
-          key: "organization_name",
+          key: "name",
           sortable: true,
-          class: "align-middle"
+          class: "align-middle",
         },
         {
-          key: "certificate_issue_limit",
+          key: "email",
           sortable: true,
-          class: "align-middle"
+          class: "align-middle",
+        },
+         {
+          key: "ecertcount",
+          sortable: true,
+          class: "align-middle",
         },
         {
           key: "status",
           sortable: true,
-          class: "align-middle"
+          class: "align-middle",
         },
         {
           key: "Actions",
-          class: "align-middle"
-        }
+          class: "align-middle",
+        },
       ],
-      items: [
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: true,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "20-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Ismail",
-          certificate_issue_limit: "Vuejs",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        },
-        {
-          register_date: "30-sep-2020",
-          expiry_date: "20-oct-2020",
-          organization_name: "Muhammad Rafay",
-          certificate_issue_limit: "All rounder",
-          status: true,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "20-jan-2020",
-          expiry_date: "05-feb-2020",
-          organization_name: "Muhammad Sabih",
-          certificate_issue_limit: "graphics",
-          status: false,
-          issued_by: "AAmir (issuer)"
-        },
-        {
-          register_date: "10-feb-2020",
-          expiry_date: "Life Time",
-          organization_name: "Muhammad Aamir",
-          certificate_issue_limit: "Vuejs",
-          status: false,
-          issued_by: "smail (issuer)"
-        },
-        {
-          register_date: "05-feb-2020",
-          expiry_date: "20-jan-2020",
-          organization_name: "Muhammad Umair",
-          certificate_issue_limit: "tango",
-          status: false,
-          issued_by: "ismail (issuer)"
-        },
-        {
-          register_date: "10-oct-2020",
-          expiry_date: "Life Time",
-          organization_name: "Hassan Ahmeed Sidiqqi ",
-          certificate_issue_limit: "mango",
-          status: true,
-          issued_by: "Rafay (issuer)"
-        },
-        {
-          register_date: "20-oct-2019",
-          expiry_date: "19-dec-2020",
-          organization_name: "Abdul Rafay",
-          certificate_issue_limit: "flutter",
-          status: false,
-          issued_by: "Sabih (Admin)"
-        },
-        {
-          register_date: "30-jan-2018",
-          expiry_date: "20-oct-2020",
-          organization_name: "Faizan",
-          certificate_issue_limit: "jango",
-          status: true,
-          issued_by: "Rafay (Admin)"
-        }
-      ]
     };
   },
 
   computed: {
-    rows() {
-      return this.items.length;
-    }
-  }
+    ...mapState("org_state", ["organizations"]),
+  },
+  created() {
+    this.$store
+      .dispatch("org_state/GetOrg")
+      .then(() => {
+        this.loading = false;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
+<style >
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background: linear-gradient(60deg, #26c6da, #0097a7);
+  border-color: #ffffff;
+}
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: black;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+.page-link:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 195, 255, 0.226);
+}
+</style>
