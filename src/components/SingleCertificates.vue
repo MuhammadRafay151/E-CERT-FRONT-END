@@ -38,30 +38,26 @@
         <template #cell(Actions)="data">
           <div class="row">
             <div class="col">
-              <a
-                href="#"
-                class="text-dark"
+              <b-icon
+                icon="eye-fill"
+                style="cursor: pointer"
                 v-on:click="view_Certificate(data.item._id)"
               >
-                <b-icon icon="eye-fill"> </b-icon>
-              </a>
+              </b-icon>
             </div>
             <div class="col">
-              <a
-                href="#"
-                class="text-dark"
+              <b-icon
+              style="cursor: pointer"
+                icon="pencil-square"
                 v-on:click="Edit_Certificate(data.item._id)"
-              >
-                <b-icon icon="pencil-square"></b-icon>
-              </a>
+              ></b-icon>
             </div>
             <div class="col">
-              <a href="#" class="text-dark">
-                <b-icon
-                  icon="x-circle-fill"
-                  v-on:click="delete_confirm(data.item._id)"
-                ></b-icon>
-              </a>
+              <b-icon
+                icon="x-circle-fill"
+                v-on:click="delete_confirm(data.item._id)"
+                style="cursor: pointer"
+              ></b-icon>
             </div>
           </div>
         </template>
@@ -119,14 +115,14 @@ export default {
     delete_confirm(id) {
       //confirmation for delete we send id and if we press yes than it will reurn id to its parent in emit event
       this.$refs.d1.modalShow = true;
-      console.log(id)
+      console.log(id);
       this.$refs.d1.del_id = id;
     },
     view_Certificate(id) {
       this.$router.push({ name: "ViewCertificate", params: { id: id } });
     },
     Edit_Certificate(id) {
-      this.$router.push({ name: "ViewCertificate", params: { id: id } });
+      this.$router.push({ name: "Edit", params: { id: id, IsBatch: false } });
     },
     del_cert(id) {
       console.log(id);

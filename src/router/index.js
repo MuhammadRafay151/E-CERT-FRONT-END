@@ -11,6 +11,7 @@ import store from "../store"
 import certificates from "../views/Certificates.vue"
 import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
+import Edit from '../views/Edit.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -71,6 +72,13 @@ const routes = [
     path: "/viewcertificate/:id",
     name: "ViewCertificate",
     component: ViewCertificate,
+    meta: { requiresAuth: true },
+    props:true
+  },
+  {
+    path: "/edit/:id/:IsBatch",
+    name: "Edit",
+    component: Edit,
     meta: { requiresAuth: true },
     props:true
   },
