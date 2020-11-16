@@ -1,8 +1,7 @@
 <template>
 <div class="container-fluid p-5" style="margin-top:120px">
 
-    <BatchView v-if="BatchDetail" />
-    <div v-else>
+    <div>
         <b-card no-body class=" shadow">
             <b-card-body>
                 <b-row>
@@ -20,11 +19,7 @@
             </b-card-body>
         </b-card>
 
-        <div class="row mt-1">
-            <div class="col">
-                <OrganizationsDetails v-if="Display" />
-            </div>
-        </div>
+        <OrganizationsDetails/>
     </div>
 
 </div>
