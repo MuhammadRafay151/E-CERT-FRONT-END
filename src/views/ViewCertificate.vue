@@ -15,7 +15,7 @@
     <div class="container">
       <div class="row ">
         <div class="col shadow p-2 ">
-           <a href="#" class="text-dark float-left "  >
+           <a href="#" class="text-dark float-left " v-on:click="$router.go(-1)" >
           <b-icon class="h1 " icon="arrow-left-circle"></b-icon
         ></a>
         <h1>{{PageTitle}}</h1>

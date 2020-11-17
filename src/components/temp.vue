@@ -1,7 +1,7 @@
 <template>
   <div>
      <imageviewer ref="i1" v-bind:path="path" />
-    <div class="card" style="width: 25rem;">
+    <div class="card shadow" style="width: 25rem;">
       <img :src="path" class="card-img-top p-1" alt="..." />
       <div class="card-body">
         <p class="card-text text-justify">

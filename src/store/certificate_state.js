@@ -102,12 +102,27 @@ export default {
         })
       })
     },
-    // VerifyCertificate({ commit }) {
+    Update_Certificate({rootState},obj)
+    {console.log(obj)
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
 
-    // },
-    // GetCertificateHistory({ commit }) {
-
-    // },
+          },
+          url: url + "api/certificate/"+obj.id,
+          method: "PUT",
+          data: obj.form
+        }).then(response => {
+          res(response)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
+    Delete_Certificate(){},
+    Publish_Certificate(){},
+    VerifyCertificate() {},
     Create_Batch({ rootState }, form) {
       return new Promise((res, rej) => {
         axios({
@@ -147,7 +162,16 @@ export default {
           rej(err)
         })
       })
-    }
+    },
+    UpdateBatch(){},
+    DelelteBatch(){},
+    CreateBatchCert(){},
+    UpdateBatchCert(){},
+    DeleteBatchCert(){},
+    PublishBatch(){},
+     // GetCertificateHistory({ commit }) {
+
+    // },
   },
 
 }

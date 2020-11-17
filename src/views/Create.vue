@@ -59,7 +59,7 @@
     <div v-else class="row justify-content-center">
       <div class="col-8 d-flex justify-content-center">
         <div class="d-none d-md-block d-xl-block">
-          <component v-bind:is="template" />
+          <component v-bind:is="template"  />
           <!-- <Certificate /> -->
         </div>
       </div>
@@ -120,5 +120,8 @@ export default {
       this.process = false;
     },
   },
+  created(){
+    this.$store.commit('cert_state/clearcert')
+  }
 };
 </script>
