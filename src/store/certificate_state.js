@@ -102,17 +102,17 @@ export default {
         })
       })
     },
-    Update_Certificate({rootState},form)
-    {
+    Update_Certificate({rootState},obj)
+    {console.log(obj)
       return new Promise((res, rej) => {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
 
           },
-          url: url + "api/certificate",
+          url: url + "api/certificate/"+obj.id,
           method: "PUT",
-          data: form
+          data: obj.form
         }).then(response => {
           res(response)
         }).catch(err => {

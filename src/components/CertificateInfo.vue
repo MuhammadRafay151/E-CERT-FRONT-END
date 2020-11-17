@@ -4,7 +4,6 @@
       <center>
         <b-col class="scroll">
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
-          
             <form>
               <div class="form-group text-left">
                 <label><sup class="text-danger">*</sup> Title</label>
@@ -186,19 +185,8 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$emit("start");
-
-        var form = new FormData();
-        for (const [key, value] of Object.entries(this.cert)) {
-          form.append(key, value);
-        }
-        form.append("logo", this.logo_file);
-        form.append("signature", this.signature_file);
-        form.append("template_id", this.template_id);
-        // for (var key of form.entries()) {
-        //   console.log(key[0] + ", " + key[1]);
-        // }
         this.$store
-          .dispatch("cert_state/Create_Certificate", form)
+          .dispatch("cert_state/Create_Certificate", this.form())
           .then((r) => {
             console.log("Save succefully");
             this.reset_cert();
@@ -213,9 +201,50 @@ export default {
           });
       }
     },
+    form() {
+      var form = new FormData();
+      // for (const [key, value] of Object.entries(this.cert)) {
+      //   form.append(key, value);
+      // }
+      form.append("title", this.cert.title);
+      form.append("name", this.cert.name);
+      form.append("email", this.cert.email);
+      form.append("instructor_name", this.cert.instructor_name);
+      form.append("expiry_date", this.cert.expiry_date);
+      form.append("description", this.cert.description);
+      if (this.logo_file) {
+        form.append("logo", this.logo_file);
+      }
+      if (this.signature_file) {
+        form.append("signature", this.signature_file);
+      }
+      form.append("template_id", this.template_id);
+      // for (var key of form.entries()) {
+      //   console.log(key[0] + ", " + key[1]);
+      // }
+      return form;
+    },
     modify_Cert() {
-      alert("hello");
-      // this.$store.dispatch("cert_state/");
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.$emit("start");
+        this.$store
+          .dispatch("cert_state/Update_Certificate", {
+            form: this.form(),
+            id: this.$route.params.id,
+          })
+          .then((r) => {
+            this.reset_cert();
+            this.updatecert();
+            this.$v.$reset();
+            this.$emit("stop");
+            console.log(r);
+          })
+          .catch((err) => {
+            this.$emit("stop");
+            console.log(err);
+          });
+      }
     },
     getBase64(file) {
       var reader = new FileReader();
@@ -256,6 +285,20 @@ export default {
       logo: { required },
       signature: { required },
     },
+  },
+  created() {
+    if (this.edit) {
+      var x = this.$store.state.cert_state.cert;
+      this.cert.id = x._id;
+      this.cert.title = x.title;
+      this.cert.name = x.name;
+      this.cert.email = x.email;
+      this.cert.instructor_name = x.instructor_name;
+      this.cert.expiry_date = x.expiry_date;
+      this.cert.description = x.description;
+      this.cert.logo = x.logo;
+      this.cert.signature = x.signature;
+    }
   },
 };
 </script>

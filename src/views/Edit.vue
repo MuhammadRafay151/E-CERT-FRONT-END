@@ -45,7 +45,11 @@
     </div>
     <div class="row" v-if="selector">
       <div class="col">
-        <templateselector v-on:select="select" />
+        <templateselector
+          v-on:select="select"
+          v-on:close="close_selector"
+          edit
+        />
       </div>
     </div>
     <div v-else class="row justify-content-center">
@@ -57,6 +61,7 @@
       </div>
       <div v-if="IsBatch && template">
         <BatchInfo
+          ref="batch"
           v-on:start="start_process"
           v-on:stop="stop_process"
           v-bind:template_id="template"
@@ -64,6 +69,7 @@
       </div>
       <div v-else-if="template" class="col d-flex justify-content-center">
         <CertificateInfo
+          ref="ct1"
           v-on:start="start_process"
           v-on:stop="stop_process"
           v-bind:template_id="template"
@@ -78,6 +84,7 @@ import templateselector from "../components/template_selector";
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
 import c1 from "../components/templates/c1";
+
 export default {
   //we use this for modification of batch and single certificates.
   name: "Edit",
@@ -88,13 +95,14 @@ export default {
     c1,
     templateselector,
   },
+ 
   data: () => {
     return {
       PageTitle: null,
       template: null,
       select_variant: false,
       process: false,
-      selector:false
+      selector: false,
     };
   },
   methods: {
@@ -105,19 +113,28 @@ export default {
       this.process = false;
     },
     show_selector() {
+
       //for show template selector
-      this.selector=true
-      
+      this.selector = true;
     },
+    close_selector() {
+      this.selector = false;
+    },
+    select(tid) {
+      this.template = tid;
+      this.close_selector();
+     
+      // console.log("template selcted & it's id is:" + tid);
+    },
+ 
   },
   created() {
     this.start_process();
     this.$store
       .dispatch("cert_state/GetCertificate", this.id)
       .then((res) => {
-        this.stop_process();
         this.template = res;
-        console.log(res);
+        this.stop_process();
       })
       .catch((err) => {
         console.log(err);

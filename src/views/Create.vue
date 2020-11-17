@@ -120,5 +120,8 @@ export default {
       this.process = false;
     },
   },
+  created(){
+    this.$store.commit('cert_state/clearcert')
+  }
 };
 </script>
