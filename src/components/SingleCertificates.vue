@@ -3,6 +3,16 @@
     <deletebox ref="d1" v-on:delete="del_cert" />
     <!-- <p>{{this.single_certificates}}</p> -->
     <b-overlay :show="loading" rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+
+          <p id="cancel-label">{{ processing_text }}</p>
+        </div>
+      </template>
       <b-table
         id="SingleCertificateData"
         white
@@ -47,7 +57,7 @@
             </div>
             <div class="col">
               <b-icon
-              style="cursor: pointer"
+                style="cursor: pointer"
                 icon="pencil-square"
                 v-on:click="Edit_Certificate(data.item._id)"
               ></b-icon>
@@ -102,11 +112,11 @@ export default {
       console.log(value);
     },
     page(evt) {
-      this.loading = true;
+    this.show_loader("Fetching...")
       this.$store
         .dispatch("cert_state/GetSingleCertificates", evt)
         .then(() => {
-          this.loading = false;
+        this.Hide_loader()
         })
         .catch((err) => {
           console.log(err);
@@ -114,9 +124,13 @@ export default {
     },
     delete_confirm(id) {
       //confirmation for delete we send id and if we press yes than it will reurn id to its parent in emit event
-      this.$refs.d1.modalShow = true;
-      console.log(id);
-      this.$refs.d1.del_id = id;
+      if (id) {
+        this.$refs.d1.modalShow = true;
+        this.$refs.d1.del_id = id;
+      } else {
+        this.$refs.d1.modalShow = false;
+        this.$refs.d1.del_id = null;
+      }
     },
     view_Certificate(id) {
       this.$router.push({ name: "ViewCertificate", params: { id: id } });
@@ -124,13 +138,31 @@ export default {
     Edit_Certificate(id) {
       this.$router.push({ name: "Edit", params: { id: id, IsBatch: false } });
     },
+    show_loader(text) {
+      this.processing_text = text;
+      this.loading = true;
+    },
+    Hide_loader() {
+      this.loading = false;
+    },
     del_cert(id) {
-      console.log(id);
+      this.delete_confirm();
+      this.show_loader("Deleting...");
+      this.$store
+        .dispatch("cert_state/Delete_Certificate", id)
+        .then((res) => {
+          console.log(res);
+          this.Hide_loader()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   data() {
     return {
-      loading: true,
+      processing_text: null,
+      loading: false,
       perPage: 3,
       currentPage: 1,
       fields: [
@@ -167,15 +199,15 @@ export default {
       ],
     };
   },
-
   computed: {
     ...mapState("cert_state", ["single_certificates"]),
   },
   created() {
+    this.show_loader("Fetching...")
     this.$store
       .dispatch("cert_state/GetSingleCertificates")
       .then(() => {
-        this.loading = false;
+        this.Hide_loader()
       })
       .catch((err) => {
         console.log(err);

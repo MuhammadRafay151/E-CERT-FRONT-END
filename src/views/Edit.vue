@@ -65,6 +65,7 @@
           v-on:start="start_process"
           v-on:stop="stop_process"
           v-bind:template_id="template"
+          edit
         />
       </div>
       <div v-else-if="template" class="col d-flex justify-content-center">
@@ -95,7 +96,7 @@ export default {
     c1,
     templateselector,
   },
- 
+
   data: () => {
     return {
       PageTitle: null,
@@ -113,7 +114,6 @@ export default {
       this.process = false;
     },
     show_selector() {
-
       //for show template selector
       this.selector = true;
     },
@@ -123,15 +123,22 @@ export default {
     select(tid) {
       this.template = tid;
       this.close_selector();
-     
+
       // console.log("template selcted & it's id is:" + tid);
     },
- 
   },
   created() {
     this.start_process();
+    var action = null;
+    if (this.IsBatch) {
+      this.PageTitle = "Edit Batch";
+      action = "cert_state/GetBatch";
+    } else {
+      this.PageTitle = "Edit Certificate";
+      action = "cert_state/GetCertificate";
+    }
     this.$store
-      .dispatch("cert_state/GetCertificate", this.id)
+      .dispatch(action, {id:this.id,edit:true})
       .then((res) => {
         this.template = res;
         this.stop_process();
@@ -139,11 +146,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-    if (this.IsBatch) {
-      this.PageTitle = "Edit Batch";
-    } else {
-      this.PageTitle = "Edit Certificate";
-    }
   },
 };
 </script>

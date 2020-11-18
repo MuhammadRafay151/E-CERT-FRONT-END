@@ -238,6 +238,7 @@ export default {
             this.updatecert();
             this.$v.$reset();
             this.$emit("stop");
+            this.$router.push('/certificates')
             console.log(r);
           })
           .catch((err) => {
@@ -303,14 +304,14 @@ export default {
 };
 </script>
 <style  scoped>
-@media only screen and (min-width: 1366px) {
+@media only screen and (min-width: 1300px) {
   .scroll {
-    height: 600px;
+    height: 400px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-height: 969px) {
   .scroll {
     height: 750px;
     overflow-x: hidden;

@@ -1,6 +1,17 @@
 <template>
   <div class="shadow p-3">
+    <deletebox ref="d1" v-on:delete="del_batch" />
     <b-overlay :show="loading" rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
       <b-table
         id="BatchCertificateData"
         white
@@ -29,15 +40,30 @@
         <template #cell(created_by)="data">
           <p>{{ data.item.createdby.name }}</p>
         </template>
-        <template #cell(Actions)>
+        <template #cell(Actions)="data">
           <div class="row">
-            <div class="col"><b-icon icon="eye-fill" style="cursor: pointer"></b-icon></div>
-            <div class="col"><b-icon icon="pencil-fill" style="cursor: pointer"></b-icon></div>
-            <div class="col"><b-icon icon="x-circle-fill" style="cursor: pointer"></b-icon></div>
+            <div class="col">
+              <b-icon
+                icon="eye-fill"
+                v-on:click="ViewBatch(data.item._id)"
+                style="cursor: pointer"
+              ></b-icon>
+            </div>
+            <div class="col">
+              <b-icon
+                icon="pencil-fill"
+                v-on:click="Edit_Batch(data.item._id)"
+                style="cursor: pointer"
+              ></b-icon>
+            </div>
+            <div class="col">
+              <b-icon
+                icon="x-circle-fill"
+                v-on:click="delete_confirm(data.item._id)"
+                style="cursor: pointer"
+              ></b-icon>
+            </div>
           </div>
-          
-          
-          
         </template>
       </b-table>
 
@@ -56,14 +82,17 @@
 <script>
 import filters from "../components/filter";
 import { mapState } from "vuex";
+import deletebox from "./delete_box";
+import del_logic from "../js/delete";
+import loader from "../js/loader";
 export default {
   name: "Batches",
   components: {
     filters,
+    deletebox,
   },
   data() {
     return {
-      loading: true,
       currentPage: 1,
       perPage: 3,
       fields: [
@@ -99,11 +128,9 @@ export default {
       ],
     };
   },
-
   computed: {
     ...mapState("cert_state", ["batches"]),
   },
-
   methods: {
     NameSearch(value) {
       console.log(value);
@@ -114,12 +141,34 @@ export default {
     Batchdetail(batch_id) {
       this.$emit("BatchDetail", batch_id);
     },
+    Edit_Batch(id) {
+      this.$router.push({ name: "Edit", params: { id: id, IsBatch: true } });
+    },
+    del_batch(id) {
+      this.delete_confirm();
+      this.show_loader("Deleting...");
+      this.$store
+        .dispatch("cert_state/Delete_Certificate", id)
+        .then((res) => {
+          console.log(res);
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    ViewBatch(id) {
+      //created date will not be visible on certificate view only issue date will be visible on certificate view so when batch certs added their will be date on certificate
+      this.$router.push({ name: "ViewCertificate", params: { id: id,IsBatch:true } });
+    },
   },
+  mixins: [del_logic, loader],
   created() {
+    this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetBatches")
       .then(() => {
-        this.loading = false;
+        this.Hide_loader();
       })
       .catch((err) => {
         console.log(err);

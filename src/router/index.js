@@ -35,7 +35,8 @@ const routes = [
   {
     path: "/organizations",
     name: "Organizations",
-    component: organizations
+    component: organizations,
+    meta: { requiresAuth: true }
   },
   {
     path: "/registeration",

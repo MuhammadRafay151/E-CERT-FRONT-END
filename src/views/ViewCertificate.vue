@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 120px">
-    <b-overlay :show="fetching" no-wrap rounded="sm">
+    <b-overlay :show="loading" no-wrap rounded="sm">
       <template #overlay>
         <div class="text-center">
           <b-spinner
@@ -8,7 +8,7 @@
             label="Large Spinner"
           ></b-spinner>
 
-          <p id="cancel-label">Fetching Certificate...</p>
+          <p id="cancel-label">{{loading_text}}</p>
         </div>
       </template>
     </b-overlay>
@@ -33,9 +33,11 @@
 </template>
 <script>
 import c1 from "../components/templates/c1";
+import loader from "../js/loader";
 export default {
   name: "ViewCertificate",
-  props: ["id"],
+  mixins:[loader],
+  props: ["id","IsBatch"],
   data: () => {
     return {
       template: null,
@@ -47,15 +49,25 @@ export default {
     c1,
   },
   created() {
+    this.show_loader("Fetching...");
+    var action=null
+    if (this.IsBatch) {
+      this.PageTitle = "View Batch";
+      action = "cert_state/GetBatch";
+    } else {
+      this.PageTitle = "View Certificate";
+      action = "cert_state/GetCertificate";
+    }
     this.$store
-      .dispatch("cert_state/GetCertificate", this.id)
+      .dispatch(action, {id:this.id,edit:false})
       .then((res) => {
-        this.template=res
-        this.fetching=false
+        this.template = res;
+        this.Hide_loader()
       })
       .catch((err) => {
         console.log(err);
       });
+    
   },
 };
 </script>
