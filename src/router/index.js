@@ -13,6 +13,7 @@ import organizations from "../views/Organizations"
 import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 import Edit from '../views/Edit.vue'
+import BatchCerts from '../views/BatchCertificates.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -88,6 +89,11 @@ const routes = [
     component: Edit,
     meta: { requiresAuth: true },
     props:true
+  },
+  {
+    path:"/BatchCerts",
+    name:"BatchCerts",
+    component:BatchCerts
   },
   { path: '*', component: notfound}
 ];

@@ -6,7 +6,9 @@ import org_state from "./organization_state"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state:{},
+  state:{
+ 
+  },
   mutations: {},
   actions: {},
   modules: {

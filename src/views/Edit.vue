@@ -1,22 +1,20 @@
 <template>
   <div class="container-fluid" style="margin-top: 120px">
-    <b-overlay :show="process" no-wrap rounded="sm">
+    <b-overlay :show="loading" no-wrap rounded="sm">
       <template #overlay>
         <div class="text-center">
           <b-spinner
             style="width: 3rem; height: 3rem"
             label="Large Spinner"
           ></b-spinner>
-
-          <p id="cancel-label">Processing...</p>
+          <p id="cancel-label">{{loading_text}}</p>
         </div>
       </template>
     </b-overlay>
     <div class="row justify-content-center mb-2" v-if="template">
       <div class="col-11 shadow p-2">
-        <a href="#" class="text-dark float-left" v-on:click="$router.go(-1)">
-          <b-icon class="h1" icon="arrow-left-circle"></b-icon
-        ></a>
+         <b-icon class="h1 float-left" style="cursor: pointer;"  v-on:click="goback" icon="arrow-left-circle"></b-icon>
+      
         <h1 class="d-inline-block">{{ PageTitle }}</h1>
         <b-dropdown
           class="d-d-inline-block float-right"
@@ -62,8 +60,8 @@
       <div v-if="IsBatch && template">
         <BatchInfo
           ref="batch"
-          v-on:start="start_process"
-          v-on:stop="stop_process"
+          v-on:start="show_loader('Updating...')"
+          v-on:stop="Hide_loader"
           v-bind:template_id="template"
           edit
         />
@@ -71,8 +69,8 @@
       <div v-else-if="template" class="col d-flex justify-content-center">
         <CertificateInfo
           ref="ct1"
-          v-on:start="start_process"
-          v-on:stop="stop_process"
+          v-on:start="show_loader('Updating...')"
+          v-on:stop="Hide_loader"
           v-bind:template_id="template"
           edit
         />
@@ -85,10 +83,11 @@ import templateselector from "../components/template_selector";
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
 import c1 from "../components/templates/c1";
-
+import loader from "../js/loader";
 export default {
   //we use this for modification of batch and single certificates.
   name: "Edit",
+  mixins: [loader],
   props: { id: String, IsBatch: Boolean },
   components: {
     CertificateInfo,
@@ -102,17 +101,10 @@ export default {
       PageTitle: null,
       template: null,
       select_variant: false,
-      process: false,
       selector: false,
     };
   },
   methods: {
-    start_process() {
-      this.process = true;
-    },
-    stop_process() {
-      this.process = false;
-    },
     show_selector() {
       //for show template selector
       this.selector = true;
@@ -126,9 +118,16 @@ export default {
 
       // console.log("template selcted & it's id is:" + tid);
     },
+    goback() {
+      if (this.IsBatch) {
+        this.$router.push("/certificates?flag=true");
+      } else {
+        this.$router.push("/certificates?flag=false");
+      }
+    },
   },
   created() {
-    this.start_process();
+    this.show_loader("Fetching...");
     var action = null;
     if (this.IsBatch) {
       this.PageTitle = "Edit Batch";
@@ -138,10 +137,10 @@ export default {
       action = "cert_state/GetCertificate";
     }
     this.$store
-      .dispatch(action, {id:this.id,edit:true})
+      .dispatch(action, { id: this.id, edit: true })
       .then((res) => {
         this.template = res;
-        this.stop_process();
+        this.Hide_loader()
       })
       .catch((err) => {
         console.log(err);

@@ -15,9 +15,8 @@
     <div class="container">
       <div class="row ">
         <div class="col shadow p-2 ">
-           <a href="#" class="text-dark float-left " v-on:click="$router.go(-1)" >
-          <b-icon class="h1 " icon="arrow-left-circle"></b-icon
-        ></a>
+             <b-icon class="h1 float-left" style="cursor: pointer;" icon="arrow-left-circle" v-on:click="goback"></b-icon
+        >
         <h1>{{PageTitle}}</h1>
           
         </div>
@@ -69,5 +68,15 @@ export default {
       });
     
   },
+  methods:{
+    goback(){
+     if(this.IsBatch){
+        this.$router.push('/certificates?flag=true')
+     }
+     else{
+        this.$router.push('/certificates?flag=false')
+     }
+    }
+  }
 };
 </script>

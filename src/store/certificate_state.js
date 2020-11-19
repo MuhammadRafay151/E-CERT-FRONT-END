@@ -17,7 +17,8 @@ export default {
       certificate_img: "base64"
     },
     single_certificates: { list: null, totalcount: null },
-    batches: { list: null, totalcount: null }
+    batches: { list: null, totalcount: null },
+    BackTrack: { isbatch: null, pageno: null }
   },
   mutations: {
     updatecert(state, value) {
@@ -52,6 +53,17 @@ export default {
       })
       state.single_certificates.list = filteredItems
       state.single_certificates.totalcount -= 1
+    },
+    DeleteBatch(state, id) {
+      var list = state.batches.list
+      const filteredItems = list.filter(function (item) {
+        return item._id !== id
+      })
+      state.batches.list = filteredItems
+      state.batches.totalcount -= 1
+    },
+    SetBackTrack(state, obj) {
+      state.BackTrack = obj
     }
 
   },
@@ -214,6 +226,7 @@ export default {
         })
           .then(response => {
             var x = response.data
+            console.log(x)
             x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
             x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
             commit("updatecert", response.data)
@@ -223,8 +236,39 @@ export default {
           })
       })
     },
-    UpdateBatch() { },
-    DelelteBatch() { },
+    UpdateBatch({ rootState }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + "api/batch/" + obj.id,
+          method: "PUT",
+          data: obj.form
+        }).then(response => {
+          res(response)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
+    DelelteBatch({ rootState, commit }, id) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+
+          },
+          url: url + "api/batch/" + id,
+          method: "DELETE",
+        }).then(response => {
+          commit("DeleteBatch", id)
+          res(response)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     CreateBatchCert() { },
     UpdateBatchCert() { },
     DeleteBatchCert() { },

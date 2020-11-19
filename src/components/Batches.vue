@@ -72,6 +72,7 @@
           v-model="currentPage"
           :total-rows="batches.totalcount"
           :per-page="5"
+          v-on:input="page"
           aria-controls="BatchCertificateData"
         ></b-pagination>
       </div>
@@ -148,7 +149,7 @@ export default {
       this.delete_confirm();
       this.show_loader("Deleting...");
       this.$store
-        .dispatch("cert_state/Delete_Certificate", id)
+        .dispatch("cert_state/DelelteBatch", id)
         .then((res) => {
           console.log(res);
           this.Hide_loader();
@@ -157,9 +158,29 @@ export default {
           console.log(err);
         });
     },
+    page(pageno) {
+      this.show_loader("Fetching...");
+      this.$store
+        .dispatch("cert_state/GetBatches", pageno)
+        .then(() => {
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     ViewBatch(id) {
+      //setting back track for backward navigation
+      this.$store.commit("cert_state/SetBackTrack", {
+        isbatch: true,
+        pageno: this.currentPage,
+      });
       //created date will not be visible on certificate view only issue date will be visible on certificate view so when batch certs added their will be date on certificate
-      this.$router.push({ name: "ViewCertificate", params: { id: id,IsBatch:true } });
+
+      this.$router.push({
+        name: "ViewCertificate",
+        params: { id: id, IsBatch: true },
+      });
     },
   },
   mixins: [del_logic, loader],
