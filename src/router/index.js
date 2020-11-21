@@ -6,7 +6,7 @@ import Create from "../views/Create.vue"
 import registeration from '../views/registeration.vue';
 import forgetcertificate from '../views/forgetcertificate.vue'
 import verification from '../views/verification.vue'
-import dashboard from'../views/dashboard.vue'
+import dashboard from '../views/dashboard.vue'
 import store from "../store"
 import certificates from "../views/Certificates.vue"
 import organizations from "../views/Organizations"
@@ -14,6 +14,8 @@ import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 import Edit from '../views/Edit.vue'
 import BatchCerts from '../views/BatchCertificates.vue'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
 
 const routes = [
@@ -60,15 +62,15 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
-    path:"/create",
-    name:"Create",
+    path: "/create",
+    name: "Create",
     component: Create,
     meta: { requiresAuth: true }
   },
   {
-    path:"/certificates",
-    name:"certificates",
-    component:certificates,
+    path: "/certificates",
+    name: "certificates",
+    component: certificates,
     meta: { requiresAuth: true }
   },
   {
@@ -81,21 +83,22 @@ const routes = [
     name: "ViewCertificate",
     component: ViewCertificate,
     meta: { requiresAuth: true },
-    props:true
+    props: true
   },
   {
     path: "/edit/:id/:IsBatch",
     name: "Edit",
     component: Edit,
     meta: { requiresAuth: true },
-    props:true
+    props: true
   },
   {
-    path:"/BatchCerts",
-    name:"BatchCerts",
-    component:BatchCerts
+    path: "/BatchCerts/:id",
+    name: "BatchCerts",
+    component: BatchCerts,
+    props: true
   },
-  { path: '*', component: notfound}
+  { path: '*', component: notfound }
 ];
 
 const router = new VueRouter({
@@ -104,13 +107,16 @@ const router = new VueRouter({
   routes
 });
 router.beforeEach((to, from, next) => {
+  if (to.name) {
+    NProgress.start()
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!store.getters["user_state/IsLoggedIn"]) {
       next({
         path: '/login',
-     
+
       })
     } else {
       next()
@@ -119,4 +125,7 @@ router.beforeEach((to, from, next) => {
     next() // make sure to always call next()!
   }
 })
+router.afterEach(() => {
+  NProgress.done()
+});
 export default router;

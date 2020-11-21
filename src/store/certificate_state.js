@@ -18,6 +18,7 @@ export default {
     },
     single_certificates: { list: null, totalcount: null },
     batches: { list: null, totalcount: null },
+    batch_certs: { list: null, totalcount: null },
     BackTrack: { isbatch: null, pageno: null }
   },
   mutations: {
@@ -64,8 +65,12 @@ export default {
     },
     SetBackTrack(state, obj) {
       state.BackTrack = obj
-    }
-
+    },
+    BatchCerts(state, obj) {
+      state.batch_certs.list=obj.list
+      if (obj.totalcount) {
+      state.batch_certs.totalcount = obj.totalcount}
+    },
   },
   actions: {
     GetSingleCertificates({ rootState, commit }, value) {
@@ -269,7 +274,43 @@ export default {
         })
       })
     },
-    CreateBatchCert() { },
+    CreateBatchCert({ rootState,}, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + "api/bcert",
+          method: "POST",
+          data: obj
+        }).then(response => {
+          console.log(response.data)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+
+    },
+    GetBatchCerts({ rootState, commit }, obj) {
+      return new Promise((res, rej) => {
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = url + `api/bcert/${obj.id}?pageno=${obj.pageno}`
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+
+          },
+          method: "GET",
+          url: temp
+        }).then(response => {
+          commit("BatchCerts", response.data)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     UpdateBatchCert() { },
     DeleteBatchCert() { },
     PublishBatch() { },

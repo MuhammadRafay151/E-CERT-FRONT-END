@@ -18,38 +18,29 @@
         sticky-header="500px"
         responsive
         no-border-collapse
-        :items="BatchDetail"
+        :items="batch_certs.list"
         :fields="fields"
-        :per-page="perPage"
-        :current-page="currentPage"
       >
-        <template #head(issue_date)="data">
-          <b-button class="d-inline ml-2" size="sm" variant="outline-dark" >
-            <b-icon
-              font-scale="2"
-              icon="plus-square-fill"
-            ></b-icon>
-          </b-button>
-
-          <span class="d-inline">{{ data.label }}</span>
-        </template>
         <template #cell(Candidate_Name)="data">
-          <p>{{ data.value }}</p>
+          <p>{{ data.item.name }}</p>
         </template>
-        <template #cell(Candidate_Email)>
-          <p>asd@123.com</p>
+        <template #cell(Candidate_Email)="data">
+          {{ data.item.email }}
+        </template>
+        <template #cell(issued_by)="data">
+          {{ data.item.issuedby.name }}
         </template>
 
-        <template #cell(Actions)>
+        <template #cell(Actions)="data">
           <div class="row">
             <div class="col">
-              <b-icon icon="eye-fill"></b-icon>
+              <b-icon icon="eye-fill" style="cursor: pointer;" @click="view(data.item.batch_id,data.item._id)"></b-icon>
             </div>
             <div class="col">
-              <b-icon icon="pencil-fill"></b-icon>
+              <b-icon icon="pencil-fill" style="cursor: pointer;" @click="edit(data.item.batch_id,data.item._id)"></b-icon>
             </div>
             <div class="col">
-              <b-icon icon="x-circle-fill"></b-icon>
+              <b-icon icon="x-circle-fill" style="cursor: pointer;" @click="del(data.item.batch_id,data.item._id)"></b-icon>
             </div>
           </div>
         </template>
@@ -58,9 +49,11 @@
       <div class="d-flex justify-content-end">
         <b-pagination
           v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="BatchDetail"
+          :total-rows="batch_certs.totalcount"
+          :per-page="5"
+          aria-controls="SingleCertificateData"
+          v-on:input="page"
+          pills
         ></b-pagination>
       </div>
     </b-overlay>
@@ -68,6 +61,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import loader from "../js/loader";
 export default {
   name: "BatchCerts",
@@ -98,96 +92,44 @@ export default {
           class: "align-middle",
         },
       ],
-      BatchDetail: [
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        {
-          issue_date: "10-oct-2020",
-          expiry_date: "10-dec-2020",
-          Candidate_Name: "Ismail",
-          Certification: "Vuejs",
-          Status: "true",
-          Issued_by: "Ismail",
-        },
-        1,
-      ],
     };
   },
-
-  computed: {
-    rows() {
-      return this.BatchDetail.length;
+  methods: {
+    page(pageno) {
+      console.log(pageno);
+      this.show_loader("Fetching...");
+      this.$store
+        .dispatch("cert_state/GetBatchCerts", {
+          id: this.$route.params.id,
+          pageno: pageno,
+        })
+        .then(() => {
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
+    del(batch_id,id) {console.log(batch_id,id)},
+    view(batch_id,id) {console.log(batch_id,id)},
+    edit(batch_id,id) {console.log(batch_id,id)},
+  },
+  computed: {
+    ...mapState("cert_state", ["batch_certs"]),
+  },
+  created() {
+    this.show_loader("Fetching...");
+    this.$store
+      .dispatch("cert_state/GetBatchCerts", {
+        id: this.$route.params.id,
+        pageno: 1,
+      })
+      .then(() => {
+        this.Hide_loader();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

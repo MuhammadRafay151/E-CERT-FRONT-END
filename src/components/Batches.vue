@@ -16,6 +16,9 @@
         id="BatchCertificateData"
         white
         hover
+        sticky-header
+        responsive
+        no-border-collapse
         :items="batches.list"
         :fields="fields"
       >
@@ -42,14 +45,17 @@
         </template>
         <template #cell(Actions)="data">
           <div class="row">
-            <div class="col">
+            <div class="col border-right">
               <b-icon
                 icon="eye-fill"
                 v-on:click="ViewBatch(data.item._id)"
                 style="cursor: pointer"
               ></b-icon>
             </div>
-            <div class="col">
+            <div class="col border-right">
+              <b-icon icon="card-list" style="cursor: pointer" v-on:click="Batchdetails(data.item._id)"></b-icon>
+            </div>
+            <div class="col border-right">
               <b-icon
                 icon="pencil-fill"
                 v-on:click="Edit_Batch(data.item._id)"
@@ -139,8 +145,8 @@ export default {
     DateSearch(value) {
       console.log(value);
     },
-    Batchdetail(batch_id) {
-      this.$emit("BatchDetail", batch_id);
+    Batchdetails(id) {
+        this.$router.push({ name: "BatchCerts", params: { id: id} });
     },
     Edit_Batch(id) {
       this.$router.push({ name: "Edit", params: { id: id, IsBatch: true } });
