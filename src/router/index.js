@@ -79,7 +79,7 @@ const routes = [
     component: forgetcertificate
   },
   {
-    path: "/viewcertificate/:id",
+    path: "/viewcertificate/:id/:batch_id?",
     name: "ViewCertificate",
     component: ViewCertificate,
     meta: { requiresAuth: true },
@@ -96,9 +96,10 @@ const routes = [
     path: "/BatchCerts/:id",
     name: "BatchCerts",
     component: BatchCerts,
+    meta: { requiresAuth: true },
     props: true
   },
-  { path: '*', component: notfound }
+  {name:"404", path: '*', component: notfound }
 ];
 
 const router = new VueRouter({

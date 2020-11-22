@@ -16,7 +16,7 @@
         id="BatchCertificateData"
         white
         hover
-        sticky-header
+        sticky-header=500px
         responsive
         no-border-collapse
         :items="batches.list"

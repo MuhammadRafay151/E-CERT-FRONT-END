@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { url } from '../js/config'
-
+import Vue from "vue";
 export default {
   namespaced: true,
   state: {
@@ -44,8 +44,11 @@ export default {
         state.single_certificates.totalcount = value.totalcount
       }
     },
-    batches(state, value) {
-      state.batches = value
+    batches(state, obj) {
+      state.batches.list = obj.list
+      if (obj.totalcount) {
+        state.batches.totalcount = obj.totalcount
+      }
     },
     DeleteCert(state, id) {
       var list = state.single_certificates.list
@@ -67,10 +70,24 @@ export default {
       state.BackTrack = obj
     },
     BatchCerts(state, obj) {
-      state.batch_certs.list=obj.list
+      state.batch_certs.list = obj.list
       if (obj.totalcount) {
-      state.batch_certs.totalcount = obj.totalcount}
+        state.batch_certs.totalcount = obj.totalcount
+      }
     },
+    DeleteBatchCert(state, id) {
+      var list = state.batch_certs.list
+      const filteredItems = list.filter(function (item) {
+        return item._id !== id
+      })
+      state.batch_certs.list = filteredItems
+      state.batch_certs.totalcount -= 1
+    },
+    UpdateBatchCert(state, obj) {
+      var list = state.batch_certs.list
+      var index = list.findIndex((x => x._id == obj._id))
+      Vue.set(state.batch_certs.list, index, obj)
+    }
   },
   actions: {
     GetSingleCertificates({ rootState, commit }, value) {
@@ -231,7 +248,6 @@ export default {
         })
           .then(response => {
             var x = response.data
-            console.log(x)
             x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
             x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
             commit("updatecert", response.data)
@@ -274,7 +290,7 @@ export default {
         })
       })
     },
-    CreateBatchCert({ rootState,}, obj) {
+    CreateBatchCert({ rootState, }, obj) {
       return new Promise((res, rej) => {
         axios({
           headers: {
@@ -311,8 +327,63 @@ export default {
         })
       })
     },
-    UpdateBatchCert() { },
-    DeleteBatchCert() { },
+    UpdateBatchCert({ rootState, commit }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + `api/bcert/`,
+          method: "PUT",
+          data: obj
+        }).then(response => {
+          commit("UpdateBatchCert", response.data)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
+    DeleteBatchCert({ rootState, commit }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + `api/bcert/${obj.id}/${obj.batch_id}`,
+          method: "DELETE",
+        }).then(response => {
+          commit("DeleteBatchCert", obj.id)
+          console.log(response)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+
+    },
+    viewBcert({ rootState, commit }, obj) {
+      return new Promise((res, rej) => {
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = url + `api/bcert/view/${obj.id}/${obj.batch_id}`
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+
+          },
+          method: "GET",
+          url: temp
+        }).then(response => {
+          var x = response.data
+          x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
+          x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
+          commit("updatecert", x)
+          res(response.data.template_id)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     PublishBatch() { },
     // GetCertificateHistory({ commit }) {
 

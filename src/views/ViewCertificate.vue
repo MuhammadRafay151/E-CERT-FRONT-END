@@ -8,26 +8,28 @@
             label="Large Spinner"
           ></b-spinner>
 
-          <p id="cancel-label">{{loading_text}}</p>
+          <p id="cancel-label">{{ loading_text }}</p>
         </div>
       </template>
     </b-overlay>
     <div class="container">
-      <div class="row ">
-        <div class="col shadow p-2 ">
-             <b-icon class="h1 float-left" style="cursor: pointer;" icon="arrow-left-circle" v-on:click="goback"></b-icon
-        >
-        <h1>{{PageTitle}}</h1>
-          
+      <div class="row">
+        <div class="col shadow p-2">
+          <b-icon
+            class="h1 float-left"
+            style="cursor: pointer"
+            icon="arrow-left-circle"
+            v-on:click="goback"
+          ></b-icon>
+          <h1>{{ PageTitle }}</h1>
         </div>
       </div>
       <div class="row mt-5">
         <div class="col d-flex justify-content-center">
-            <component v-bind:is="template" />
+          <component v-bind:is="template" />
         </div>
       </div>
     </div>
-  
   </div>
 </template>
 <script>
@@ -35,13 +37,13 @@ import c1 from "../components/templates/c1";
 import loader from "../js/loader";
 export default {
   name: "ViewCertificate",
-  mixins:[loader],
-  props: ["id","IsBatch"],
+  mixins: [loader],
+  props: ["id", "IsBatch", "batch_id"],
   data: () => {
     return {
       template: null,
       fetching: true,
-      PageTitle:"View Certificates"
+      PageTitle: "View Certificates",
     };
   },
   components: {
@@ -49,8 +51,13 @@ export default {
   },
   created() {
     this.show_loader("Fetching...");
-    var action=null
-    if (this.IsBatch) {
+    var action = null;
+    var obj = { id: this.id, edit: false };
+    if (this.batch_id) {
+      this.PageTitle = "View Batch Certificate";
+      action = "cert_state/viewBcert";
+      obj={id:this.id,batch_id:this.batch_id}
+    } else if (this.IsBatch) {
       this.PageTitle = "View Batch";
       action = "cert_state/GetBatch";
     } else {
@@ -58,25 +65,23 @@ export default {
       action = "cert_state/GetCertificate";
     }
     this.$store
-      .dispatch(action, {id:this.id,edit:false})
+      .dispatch(action, obj)
       .then((res) => {
         this.template = res;
-        this.Hide_loader()
+        this.Hide_loader();
       })
       .catch((err) => {
         console.log(err);
       });
-    
   },
-  methods:{
-    goback(){
-     if(this.IsBatch){
-        this.$router.push('/certificates?flag=true')
-     }
-     else{
-        this.$router.push('/certificates?flag=false')
-     }
-    }
-  }
+  methods: {
+    goback() {
+      if (this.IsBatch) {
+        this.$router.push("/certificates?flag=true");
+      } else {
+        this.$router.push("/certificates?flag=false");
+      }
+    },
+  },
 };
 </script>

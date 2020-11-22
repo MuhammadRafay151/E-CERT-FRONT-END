@@ -19,7 +19,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                 <label><sup class="text-danger">*</sup>Batch Name</label>
+                <label><sup class="text-danger">*</sup>Batch Name</label>
                 <input
                   type="text"
                   class="form-control"
@@ -32,7 +32,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                 <label>Instructor Name</label>
+                <label>Instructor Name</label>
                 <input
                   type="text"
                   class="form-control"
@@ -42,7 +42,7 @@
                 />
               </div>
               <div class="form-group text-left">
-                 <label>Expiry Date</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   class="form-control"
@@ -50,11 +50,13 @@
                   v-model="cert.expiry_date"
                   v-on:change="updatecert"
                 />
-                <sub class="text-secondary">Note: for life time expiry left empty</sub>
+                <sub class="text-secondary"
+                  >Note: for life time expiry left empty</sub
+                >
               </div>
 
               <div class="form-group text-left">
-                 <label><sup class="text-danger">*</sup>Description</label>
+                <label><sup class="text-danger">*</sup>Description</label>
                 <b-form-textarea
                   class="form-control"
                   placeholder="Description"
@@ -135,11 +137,11 @@ export default {
   props: { template_id: String, edit: Boolean },
   methods: {
     HandleFileUpload(flag) {
-      if (flag) {
+      if (flag && this.$refs.logo.files.length > 0) {
         var logo = this.$refs.logo.files[0];
         this.logo_file = logo;
         this.cert.logo = URL.createObjectURL(logo);
-      } else {
+      } else if (this.$refs.signature.files.length > 0) {
         var signature = this.$refs.signature.files[0];
         this.signature_file = signature;
         this.cert.signature = URL.createObjectURL(signature);
@@ -162,6 +164,10 @@ export default {
         templateid: null,
         certificate_img: "base64",
       };
+      this.logo_file=null
+      this.signature_file=null
+      this.$refs.logo.value=""
+      this.$refs.signature.value=""
     },
     Create_Batch() {
       this.$v.$touch();

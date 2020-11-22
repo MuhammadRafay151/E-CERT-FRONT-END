@@ -26,11 +26,17 @@ export default {
     };
   },
   methods: {
+    show(id){
+      this.del_id=id,
+      this.modalShow=true
+    },
     close() {
       this.modalShow = false;
+      this.del_id=null
     },
     yes(){
         this.$emit("delete",this.del_id)
+        this.del_id=null
     }
   },
 };
