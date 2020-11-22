@@ -1,19 +1,19 @@
 <template>
   <div class="shadow p-3">
   
-    <!-- <p>{{organizations}}</p> -->
+    <!-- <p>{{certhistory}}</p>  -->
     <b-overlay :show="loading" rounded="sm">
       <b-table
-        id="OrganizationData"
+        id="CertCountData"
         white
         hover
-        sticky-header="500px"
+        fixed
         responsive
         no-border-collapse
-        :items="organizations.list"
+        :items="certhistory.list"
         :fields="fields"
       >
-        <template #head(register_date)="data">
+        <template #head(date)="data">
           <filters
             search_label="Enter Code"
             class="d-inline"
@@ -22,14 +22,10 @@
           />
           <span class="d-inline">{{ data.label }}</span>
         </template>
-        <template #cell(register_date)="data">
+        <template #cell(date)="data">
           <p>{{ new Date(data.value).toISOString().split('T')[0] }}</p>
         </template>
 
-        <template #cell(status)="Status">
-        <span v-if="Status.value" class="badge badge-success">Active</span>
-        <span v-else class="badge badge-danger">Disable</span>
-      </template>
 
         <template #cell(Actions)="data">
           <div class="row">
@@ -37,18 +33,9 @@
               <a
                 href="#"
                 class="text-dark"
-                v-on:click="view_Org(data.item._id)"
+                v-on:click="delete_count(data.item._id)"
               >
-                <b-icon icon="eye-fill"> </b-icon>
-              </a>
-            </div>
-            <div class="col">
-              <a
-                href="#"
-                class="text-dark"
-                 v-on:click="Send_OrgID(data.item._id)"
-              >
-                <b-icon icon="pencil-square"></b-icon>
+                <b-icon icon="x-circle-fill"> </b-icon>
               </a>
             </div>
           </div>
@@ -57,9 +44,9 @@
       <div class="d-flex justify-content-end">
         <b-pagination
           v-model="currentPage"
-          :total-rows="this.organizations.totalcount"
+          :total-rows="this.certhistory.totalcount"
           :per-page="5"
-          aria-controls="OrganizationData"
+          aria-controls="CertCountData"
           v-on:input="page"
           pills
         ></b-pagination>
@@ -74,7 +61,7 @@ import filters from "../components/filter";
 import { mapState } from "vuex";
 
 export default {
-  name: "Organizations",
+  name: "CertCount",
   components: {
     filters,
   },
@@ -83,19 +70,13 @@ export default {
     CodeSearch(value) {
       console.log(value);
     },
-    Send_OrgID(id) {
-      this.$router.push({ name: "CertificateCount", params: { id: id} });
-    },
-     updatecert(id) {
-      this.$store.commit("certcount/getorg_id", id);
-    },
     DateSearch(value) {
       console.log(value);
     },
     page(evt) {
       this.loading = true;
       this.$store
-        .dispatch("org_state/GetOrg", evt)
+        .dispatch("certcount_state/Getcounthistory", evt)
         .then(() => {
           this.loading = false;
         })
@@ -103,11 +84,8 @@ export default {
           console.log(err);
         });
     },
-    view_Org(id) {
-      this.$router.push({ name: "ViewOrg", params: { id: id } });
-    },
-    Edit_Org(id) {
-     this.$router.push({ name: "ViewOrg", params: { id: id } });
+    delete_count(id) {
+      this.$router.push({ name: "deleteCount", params: { id: id } });
     },
   },
   data() {
@@ -117,27 +95,12 @@ export default {
       currentPage: 1,
       fields: [
         {
-          key: "register_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "name",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "email",
+          key: "date",
           sortable: true,
           class: "align-middle",
         },
          {
-          key: "ecertcount",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "status",
+          key: "Count",
           sortable: true,
           class: "align-middle",
         },
@@ -150,11 +113,11 @@ export default {
   },
 
   computed: {
-    ...mapState("org_state", ["organizations"]),
+    ...mapState("certcount_state", ["certhistory"]),
   },
   created() {
     this.$store
-      .dispatch("org_state/GetOrg")
+      .dispatch("certcount_state/Getcounthistory")
       .then(() => {
         this.loading = false;
       })
