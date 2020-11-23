@@ -15,34 +15,29 @@
           </div>
 
           <div class="col text-center">
-            <h3>CERTIFICATES</h3>
+            <h3>PUBLICATIONS</h3>
           </div>
           <div class="col text-left"></div>
         </b-row>
       </b-card-body>
     </b-card>
-
     <div class="row mt-1">
       <div class="col">
-        <SingleCertificates v-if="Display" />
-        <batches v-else/>
+        <SinglePublication v-if="Display" />
+        <BatchPublication v-else/>
       </div>
     </div>
   </div>
 </template>
 <script>
-import SingleCertificates from "../components/SingleCertificates";
-
-import Batches from "../components/Batches";
-
+import BatchPublication from'../components/BatchPublication'
+import SinglePublication from '../components/SinglePublication'
 export default {
-  name: "CertificateView",
-
-  components: {
-    SingleCertificates,
-    Batches,
+  name: "publish",
+  components: {BatchPublication,SinglePublication},
+  data: () => {
+    return { Display: true };
   },
-
   methods: {
     showsingle() {
       this.Display = true;
@@ -51,22 +46,8 @@ export default {
       this.Display = false;
     },
   },
-  data() {
-    return {
-      Display: true,
-      
-    };
-  },
-  created() {
-    if (this.$route.query.flag === "true") {
-      this.showbatch();
-    } else {
-      this.showsingle;
-    }
-  },
 };
 </script>
-
 <style scoped>
 a {
   color: #46b7de;

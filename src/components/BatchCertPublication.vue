@@ -1,0 +1,143 @@
+<template>
+  <div class="shadow p-3">
+    <b-overlay :show="loading" rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
+      <b-table
+        white
+        hover
+        sticky-header="500px"
+        responsive
+        no-border-collapse
+        :items="batch_certs.list"
+        :fields="fields"
+      >
+        <template #cell(issue_date)="data">
+          {{ new Date(data.value).toLocaleString() }}
+        </template>
+        <template #cell(Candidate_Name)="data">
+          <p>{{ data.item.name }}</p>
+        </template>
+        <template #cell(Candidate_Email)="data">
+          {{ data.item.email }}
+        </template>
+        <template #cell(Actions)="data">
+          <div class="row">
+            <div class="col">
+              <b-icon
+                icon="eye-fill"
+                style="cursor: pointer"
+                @click="view(data.item._id, data.item.batch_id)"
+                :id="data.index + 'f'"
+              ></b-icon>
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
+                Verify certificate
+              </b-tooltip>
+            </div>
+            <div class="col">
+              <b-icon
+                icon="check-circle-fill"
+                v-on:click="verify(data.item._id)"
+                style="cursor: pointer"
+                :id="data.index + 's'"
+              ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Verify certificate
+              </b-tooltip>
+            </div>
+          </div>
+        </template>
+      </b-table>
+
+      <div class="d-flex justify-content-end">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="batch_certs.totalcount"
+          :per-page="5"
+          aria-controls="SingleCertificateData"
+          v-on:input="page"
+          pills
+        ></b-pagination>
+      </div>
+    </b-overlay>
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import loader from "../js/loader";
+export default {
+  name: "BCP_Comp",
+  mixins: [loader],
+  data() {
+    return {
+      perPage: 3,
+      currentPage: 1,
+      fields: [
+        {
+          key: "Candidate_Name",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "Candidate_Email",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "Actions",
+          class: "align-middle",
+        },
+      ],
+    };
+  },
+  methods: {
+    page(pageno) {
+      console.log(pageno);
+      this.show_loader("Fetching...");
+      this.$store
+        .dispatch("cert_state/GetPublishBatchCerts", {
+          id: this.$route.params.id,
+          pageno: pageno,
+        })
+        .then(() => {
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    view(id, batch_id) {
+      this.$router.push({
+        name: "ViewCertificate",
+        params: { id: id, batch_id: batch_id },
+      });
+    },
+  },
+  computed: {
+    ...mapState("cert_state", ["batch_certs"]),
+  },
+  created() {
+    this.show_loader("Fetching...");
+    this.$store
+      .dispatch("cert_state/GetPublishBatchCerts", {
+        id: this.$route.params.id,
+        pageno: 1,
+      })
+      .then(() => {
+        this.Hide_loader();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+};
+</script>

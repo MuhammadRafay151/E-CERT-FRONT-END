@@ -1,5 +1,6 @@
 <template>
   <div class="shadow p-3">
+    <msgbox ref="cf" v-on:yes="publish" />
     <deletebox ref="d1" v-on:delete="del_batch" />
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
@@ -71,6 +72,9 @@
             </div>
           </div>
         </template>
+         <template #cell(Publish)="data">
+           <button class="btn btn_fr" @click="publish_confirm(data.item._id)">Publish</button>
+        </template>
       </b-table>
 
       <div class="d-flex justify-content-end">
@@ -92,11 +96,13 @@ import { mapState } from "vuex";
 import deletebox from "./delete_box";
 import del_logic from "../js/delete";
 import loader from "../js/loader";
+import msgbox from "./confirmbox";
 export default {
   name: "Batches",
   components: {
     filters,
     deletebox,
+    msgbox
   },
   data() {
     return {
@@ -130,6 +136,10 @@ export default {
         },
         {
           key: "Actions",
+          class: "align-middle",
+        },
+        {
+          key: "Publish",
           class: "align-middle",
         },
       ],
@@ -187,6 +197,32 @@ export default {
         name: "ViewCertificate",
         params: { id: id, IsBatch: true },
       });
+    },
+     publish(id) {
+      console.log(id);
+      this.show_loader("Publishing...");
+      this.$store
+        .dispatch("cert_state/PublishBatch", id)
+        .then((res) => {console.log(res)
+        this.Hide_loader()
+        if(this.batches.list.length>1){
+          this.page(this.currentPage)
+        }
+        else if(this.batches.list.length==1 && this.currentPage==1)
+        {
+          this.page(1)
+        }
+        else{
+          this.currentPage-=1
+          this.page(this.currentPage)
+        }
+        })
+        .catch((err) => {this.loading_text=err});
+     
+    },
+    publish_confirm(id) {
+      var text = "Are you sure you want to publish this batch";
+      this.$refs.cf.show(text, id);
     },
   },
   mixins: [del_logic, loader],

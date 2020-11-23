@@ -1,5 +1,6 @@
 <template>
   <div class="shadow p-3">
+    <msgbox ref="cf" v-on:yes="publish" />
     <deletebox ref="d1" v-on:delete="del_cert" />
     <!-- <p>{{this.single_certificates}}</p> -->
     <b-overlay :show="loading" rounded="sm">
@@ -9,8 +10,7 @@
             style="width: 3rem; height: 3rem"
             label="Large Spinner"
           ></b-spinner>
-
-          <p id="cancel-label">{{ processing_text }}</p>
+          <p id="cancel-label">{{ loading_text }}</p>
         </div>
       </template>
       <b-table
@@ -71,6 +71,11 @@
             </div>
           </div>
         </template>
+        <template #cell(Publish)="data">
+          <button class="btn btn_fr" @click="publish_confirm(data.item._id)">
+            Publish
+          </button>
+        </template>
       </b-table>
       <div class="d-flex justify-content-end">
         <b-pagination
@@ -92,18 +97,20 @@
 
 <script>
 // import daterange from '../components/daterange'
+import msgbox from "./confirmbox";
 import deletebox from "./delete_box";
 import filters from "../components/filter";
 import { mapState } from "vuex";
-
+import loader from "../js/loader";
 export default {
   name: "SingleCertificates",
+  mixins: [loader],
   components: {
     filters,
     deletebox,
+    msgbox,
     // daterange
   },
-
   methods: {
     CodeSearch(value) {
       console.log(value);
@@ -112,11 +119,11 @@ export default {
       console.log(value);
     },
     page(evt) {
-    this.show_loader("Fetching...")
+      this.show_loader("Fetching...");
       this.$store
         .dispatch("cert_state/GetSingleCertificates", evt)
         .then(() => {
-        this.Hide_loader()
+          this.Hide_loader();
         })
         .catch((err) => {
           console.log(err);
@@ -138,13 +145,6 @@ export default {
     Edit_Certificate(id) {
       this.$router.push({ name: "Edit", params: { id: id, IsBatch: false } });
     },
-    show_loader(text) {
-      this.processing_text = text;
-      this.loading = true;
-    },
-    Hide_loader() {
-      this.loading = false;
-    },
     del_cert(id) {
       this.delete_confirm();
       this.show_loader("Deleting...");
@@ -152,17 +152,41 @@ export default {
         .dispatch("cert_state/Delete_Certificate", id)
         .then((res) => {
           console.log(res);
-          this.Hide_loader()
+          this.Hide_loader();
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    publish(id) {
+      console.log(id);
+      this.show_loader("Publishing...");
+      this.$store
+        .dispatch("cert_state/Publish_Certificate", id)
+        .then((res) => {console.log(res)
+        this.Hide_loader()
+        if(this.single_certificates.list.length>1){
+          this.page(this.currentPage)
+        }
+        else if(this.single_certificates.list.length==1 && this.currentPage==1)
+        {
+          this.page(1)
+        }
+        else{
+          this.currentPage-=1
+          this.page(this.currentPage)
+        }
+        })
+        .catch((err) => {this.loading_text=err});
+     
+    },
+    publish_confirm(id) {
+      var text = "Are you sure u want to publish this certificate";
+      this.$refs.cf.show(text, id);
+    },
   },
   data() {
     return {
-      processing_text: null,
-      loading: false,
       perPage: 3,
       currentPage: 1,
       fields: [
@@ -196,6 +220,10 @@ export default {
           key: "Actions",
           class: "align-middle",
         },
+        {
+          key: "Publish",
+          class: "align-middle",
+        },
       ],
     };
   },
@@ -203,11 +231,11 @@ export default {
     ...mapState("cert_state", ["single_certificates"]),
   },
   created() {
-    this.show_loader("Fetching...")
+    this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetSingleCertificates")
       .then(() => {
-        this.Hide_loader()
+        this.Hide_loader();
       })
       .catch((err) => {
         console.log(err);

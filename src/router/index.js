@@ -14,6 +14,8 @@ import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 import Edit from '../views/Edit.vue'
 import BatchCerts from '../views/BatchCertificates.vue'
+import published from '../views/publish.vue'
+import BatchCertPublication from '../views/BatchCertPublication.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
@@ -98,6 +100,18 @@ const routes = [
     component: BatchCerts,
     meta: { requiresAuth: true },
     props: true
+  },
+  {
+    path: "/BatchCerts/publications/:id",
+    name: "BCP_VIEW",
+    component: BatchCertPublication,
+    meta: { requiresAuth: true },
+    props: true
+  },
+  {
+    path:"/publications",
+    component:published,
+    meta: { requiresAuth: true },
   },
   {name:"404", path: '*', component: notfound }
 ];

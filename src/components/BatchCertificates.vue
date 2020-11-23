@@ -150,6 +150,7 @@ export default {
           key: "Actions",
           class: "align-middle",
         },
+        
       ],
     };
   },

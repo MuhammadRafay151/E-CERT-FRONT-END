@@ -23,19 +23,31 @@ export default {
     return {
       msg: null,
       modalShow: false,
+      obj: null,
     };
   },
   methods: {
-    show(msg) {
+    show(msg, obj) {
       this.msg = msg;
-      this.modalShow=true
+      if (obj) {
+        this.obj = obj;
+      }
+      this.modalShow = true;
     },
     yes() {
       this.modalShow = false;
-      this.$emit("yes");
+      this.msg=null
+      if (this.obj) {
+        this.$emit("yes", this.obj);
+        this.obj=null
+      } else {
+        this.$emit("yes");
+      }
     },
     cancel() {
       this.modalShow = false;
+      this.obj=null
+      this.msg=null
       this.$emit("cancel");
     },
   },
