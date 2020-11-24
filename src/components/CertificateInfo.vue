@@ -182,8 +182,8 @@ export default {
       };
       this.logo_file = null;
       this.signature_file = null;
-      this.$refs.logo.value=""
-      this.$refs.signature.value=""
+      this.$refs.logo.value = "";
+      this.$refs.signature.value = "";
     },
     Create_Cert() {
       this.$v.$touch();
@@ -214,8 +214,10 @@ export default {
       form.append("name", this.cert.name);
       form.append("email", this.cert.email);
       form.append("instructor_name", this.cert.instructor_name);
-      form.append("expiry_date", this.cert.expiry_date);
       form.append("description", this.cert.description);
+      if (this.cert.expiry_date) {
+        form.append("expiry_date", this.cert.expiry_date);
+      }
       if (this.logo_file) {
         form.append("logo", this.logo_file);
       }

@@ -17,7 +17,7 @@
         sticky-header="500px"
         responsive
         no-border-collapse
-        :items="this.batch_publish.list"
+        :items="this.batches.list"
         :fields="fields"
       >
         <template #head(publish_date)="data">
@@ -33,13 +33,13 @@
           {{ new Date(data.item.publish.publish_date).toLocaleDateString() }}
         </template>
         <template #cell(expiry_date)="data">
-          <p v-if="data.value != ''">
+          <span v-if="data.value != ''">
             {{ new Date(data.value).toLocaleDateString() }}
-          </p>
+          </span>
           <p v-else>Life time</p>
         </template>
         <template #cell(publish_by)="data">
-          <p>{{ data.item.publish.publisher_name }}</p>
+         {{ data.item.publish.publisher_name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
@@ -60,7 +60,7 @@
       <div class="d-flex justify-content-end">
         <b-pagination
           v-model="currentPage"
-          :total-rows="this.batch_publish.totalcount"
+          :total-rows="this.batches.totalcount"
           :per-page="5"
           v-on:input="page"
           pills
@@ -77,7 +77,7 @@ export default {
   name: "BatchPublication",
   mixins: [loader],
   components: { filters },
-  computed: { ...mapState("cert_state", ["batch_publish"]) },
+  computed: { ...mapState("cert_state", ["batches"]) },
   data: () => {
     return {
       perPage: 3,
@@ -118,7 +118,15 @@ export default {
   },
   methods: {
     page(pageno) {
-      console.log(pageno);
+    this.show_loader("Fetching...");
+      this.$store
+        .dispatch("cert_state/GetPublishBatches", pageno)
+        .then(() => {
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     Batchdetails(id) {
       this.$router.push({ name: "BCP_VIEW", params: { id: id } });

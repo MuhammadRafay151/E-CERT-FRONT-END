@@ -33,17 +33,17 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(issue_date)="data">
-          <p>{{ new Date(data.value).toLocaleString() }}</p>
+         {{ new Date(data.value).toLocaleString() }}
         </template>
         <template #cell(expiry_date)="data">
-          <p v-if="data.value != ''">
+          <span v-if="data.value != ''">
             {{ new Date(data.value).toLocaleDateString() }}
-          </p>
-          <p v-else>Life time</p>
+          </span>
+          <span v-else>Life time</span>
         </template>
 
         <template #cell(issuedby)="data">
-          <p>{{ data.value.issuer_name }}</p>
+         {{ data.value.issuer_name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
@@ -171,10 +171,12 @@ export default {
         else if(this.single_certificates.list.length==1 && this.currentPage==1)
         {
           this.page(1)
+    
         }
         else{
           this.currentPage-=1
           this.page(this.currentPage)
+          
         }
         })
         .catch((err) => {this.loading_text=err});

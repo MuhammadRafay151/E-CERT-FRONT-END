@@ -24,12 +24,20 @@
             ></b-icon>
           </div>
         </b-row>
-        <b-row class="justify-content-center">
+        <b-row class="justify-content-center" v-if="batch_certs.batch">
           <div class="col-12 col-lg-5 shadow m-2 p-2 text-center">
-            <b>Batch Name:</b> WEB DEVS 2020
+            <b>Batch Name:</b> {{batch_certs.batch.batch_name}}
           </div>
           <div class="col-12 col-lg-5 shadow m-2 p-2 text-center">
-            <b>Certificate Title:</b> Full Stack Web Devlopment
+            <b>Certificate Title:</b> {{batch_certs.batch.title}}
+          </div>
+        </b-row>
+         <b-row class="justify-content-center" v-if="batch_certs.batch">
+          <div class="col-12 col-lg-5 shadow m-2 p-2 text-center">
+            <b>Created Date:</b> {{new Date(batch_certs.batch.created_date).toLocaleDateString()}}
+          </div>
+          <div class="col-12 col-lg-5 shadow m-2 p-2 text-center">
+            <b>Created By:</b> {{batch_certs.batch.createdby.name}}
           </div>
         </b-row>
       </b-card-body>
@@ -46,12 +54,16 @@
 import BatchCerts from "../components/BatchCertificates";
 import AddBatchCerts from "../components/AddBatchCert";
 import cbox from "../components/confirmbox";
+import { mapState } from "vuex";
 export default {
   name: "BatchCertificates",
   components: {
     BatchCerts,
     AddBatchCerts,
     cbox,
+  },
+  computed: {
+    ...mapState("cert_state", ["batch_certs"]),
   },
   props: ["id"],
   data: () => {

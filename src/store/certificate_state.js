@@ -18,10 +18,8 @@ export default {
     },
     single_certificates: { list: null, totalcount: null },
     batches: { list: null, totalcount: null },
-    batch_certs: { list: null, totalcount: null },
+    batch_certs: { list: null, totalcount: null, batch: null },
     BackTrack: { isbatch: null, pageno: null },
-    single_publish: { list: null, totalcount: null },
-    batch_publish: { list: null, totalcount: null }
   },
   mutations: {
     updatecert(state, value) {
@@ -42,13 +40,13 @@ export default {
     },
     single_certs(state, value) {
       state.single_certificates.list = value.list
-      if (value.totalcount) {
+      if (value.totalcount && parseInt(value.totalcount)>=0) {
         state.single_certificates.totalcount = value.totalcount
       }
     },
     batches(state, obj) {
       state.batches.list = obj.list
-      if (obj.totalcount) {
+      if (obj.totalcount && parseInt(obj.totalcount)>=0) {
         state.batches.totalcount = obj.totalcount
       }
     },
@@ -76,6 +74,9 @@ export default {
       if (obj.totalcount) {
         state.batch_certs.totalcount = obj.totalcount
       }
+      if (obj.batch) {
+        state.batch_certs.batch = obj.batch
+      }
     },
     DeleteBatchCert(state, id) {
       var list = state.batch_certs.list
@@ -90,18 +91,6 @@ export default {
       var index = list.findIndex((x => x._id == obj._id))
       Vue.set(state.batch_certs.list, index, obj)
     },
-    single_publish(state, obj) {
-      state.single_publish.list = obj.list
-      if (obj.totalcount) {
-        state.single_publish.totalcount = obj.totalcount
-      }
-    },
-    batch_publish(state,obj){
-      state.batch_publish.list = obj.list
-      if (obj.totalcount) {
-        state.batch_publish.totalcount = obj.totalcount
-      }
-    }
   },
   actions: {
     GetSingleCertificates({ rootState, commit }, value) {
@@ -222,7 +211,7 @@ export default {
     GetPublishCertificates({ rootState, commit }, pageno) {
       return new Promise((res, rej) => {
         if (!pageno) { pageno = 1 }
-        var temp = url + "api/publish/single?pageno=" + pageno
+        var temp = url + `api/certificate?pageno=${pageno}&pub=true` 
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -230,7 +219,7 @@ export default {
           method: "GET",
           url: temp
         }).then(response => {
-          commit("single_publish", response.data)
+          commit("single_certs", response.data)
           res()
         }).catch(err => {
           rej(err)
@@ -452,7 +441,7 @@ export default {
     GetPublishBatches({ rootState, commit }, pageno) {
       return new Promise((res, rej) => {
         if (!pageno) { pageno = 1 }
-        var temp = url + "api/publish/batch?pageno=" + pageno
+        var temp = url + `api/batch?pageno=${pageno}&pub=true` 
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -460,14 +449,14 @@ export default {
           method: "GET",
           url: temp
         }).then(response => {
-          commit("batch_publish", response.data)
+          commit("batches", response.data)
           res()
         }).catch(err => {
           rej(err)
         })
       })
     },
-    GetPublishBatchCerts({ rootState, commit }, obj){
+    GetPublishBatchCerts({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
         var temp = url + `api/bcert/${obj.id}?pageno=${obj.pageno}&pub=true`

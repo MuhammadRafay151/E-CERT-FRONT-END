@@ -164,10 +164,10 @@ export default {
         templateid: null,
         certificate_img: "base64",
       };
-      this.logo_file=null
-      this.signature_file=null
-      this.$refs.logo.value=""
-      this.$refs.signature.value=""
+      this.logo_file = null;
+      this.signature_file = null;
+      this.$refs.logo.value = "";
+      this.$refs.signature.value = "";
     },
     Create_Batch() {
       this.$v.$touch();
@@ -215,10 +215,14 @@ export default {
     form() {
       var form = new FormData();
       form.append("title", this.cert.title);
-      form.append("instructor_name", this.cert.instructor_name);
-      form.append("expiry_date", this.cert.expiry_date);
       form.append("description", this.cert.description);
       form.append("batch_name", this.batch_name);
+      if (this.cert.instructor_name) {
+        form.append("instructor_name", this.cert.instructor_name);
+      }
+      if (this.cert.expiry_date) {
+        form.append("expiry_date", this.cert.expiry_date);
+      }
       if (this.logo_file) {
         form.append("logo", this.logo_file);
       }

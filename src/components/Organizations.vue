@@ -142,7 +142,6 @@ export default {
       ],
     };
   },
-
   computed: {
     ...mapState("org_state", ["organizations"]),
   },

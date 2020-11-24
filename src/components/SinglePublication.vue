@@ -17,7 +17,7 @@
         sticky-header="500px"
         responsive
         no-border-collapse
-        :items="this.single_publish.list"
+        :items="this.single_certificates.list"
         :fields="fields"
       >
         <template #head(publish_date)="data">
@@ -30,16 +30,16 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(publish_date)="data">
-           {{ new Date(data.item.publish.publish_date).toLocaleDateString() }}
+          {{ new Date(data.item.publish.publish_date).toLocaleDateString() }}
         </template>
         <template #cell(expiry_date)="data">
-          <p v-if="data.value != ''">
+          <span v-if="data.value != ''">
             {{ new Date(data.value).toLocaleDateString() }}
-          </p>
-          <p v-else>Life time</p>
+          </span>
+          <span v-else>Life time</span>
         </template>
         <template #cell(publish_by)="data">
-          <p>{{ data.item.publish.publisher_name }}</p>
+          {{ data.item.publish.publisher_name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
@@ -47,11 +47,11 @@
               <b-icon
                 icon="eye-fill"
                 style="cursor: pointer"
-                :id="data.index+'f'"
+                :id="data.index + 'f'"
                 v-on:click="view_Certificate(data.item._id)"
               >
               </b-icon>
-              <b-tooltip :target="data.index+'f'" triggers="hover">
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
                 View
               </b-tooltip>
             </div>
@@ -60,9 +60,9 @@
                 icon="check-circle-fill"
                 v-on:click="verify(data.item._id)"
                 style="cursor: pointer"
-                :id="data.index+'s'"
+                :id="data.index + 's'"
               ></b-icon>
-              <b-tooltip :target="data.index+'s'" triggers="hover">
+              <b-tooltip :target="data.index + 's'" triggers="hover">
                 Verify certificate
               </b-tooltip>
             </div>
@@ -72,7 +72,7 @@
       <div class="d-flex justify-content-end">
         <b-pagination
           v-model="currentPage"
-          :total-rows="this.single_publish.totalcount"
+          :total-rows="this.single_certificates.totalcount"
           :per-page="5"
           aria-controls="SingleCertificateData"
           v-on:input="page"
@@ -85,12 +85,12 @@
 <script>
 import loader from "../js/loader";
 import filters from "../components/filter";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "SinglePublication",
   mixins: [loader],
   components: { filters },
-  computed:{...mapState("cert_state",["single_publish"])},
+  computed: { ...mapState("cert_state", ["single_certificates"]) },
   data: () => {
     return {
       perPage: 3,
@@ -126,17 +126,31 @@ export default {
           key: "Actions",
           class: "align-middle",
         },
-      ]
+      ],
     };
   },
-  methods:{
-      page(pageno){console.log(pageno)},
-      view_Certificate(id){console.log(id)},
-      verify(id){console.log(id)},
-      CodeSearch(){},
-      DateSearch(){},
+  methods: {
+    page(pageno) {
+      this.show_loader("Fetching...");
+      this.$store
+        .dispatch("cert_state/GetPublishCertificates", pageno)
+        .then(() => {
+          this.Hide_loader();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    view_Certificate(id) {
+      console.log(id);
+    },
+    verify(id) {
+      console.log(id);
+    },
+    CodeSearch() {},
+    DateSearch() {},
   },
-   created() {
+  created() {
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetPublishCertificates")
@@ -146,6 +160,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>

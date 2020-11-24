@@ -33,16 +33,16 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(created_date)="data">
-          <p>{{ new Date(data.value).toLocaleString() }}</p>
+         {{ new Date(data.value).toLocaleString() }}
         </template>
         <template #cell(expiry_date)="data">
-          <p v-if="data.value != ''">
+          <span v-if="data.value != ''">
             {{ new Date(data.value).toLocaleDateString() }}
-          </p>
-          <p v-else>Life time</p>
+          </span>
+          <span v-else>Life time</span>
         </template>
         <template #cell(created_by)="data">
-          <p>{{ data.item.createdby.name }}</p>
+          {{ data.item.createdby.name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
