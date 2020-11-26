@@ -33,7 +33,7 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(issue_date)="data">
-         {{ new Date(data.value).toLocaleString() }}
+          {{ new Date(data.value).toLocaleString() }}
         </template>
         <template #cell(expiry_date)="data">
           <span v-if="data.value != ''">
@@ -43,7 +43,7 @@
         </template>
 
         <template #cell(issuedby)="data">
-         {{ data.value.issuer_name }}
+          {{ data.value.issuer_name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
@@ -139,10 +139,19 @@ export default {
         this.$refs.d1.del_id = null;
       }
     },
+    AddHistory() {
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        IsBatch: false,
+        PageNo: this.currentPage,
+      });
+    },
     view_Certificate(id) {
+      this.AddHistory();
       this.$router.push({ name: "ViewCertificate", params: { id: id } });
     },
     Edit_Certificate(id) {
+      this.AddHistory();
       this.$router.push({ name: "Edit", params: { id: id, IsBatch: false } });
     },
     del_cert(id) {
@@ -163,24 +172,24 @@ export default {
       this.show_loader("Publishing...");
       this.$store
         .dispatch("cert_state/Publish_Certificate", id)
-        .then((res) => {console.log(res)
-        this.Hide_loader()
-        if(this.single_certificates.list.length>1){
-          this.page(this.currentPage)
-        }
-        else if(this.single_certificates.list.length==1 && this.currentPage==1)
-        {
-          this.page(1)
-    
-        }
-        else{
-          this.currentPage-=1
-          this.page(this.currentPage)
-          
-        }
+        .then((res) => {
+          console.log(res);
+          this.Hide_loader();
+          if (this.single_certificates.list.length > 1) {
+            this.page(this.currentPage);
+          } else if (
+            this.single_certificates.list.length == 1 &&
+            this.currentPage == 1
+          ) {
+            this.page(1);
+          } else {
+            this.currentPage -= 1;
+            this.page(this.currentPage);
+          }
         })
-        .catch((err) => {this.loading_text=err});
-     
+        .catch((err) => {
+          this.loading_text = err;
+        });
     },
     publish_confirm(id) {
       var text = "Are you sure u want to publish this certificate";
@@ -233,9 +242,13 @@ export default {
     ...mapState("cert_state", ["single_certificates"]),
   },
   created() {
+    var PageNo = 1;
+    if (this.$route.query.PageNo) {
+      PageNo = this.$route.query.PageNo;
+    }
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("cert_state/GetSingleCertificates")
+      .dispatch("cert_state/GetSingleCertificates", PageNo)
       .then(() => {
         this.Hide_loader();
       })

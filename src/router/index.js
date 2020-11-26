@@ -109,11 +109,12 @@ const routes = [
     props: true
   },
   {
-    path:"/publications",
-    component:published,
+    name: "publications",
+    path: "/publications",
+    component: published,
     meta: { requiresAuth: true },
   },
-  {name:"404", path: '*', component: notfound }
+  { name: "404", path: '*', component: notfound }
 ];
 
 const router = new VueRouter({

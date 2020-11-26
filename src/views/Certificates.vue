@@ -58,10 +58,12 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.flag === "true") {
+    // console.log(this.$route.query.IsBatch)
+    // console.log(typeof(this.$route.query.IsBatch))
+    if (this.$route.query.IsBatch) {
       this.showbatch();
     } else {
-      this.showsingle;
+      this.showsingle();
     }
   },
 };

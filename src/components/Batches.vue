@@ -17,7 +17,7 @@
         id="BatchCertificateData"
         white
         hover
-        sticky-header=500px
+        sticky-header="500px"
         responsive
         no-border-collapse
         :items="batches.list"
@@ -33,7 +33,7 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(created_date)="data">
-         {{ new Date(data.value).toLocaleString() }}
+          {{ new Date(data.value).toLocaleString() }}
         </template>
         <template #cell(expiry_date)="data">
           <span v-if="data.value != ''">
@@ -54,7 +54,11 @@
               ></b-icon>
             </div>
             <div class="col border-right">
-              <b-icon icon="card-list" style="cursor: pointer" v-on:click="Batchdetails(data.item._id)"></b-icon>
+              <b-icon
+                icon="card-list"
+                style="cursor: pointer"
+                v-on:click="Batchdetails(data.item._id)"
+              ></b-icon>
             </div>
             <div class="col border-right">
               <b-icon
@@ -72,8 +76,10 @@
             </div>
           </div>
         </template>
-         <template #cell(Publish)="data">
-           <button class="btn btn_fr" @click="publish_confirm(data.item._id)">Publish</button>
+        <template #cell(Publish)="data">
+          <button class="btn btn_fr" @click="publish_confirm(data.item._id)">
+            Publish
+          </button>
         </template>
       </b-table>
 
@@ -102,7 +108,7 @@ export default {
   components: {
     filters,
     deletebox,
-    msgbox
+    msgbox,
   },
   data() {
     return {
@@ -156,9 +162,18 @@ export default {
       console.log(value);
     },
     Batchdetails(id) {
-        this.$router.push({ name: "BatchCerts", params: { id: id} });
+      this.AddHistory()
+      this.$router.push({ name: "BatchCerts", params: { id: id } });
+    },
+    AddHistory() {
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        IsBatch: true,
+        PageNo: this.currentPage,
+      });
     },
     Edit_Batch(id) {
+      this.AddHistory();
       this.$router.push({ name: "Edit", params: { id: id, IsBatch: true } });
     },
     del_batch(id) {
@@ -186,39 +201,33 @@ export default {
         });
     },
     ViewBatch(id) {
-      //setting back track for backward navigation
-      this.$store.commit("cert_state/SetBackTrack", {
-        isbatch: true,
-        pageno: this.currentPage,
-      });
+      this.AddHistory();
       //created date will not be visible on certificate view only issue date will be visible on certificate view so when batch certs added their will be date on certificate
-
       this.$router.push({
         name: "ViewCertificate",
         params: { id: id, IsBatch: true },
       });
     },
-     publish(id) {
+    publish(id) {
       console.log(id);
       this.show_loader("Publishing...");
       this.$store
         .dispatch("cert_state/PublishBatch", id)
-        .then((res) => {console.log(res)
-        this.Hide_loader()
-        if(this.batches.list.length>1){
-          this.page(this.currentPage)
-        }
-        else if(this.batches.list.length==1 && this.currentPage==1)
-        {
-          this.page(1)
-        }
-        else{
-          this.currentPage-=1
-          this.page(this.currentPage)
-        }
+        .then((res) => {
+          console.log(res);
+          this.Hide_loader();
+          if (this.batches.list.length > 1) {
+            this.page(this.currentPage);
+          } else if (this.batches.list.length == 1 && this.currentPage == 1) {
+            this.page(1);
+          } else {
+            this.currentPage -= 1;
+            this.page(this.currentPage);
+          }
         })
-        .catch((err) => {this.loading_text=err});
-     
+        .catch((err) => {
+          this.loading_text = err;
+        });
     },
     publish_confirm(id) {
       var text = "Are you sure you want to publish this batch";
@@ -227,9 +236,13 @@ export default {
   },
   mixins: [del_logic, loader],
   created() {
+    var PageNo = 1;
+    if (this.$route.query.PageNo) {
+      PageNo = this.$route.query.PageNo;
+    }
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("cert_state/GetBatches")
+      .dispatch("cert_state/GetBatches", PageNo)
       .then(() => {
         this.Hide_loader();
       })

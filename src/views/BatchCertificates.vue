@@ -5,6 +5,13 @@
       <b-card-body>
         <b-row>
           <div class="col text-center">
+            <b-icon
+            class="float-left"
+            style="cursor: pointer"
+            icon="arrow-left-circle"
+            v-on:click="goback"
+            font-scale="2"
+          ></b-icon>
             <h3 class="d-inline-block">BATCH CERTIFICATES</h3>
             <b-icon
               v-if="!Add"
@@ -55,8 +62,11 @@ import BatchCerts from "../components/BatchCertificates";
 import AddBatchCerts from "../components/AddBatchCert";
 import cbox from "../components/confirmbox";
 import { mapState } from "vuex";
+import history from '../js/History'
 export default {
   name: "BatchCertificates",
+  props: ["id"],
+  mixins:[history],
   components: {
     BatchCerts,
     AddBatchCerts,
@@ -65,7 +75,6 @@ export default {
   computed: {
     ...mapState("cert_state", ["batch_certs"]),
   },
-  props: ["id"],
   data: () => {
     return {
       Add: false,

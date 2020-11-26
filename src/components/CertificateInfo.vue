@@ -312,7 +312,7 @@ export default {
 <style  scoped>
 @media only screen and (min-width: 1300px) {
   .scroll {
-    height: 400px;
+    height: 700px;
     overflow-x: hidden;
     overflow-y: scroll;
   }

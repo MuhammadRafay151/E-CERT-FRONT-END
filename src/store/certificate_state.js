@@ -19,7 +19,6 @@ export default {
     single_certificates: { list: null, totalcount: null },
     batches: { list: null, totalcount: null },
     batch_certs: { list: null, totalcount: null, batch: null },
-    BackTrack: { isbatch: null, pageno: null },
   },
   mutations: {
     updatecert(state, value) {

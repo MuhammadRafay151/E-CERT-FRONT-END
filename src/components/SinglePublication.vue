@@ -57,13 +57,13 @@
             </div>
             <div class="col">
               <b-icon
-                icon="check-circle-fill"
-                v-on:click="verify(data.item._id)"
+                icon="envelope-fill"
+                v-on:click="email(data.item._id)"
                 style="cursor: pointer"
                 :id="data.index + 's'"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
-                Verify certificate
+                Email Certificate
               </b-tooltip>
             </div>
           </div>
@@ -142,9 +142,14 @@ export default {
         });
     },
     view_Certificate(id) {
-      console.log(id);
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        IsBatch: false,
+        PageNo: this.currentPage,
+      });
+      this.$router.push({ name: "ViewCertificate", params: { id: id } });
     },
-    verify(id) {
+    email(id) {
       console.log(id);
     },
     CodeSearch() {},
@@ -152,8 +157,12 @@ export default {
   },
   created() {
     this.show_loader("Fetching...");
+    var PageNo = 1;
+    if (this.$route.query.PageNo) {
+      PageNo = this.$route.query.PageNo;
+    }
     this.$store
-      .dispatch("cert_state/GetPublishCertificates")
+      .dispatch("cert_state/GetPublishCertificates",PageNo)
       .then(() => {
         this.Hide_loader();
       })
