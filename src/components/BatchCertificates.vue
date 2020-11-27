@@ -55,14 +55,14 @@
         :items="batch_certs.list"
         :fields="fields"
       >
-      <template #cell(issue_date)="data">
-        {{new Date(data.value).toLocaleString()}}
-      </template>
+        <template #cell(issue_date)="data">
+          {{ new Date(data.value).toLocaleString() }}
+        </template>
         <template #cell(Candidate_Name)="data">
           <p>{{ data.item.name }}</p>
         </template>
         <template #cell(Candidate_Email)="data">
-          {{ data.item.email}}
+          {{ data.item.email }}
         </template>
         <template #cell(issued_by)="data">
           {{ data.item.issuedby.name }}
@@ -125,7 +125,7 @@ export default {
   components: { deletebox },
   data() {
     return {
-      edit_row: { name: "", email: "",id:"",batch_id:""},
+      edit_row: { name: "", email: "", id: "", batch_id: "" },
       openedit: false,
       perPage: 3,
       currentPage: 1,
@@ -150,7 +150,6 @@ export default {
           key: "Actions",
           class: "align-middle",
         },
-        
       ],
     };
   },
@@ -182,7 +181,15 @@ export default {
           this.loading_text = err;
         });
     },
+    AddHistory() {
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        PageNo: this.currentPage,
+        params: { id: this.$route.params.id },
+      });
+    },
     view(id, batch_id) {
+      this.AddHistory();
       this.$router.push({
         name: "ViewCertificate",
         params: { id: id, batch_id: batch_id },
@@ -191,7 +198,12 @@ export default {
     edit(obj) {
       if (obj) {
         this.openedit = true;
-        this.edit_row = {name:obj.name,email:obj.email,id:obj._id,batch_id:obj.batch_id};
+        this.edit_row = {
+          name: obj.name,
+          email: obj.email,
+          id: obj._id,
+          batch_id: obj.batch_id,
+        };
       }
     },
     SaveChanges() {
@@ -200,24 +212,28 @@ export default {
       this.$store
         .dispatch("cert_state/UpdateBatchCert", this.edit_row)
         .then(() => {
-          this.edit_row={ name: "", email: "",id:"",batch_id:""},
-          this.Hide_loader();
+          (this.edit_row = { name: "", email: "", id: "", batch_id: "" }),
+            this.Hide_loader();
         })
         .catch((err) => {
-          this.loading_text=err
+          this.loading_text = err;
         });
-      
     },
   },
   computed: {
     ...mapState("cert_state", ["batch_certs"]),
   },
   created() {
+    var PageNo = 1;
+    if (this.$route.query.PageNo) {
+      PageNo = this.$route.query.PageNo;
+      this.currentPage = PageNo;
+    }
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetBatchCerts", {
         id: this.$route.params.id,
-        pageno: 1,
+        pageno: PageNo,
       })
       .then(() => {
         this.Hide_loader();

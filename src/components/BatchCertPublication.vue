@@ -115,7 +115,15 @@ export default {
           console.log(err);
         });
     },
+    AddHistory() {
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        PageNo: this.currentPage,
+        params: { id: this.$route.params.id },
+      });
+    },
     view(id, batch_id) {
+      this.AddHistory();
       this.$router.push({
         name: "ViewCertificate",
         params: { id: id, batch_id: batch_id },
@@ -126,6 +134,11 @@ export default {
     ...mapState("cert_state", ["batch_certs"]),
   },
   created() {
+    var PageNo = 1;
+    if (this.$route.query.PageNo) {
+      PageNo = this.$route.query.PageNo;
+      this.currentPage = PageNo;
+    }
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetPublishBatchCerts", {

@@ -141,12 +141,15 @@ export default {
           console.log(err);
         });
     },
-    view_Certificate(id) {
+    AddHistory() {
       this.$store.commit("AddToHistory", {
         RouteName: this.$route.name,
         IsBatch: false,
         PageNo: this.currentPage,
       });
+    },
+    view_Certificate(id) {
+      this.AddHistory();
       this.$router.push({ name: "ViewCertificate", params: { id: id } });
     },
     email(id) {
@@ -160,9 +163,10 @@ export default {
     var PageNo = 1;
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
+      this.currentPage=PageNo
     }
     this.$store
-      .dispatch("cert_state/GetPublishCertificates",PageNo)
+      .dispatch("cert_state/GetPublishCertificates", PageNo)
       .then(() => {
         this.Hide_loader();
       })

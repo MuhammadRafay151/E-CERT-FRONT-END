@@ -82,6 +82,12 @@ export default {
         
         });
     }
+  },
+  created(){
+    if(this.$route.query.session_expire==='true')
+    {
+      this.message="Session Expired"
+    }
   }
 };
 </script>

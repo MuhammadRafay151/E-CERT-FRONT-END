@@ -39,7 +39,7 @@
           <p v-else>Life time</p>
         </template>
         <template #cell(publish_by)="data">
-         {{ data.item.publish.publisher_name }}
+          {{ data.item.publish.publisher_name }}
         </template>
         <template #cell(Actions)="data">
           <div class="row">
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     page(pageno) {
-    this.show_loader("Fetching...");
+      this.show_loader("Fetching...");
       this.$store
         .dispatch("cert_state/GetPublishBatches", pageno)
         .then(() => {
@@ -128,7 +128,15 @@ export default {
           console.log(err);
         });
     },
+    AddHistory() {
+      this.$store.commit("AddToHistory", {
+        RouteName: this.$route.name,
+        IsBatch: true,
+        PageNo: this.currentPage,
+      });
+    },
     Batchdetails(id) {
+      this.AddHistory()
       this.$router.push({ name: "BCP_VIEW", params: { id: id } });
     },
     CodeSearch() {},

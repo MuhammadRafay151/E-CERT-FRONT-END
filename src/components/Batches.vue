@@ -162,7 +162,7 @@ export default {
       console.log(value);
     },
     Batchdetails(id) {
-      this.AddHistory()
+      this.AddHistory();
       this.$router.push({ name: "BatchCerts", params: { id: id } });
     },
     AddHistory() {
@@ -239,6 +239,7 @@ export default {
     var PageNo = 1;
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
+      this.currentPage = PageNo;
     }
     this.show_loader("Fetching...");
     this.$store
