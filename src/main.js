@@ -22,11 +22,9 @@ new Vue({
 }).$mount("#app");
 function axios_inter(store, router) {
   axios.interceptors.response.use(res => {
-    console.log(res.data);
     // Important: response interceptors **must** return the response.
     return res;
   }, err => {
-   
     if (err.response.status === 403) {
       console.log(1)
       router.push('/login?session_expire=true')

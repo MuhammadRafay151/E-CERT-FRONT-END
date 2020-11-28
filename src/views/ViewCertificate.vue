@@ -29,7 +29,7 @@
           <a
             v-if="!IsBatch && cert.publish && cert.publish.status"
             class="align-self-center text-dark"
-            :href="url + 'download/' + id"
+            :href="url"
             target="_blank"
             ><b-icon icon="cloud-download" font-scale="2"></b-icon
           ></a>
@@ -58,7 +58,7 @@ export default {
   props: ["id", "IsBatch", "batch_id"],
   data: () => {
     return {
-      url: url,
+      url: null,
       template: null,
       fetching: true,
       PageTitle: "View Certificates",
@@ -78,12 +78,14 @@ export default {
       this.PageTitle = "View Batch Certificate";
       action = "cert_state/viewBcert";
       obj = { id: this.id, batch_id: this.batch_id };
-    } else if (this.IsBatch) {
+      this.url = url + `download/${this.id}/${this.batch_id}`;
+    } else if (this.$route.query.IsBatch) {
       this.PageTitle = "View Batch";
       action = "cert_state/GetBatch";
     } else {
       this.PageTitle = "View Certificate";
       action = "cert_state/GetCertificate";
+      this.url = url + `download/${this.id}`;
     }
     this.$store
       .dispatch(action, obj)

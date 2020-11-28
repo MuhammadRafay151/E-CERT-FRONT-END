@@ -16,6 +16,7 @@ import Edit from '../views/Edit.vue'
 import BatchCerts from '../views/BatchCertificates.vue'
 import published from '../views/publish.vue'
 import BatchCertPublication from '../views/BatchCertPublication.vue'
+import RegisterOrganization from '../views/RegisterOrganization.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
@@ -112,6 +113,12 @@ const routes = [
     name: "publications",
     path: "/publications",
     component: published,
+    meta: { requiresAuth: true },
+  },
+  {
+    name: "RegisterOrganization",
+    path: "/register/organization",
+    component: RegisterOrganization,
     meta: { requiresAuth: true },
   },
   { name: "404", path: '*', component: notfound }

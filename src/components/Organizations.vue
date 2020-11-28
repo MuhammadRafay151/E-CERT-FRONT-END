@@ -1,6 +1,5 @@
 <template>
   <div class="shadow p-3">
-  
     <!-- <p>{{organizations}}</p> -->
     <b-overlay :show="loading" rounded="sm">
       <b-table
@@ -23,33 +22,36 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(register_date)="data">
-          <p>{{ new Date(data.value).toISOString().split('T')[0] }}</p>
+          <p>{{ new Date(data.value).toISOString().split("T")[0] }}</p>
         </template>
 
         <template #cell(status)="Status">
-        <span v-if="Status.value" class="badge badge-success">Active</span>
-        <span v-else class="badge badge-danger">Disable</span>
-      </template>
+          <span v-if="Status.value" class="badge badge-success">Active</span>
+          <span v-else class="badge badge-danger">Disable</span>
+        </template>
 
         <template #cell(Actions)="data">
           <div class="row">
             <div class="col">
-              <a
-                href="#"
-                class="text-dark"
-                v-on:click="view_Org(data.item._id)"
-              >
-                <b-icon icon="eye-fill"> </b-icon>
-              </a>
+                <b-icon
+                  icon="eye-fill"
+                  style="cursor: pointer"
+                  :id="data.index + 'f'"
+                >
+                </b-icon>
+                 <b-tooltip :target="data.index + 'f'" triggers="hover">
+                View organization's certificates
+              </b-tooltip>
             </div>
             <div class="col">
-              <a
-                href="#"
-                class="text-dark"
-                v-on:click="Edit_Org(data.item._id)"
-              >
-                <b-icon icon="pencil-square"></b-icon>
-              </a>
+              <b-icon
+                icon="gear-fill"
+                style="cursor: pointer"
+                :id="data.index + 's'"
+              ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Config
+              </b-tooltip>
             </div>
           </div>
         </template>
@@ -65,7 +67,6 @@
         ></b-pagination>
       </div>
     </b-overlay>
-
   </div>
 </template>
 
@@ -101,7 +102,7 @@ export default {
       this.$router.push({ name: "ViewOrg", params: { id: id } });
     },
     Edit_Org(id) {
-     this.$router.push({ name: "ViewOrg", params: { id: id } });
+      this.$router.push({ name: "ViewOrg", params: { id: id } });
     },
   },
   data() {
@@ -125,7 +126,7 @@ export default {
           sortable: true,
           class: "align-middle",
         },
-         {
+        {
           key: "ecertcount",
           sortable: true,
           class: "align-middle",

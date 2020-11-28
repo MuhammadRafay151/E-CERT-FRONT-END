@@ -205,7 +205,8 @@ export default {
       //created date will not be visible on certificate view only issue date will be visible on certificate view so when batch certs added their will be date on certificate
       this.$router.push({
         name: "ViewCertificate",
-        params: { id: id, IsBatch: true },
+        params: { id: id},
+        query:{ IsBatch: true }
       });
     },
     publish(id) {
