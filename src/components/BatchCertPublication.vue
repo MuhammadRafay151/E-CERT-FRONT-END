@@ -1,39 +1,5 @@
 <template>
   <div class="shadow p-3">
-    <b-modal v-model="openedit" centered title="Edit">
-      <div class="form-group">
-        <label>Name</label>
-        <input
-          v-model.trim="$v.edit_row.name.$model"
-          type="text"
-          class="form-control"
-          placeholder="Name"
-        />
-        <sub class="text-danger text-left" v-if="$v.edit_row.name.$error">
-          Field is required
-        </sub>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          v-model="edit_row.email"
-          type="text"
-          class="form-control"
-          placeholder="Email"
-        />
-        <sub class="text-danger text-left" v-if="!$v.edit_row.email.required">
-          Field is required
-        </sub>
-        <sub class="text-danger" v-if="!$v.edit_row.email.email">
-          Not a valid email
-        </sub>
-      </div>
-      <template #modal-footer="{ cancel }">
-        <button class="btn btn_gray" @click="cancel()">Cancel</button>
-        <button class="btn btn_fr" @click="SaveChanges">Save</button>
-      </template>
-    </b-modal>
-    <deletebox ref="d1" v-on:delete="del" />
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -46,7 +12,6 @@
         </div>
       </template>
       <b-table
-        id="BatchDetail"
         white
         hover
         sticky-header="500px"
@@ -64,10 +29,6 @@
         <template #cell(Candidate_Email)="data">
           {{ data.item.email }}
         </template>
-        <template #cell(issued_by)="data">
-          {{ data.item.issuedby.name }}
-        </template>
-
         <template #cell(Actions)="data">
           <div class="row">
             <div class="col">
@@ -75,26 +36,22 @@
                 icon="eye-fill"
                 style="cursor: pointer"
                 @click="view(data.item._id, data.item.batch_id)"
+                :id="data.index + 'f'"
               ></b-icon>
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
+                Verify certificate
+              </b-tooltip>
             </div>
             <div class="col">
               <b-icon
-                icon="pencil-fill"
+                icon="check-circle-fill"
+                v-on:click="verify(data.item._id)"
                 style="cursor: pointer"
-                @click="edit(data.item)"
+                :id="data.index + 's'"
               ></b-icon>
-            </div>
-            <div class="col">
-              <b-icon
-                icon="x-circle-fill"
-                style="cursor: pointer"
-                @click="
-                  $refs.d1.show({
-                    id: data.item._id,
-                    batch_id: data.item.batch_id,
-                  })
-                "
-              ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Verify certificate
+              </b-tooltip>
             </div>
           </div>
         </template>
@@ -117,24 +74,14 @@
 <script>
 import { mapState } from "vuex";
 import loader from "../js/loader";
-import deletebox from "./delete_box";
-import { required, email } from "vuelidate/lib/validators";
 export default {
-  name: "BatchCerts",
+  name: "BCP_Comp",
   mixins: [loader],
-  components: { deletebox },
   data() {
     return {
-      edit_row: { name: "", email: "", id: "", batch_id: "" },
-      openedit: false,
       perPage: 3,
       currentPage: 1,
       fields: [
-        {
-          key: "issue_date",
-          sortable: true,
-          class: "align-middle",
-        },
         {
           key: "Candidate_Name",
           sortable: true,
@@ -145,7 +92,6 @@ export default {
           sortable: true,
           class: "align-middle",
         },
-        { key: "Issued_by", sortable: true, class: "align-middle" },
         {
           key: "Actions",
           class: "align-middle",
@@ -158,7 +104,7 @@ export default {
       console.log(pageno);
       this.show_loader("Fetching...");
       this.$store
-        .dispatch("cert_state/GetBatchCerts", {
+        .dispatch("cert_state/GetPublishBatchCerts", {
           id: this.$route.params.id,
           pageno: pageno,
         })
@@ -167,18 +113,6 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-        });
-    },
-    del(obj) {
-      this.$refs.d1.close();
-      this.show_loader("Deleting...");
-      this.$store
-        .dispatch("cert_state/DeleteBatchCert", obj)
-        .then(() => {
-          this.Hide_loader();
-        })
-        .catch((err) => {
-          this.loading_text = err;
         });
     },
     AddHistory() {
@@ -195,30 +129,6 @@ export default {
         params: { id: id, batch_id: batch_id },
       });
     },
-    edit(obj) {
-      if (obj) {
-        this.openedit = true;
-        this.edit_row = {
-          name: obj.name,
-          email: obj.email,
-          id: obj._id,
-          batch_id: obj.batch_id,
-        };
-      }
-    },
-    SaveChanges() {
-      this.openedit = false;
-      this.show_loader("Updating...");
-      this.$store
-        .dispatch("cert_state/UpdateBatchCert", this.edit_row)
-        .then(() => {
-          (this.edit_row = { name: "", email: "", id: "", batch_id: "" }),
-            this.Hide_loader();
-        })
-        .catch((err) => {
-          this.loading_text = err;
-        });
-    },
   },
   computed: {
     ...mapState("cert_state", ["batch_certs"]),
@@ -231,9 +141,9 @@ export default {
     }
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("cert_state/GetBatchCerts", {
+      .dispatch("cert_state/GetPublishBatchCerts", {
         id: this.$route.params.id,
-        pageno: PageNo,
+        pageno: 1,
       })
       .then(() => {
         this.Hide_loader();
@@ -241,12 +151,6 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
-  validations: {
-    edit_row: {
-      name: { required },
-      email: { required, email },
-    },
   },
 };
 </script>

@@ -13,10 +13,10 @@
       <p class="desc text-left">
         It is to certify that <b>{{cert.name}}</b> {{cert.description}}
       </p>
-      <p v-if="cert.issue_date" class="p2 text-left">
-        Date: {{new Date(cert.issue_date).toLocaleDateString()}}
+      <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
+        Publish Date: {{new Date(cert.publish.publish_date).toLocaleDateString()}}
       </p>
-      <p v-if="cert._id" class="p3 text-left">
+      <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
         verfication code: {{cert._id}}
       </p>
        <div >

@@ -35,6 +35,7 @@ export default {
   mounted() {
     window.addEventListener("online", this.connection);
     window.addEventListener("offline", this.connection);
+    // this.connection()
   },
 };
 </script>

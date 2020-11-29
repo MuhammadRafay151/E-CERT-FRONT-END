@@ -84,10 +84,11 @@ import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
 import c1 from "../components/templates/c1";
 import loader from "../js/loader";
+import history from '../js/History'
 export default {
   //we use this for modification of batch and single certificates.
   name: "Edit",
-  mixins: [loader],
+  mixins: [loader,history],
   props: { id: String, IsBatch: Boolean },
   components: {
     CertificateInfo,
@@ -117,13 +118,6 @@ export default {
       this.close_selector();
 
       // console.log("template selcted & it's id is:" + tid);
-    },
-    goback() {
-      if (this.IsBatch) {
-        this.$router.push("/certificates?flag=true");
-      } else {
-        this.$router.push("/certificates?flag=false");
-      }
     },
   },
   created() {

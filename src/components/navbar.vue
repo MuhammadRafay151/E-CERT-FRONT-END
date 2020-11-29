@@ -20,8 +20,9 @@
           >
        
           <b-nav-item v-if="IsLoggedIn" href="#" to="/create">Create</b-nav-item>
-          <b-nav-item v-if="IsLoggedIn && roles.SuperAdmin"  to="/organizations">Organizations</b-nav-item>
+          <b-nav-item v-if="IsLoggedIn && Authorization.SuperAdmin"  to="/organizations">Organizations</b-nav-item>
           <b-nav-item v-if="IsLoggedIn" href="#" to="/certificates">Certificates</b-nav-item>
+          <b-nav-item v-if="IsLoggedIn" href="#" to="/publications">Publications</b-nav-item>
           <b-nav-item href="#" to="/verification">Verify Certificate</b-nav-item>
           <b-nav-item href="#" to="/about">About</b-nav-item>
         </b-navbar-nav>
@@ -57,7 +58,7 @@ export default {
   name: "navbar",
   computed: {
     ...mapGetters("user_state", ["IsLoggedIn"]),
-    ...mapState("user_state", ["user","roles"])
+    ...mapState("user_state", ["user","Authorization"])
   },
   methods: {
     signout() {
