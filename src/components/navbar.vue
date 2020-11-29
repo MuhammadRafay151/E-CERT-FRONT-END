@@ -3,8 +3,9 @@
     <b-navbar
       toggleable="lg"
       class="p-4 shadow fixed-top"
-      type="light"
-      variant="white"
+      type="dark"
+      variant="dark"
+      
   
     >
       
@@ -14,7 +15,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav >
-          <b-nav-item v-if="!IsLoggedIn" href="#" to="/">Home</b-nav-item>
+          <b-nav-item  v-if="!IsLoggedIn" href="#" to="/">Home</b-nav-item>
           <b-nav-item v-if="IsLoggedIn" href="#" to="/dashboard"
             >DashBoard</b-nav-item
           >
@@ -70,5 +71,7 @@ export default {
 };
 </script>
 <style  scoped>
-
+.navbar-dark .navbar-nav .nav-link {
+    color: rgb(255 255 255);
+}
 </style>

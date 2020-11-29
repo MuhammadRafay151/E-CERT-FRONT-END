@@ -72,7 +72,7 @@
           </div>
         </template>
         <template #cell(Publish)="data">
-          <button class="btn btn_fr" @click="publish_confirm(data.item._id)">
+          <button class="btn btn-dark" @click="publish_confirm(data.item._id)">
             Publish
           </button>
         </template>
@@ -259,26 +259,3 @@ export default {
   },
 };
 </script>
-<style >
-.page-item.active .page-link {
-  z-index: 3;
-  color: #fff;
-  background: linear-gradient(60deg, #26c6da, #0097a7);
-  border-color: #ffffff;
-}
-.page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: black;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-}
-.page-link:focus {
-  z-index: 3;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 195, 255, 0.226);
-}
-</style>

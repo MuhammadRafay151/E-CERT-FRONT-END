@@ -22,7 +22,7 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(register_date)="data">
-          <p>{{ new Date(data.value).toISOString().split("T")[0] }}</p>
+          <p>{{ new Date(data.value).toLocaleDateString()}}</p>
         </template>
 
         <template #cell(status)="Status">
@@ -48,6 +48,7 @@
                 icon="gear-fill"
                 style="cursor: pointer"
                 :id="data.index + 's'"
+                v-on:click="config(data.item.id)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
                 Config
@@ -110,6 +111,9 @@ export default {
     Edit_Org(id) {
       this.$router.push({ name: "ViewOrg", params: { id: id } });
     },
+    config(id){
+      this.$router.push('/organization/organizationconfig/'+id)
+    }
   },
   data() {
     return {
@@ -168,7 +172,7 @@ export default {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background: linear-gradient(60deg, #26c6da, #0097a7);
+  background:radial-gradient(circle, rgba(121,117,117,1) 0%, rgba(40,40,40,1) 100%);
   border-color: #ffffff;
 }
 .page-link {
@@ -184,6 +188,6 @@ export default {
 .page-link:focus {
   z-index: 3;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 195, 255, 0.226);
+  box-shadow: 0 0 0 0.2rem rgba(85, 85, 85, 0.226);
 }
 </style>

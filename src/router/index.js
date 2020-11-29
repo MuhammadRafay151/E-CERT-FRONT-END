@@ -18,6 +18,7 @@ import BatchCerts from '../views/BatchCertificates.vue'
 import published from '../views/publish.vue'
 import BatchCertPublication from '../views/BatchCertPublication.vue'
 import RegisterOrganization from '../views/RegisterOrganization.vue'
+import OrganizationConfig from '../views/OrganizationConfig.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
@@ -127,6 +128,13 @@ const routes = [
     name: "RegisterOrganization",
     path: "/register/organization",
     component: RegisterOrganization,
+    meta: { requiresAuth: true },
+  },
+  {
+    name: "OrganizationConfig",
+    path: "/organization/OrganizationConfig/:id",
+    component: OrganizationConfig,
+    props:true,
     meta: { requiresAuth: true },
   },
   { name: "404", path: '*', component: notfound }

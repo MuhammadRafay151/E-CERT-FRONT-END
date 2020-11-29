@@ -1,29 +1,5 @@
 <template>
   <div style="margin-top: 120px">
-    <b-iconstack
-      font-scale="4"
-      class="position-fixed mr-auto"
-      style="left: -22px; top: 50%"
-      v-on:mouseover="Display = true"
-    >
-      <b-icon stacked icon="chevron-compact-right" variant="dark" scale="0.75"></b-icon>
-      <b-icon stacked icon="circle" variant="dark"  shift-h="-3"></b-icon>
-    </b-iconstack>
-
-    <b-sidebar v-model="Display" id="sidebar-1" title="Sidebar" shadow>
-      <div class="px-3 py-2">
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
-        <b-img
-          src="https://picsum.photos/500/500/?image=54"
-          fluid
-          thumbnail
-        ></b-img>
-      </div>
-    </b-sidebar>
     <div class="container-fluid p-5">
       <b-card no-body class="shadow">
         <b-card-body>
@@ -70,11 +46,7 @@ export default {
       this.$router.push("register/organization");
     },
   },
-  data() {
-    return {
-      Display: false,
-    };
-  },
+ 
 };
 </script>
 

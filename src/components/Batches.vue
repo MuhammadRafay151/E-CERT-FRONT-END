@@ -77,7 +77,7 @@
           </div>
         </template>
         <template #cell(Publish)="data">
-          <button class="btn btn_fr" @click="publish_confirm(data.item._id)">
+          <button class="btn btn-dark" @click="publish_confirm(data.item._id)">
             Publish
           </button>
         </template>

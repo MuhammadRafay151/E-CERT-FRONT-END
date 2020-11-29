@@ -23,6 +23,7 @@ export default new Vuex.Store({
   modules: {
     user_state: user_state,
     cert_state: cert_state,
-    org_state: org_state
+    org_state: org_state,
+    certcount_state:certcount_state
   }
 });
