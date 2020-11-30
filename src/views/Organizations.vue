@@ -33,14 +33,11 @@
 
 <script>
 import OrganizationsDetails from "../components/Organizations";
-
 export default {
   name: "OrganizationsView",
-
   components: {
     OrganizationsDetails,
   },
-
   methods: {
     RegisterOrg() {
       this.$router.push("register/organization");

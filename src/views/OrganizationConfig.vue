@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 120px">
+  <div style="margin-top: 200px">
     <b-iconstack
       font-scale="4"
       class="position-fixed mr-auto"
@@ -26,30 +26,65 @@
       shadow
     >
       <div class="p-3">
-        <div v-b-hover="handleHover1" class=" p-2 mt-3  text-white border-bottom border-white " :class="isHovered1 ? 'bg-secondary' : ''">
-           <b-icon icon="file-earmark-plus-fill" class="float-left" font-scale="1.5" variant="white"></b-icon>
+        <div
+          v-b-hover="handleHover1"
+          style="cursor: pointer"
+          @click="OpenCertCount"
+          class="p-2 mt-3 text-white border-bottom border-white"
+          :class="isHovered1 ? 'bg-secondary' : ''"
+        >
+          <b-icon
+            icon="file-earmark-plus-fill"
+            class="float-left"
+            font-scale="1.5"
+            variant="white"
+          ></b-icon>
           <h5>Certificate Count</h5>
         </div>
-        <div v-b-hover="handleHover2" class="p-2 mt-3  text-white border-bottom border-white" :class="isHovered2 ? 'bg-secondary' : ''">
-           <b-icon icon="person-lines-fill" class="float-left" font-scale="1.5" variant="white"></b-icon>
-         
+        <div
+          v-b-hover="handleHover2"
+          class="p-2 mt-3 text-white border-bottom border-white"
+          :class="isHovered2 ? 'bg-secondary' : ''"
+        >
+          <b-icon
+            icon="person-lines-fill"
+            class="float-left"
+            font-scale="1.5"
+            variant="white"
+          ></b-icon>
+
           <h5 class="d-inline-block">User Management</h5>
         </div>
-        <div v-b-hover="handleHover3" class=" p-2 mt-3  text-white border-bottom border-white" :class="isHovered3 ? 'bg-secondary' : ''">
-           <b-icon icon="info-square-fill" class="float-left" font-scale="1.5" variant="white"></b-icon>
+        <div
+          v-b-hover="handleHover3"
+          class="p-2 mt-3 text-white border-bottom border-white"
+          :class="isHovered3 ? 'bg-secondary' : ''"
+        >
+          <b-icon
+            icon="info-square-fill"
+            class="float-left"
+            font-scale="1.5"
+            variant="white"
+          ></b-icon>
           <h5 class="d-inline-block">Basic Info</h5>
         </div>
       </div>
     </b-sidebar>
+
+    <component v-bind:is="currentpage" :id="id" />
   </div>
 </template>
 <script>
+import certcount from "../components/certificatecount";
 export default {
   name: "OrganizationConfig",
   props: ["id"],
-  components: {},
+  components: {
+    certcount,
+  },
   data: () => {
     return {
+      currentpage: "certcount",
       Display: false,
       isHovered1: false,
       isHovered2: false,
@@ -66,11 +101,15 @@ export default {
     handleHover3(hovered) {
       this.isHovered3 = hovered;
     },
+    OpenCertCount() {
+      this.currentpage = certcount;
+    },
+    OpenUser() {
+      this.currentpage = certcount;
+    },
+    OpenBasicInfo() {
+      this.currentpage = certcount;
+    },
   },
 };
 </script>
-<style  scoped>
-.ax:hover {
-  background-color: rgb(15, 226, 191);
-}
-</style>

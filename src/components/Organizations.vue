@@ -1,7 +1,21 @@
 <template>
   <div class="shadow p-3">
-    <!-- <p>{{organizations}}</p> -->
+    <confirmbox
+      ref="c1"
+      v-on:yes="ChangeStatus"
+      v-on:cancel="CancelChangeStatus"
+    />
     <b-overlay :show="loading" rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
       <b-table
         id="OrganizationData"
         white
@@ -22,7 +36,7 @@
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #cell(register_date)="data">
-          <p>{{ new Date(data.value).toLocaleDateString()}}</p>
+          <p>{{ new Date(data.value).toLocaleDateString() }}</p>
         </template>
 
         <template #cell(status)="Status">
@@ -33,13 +47,13 @@
         <template #cell(Actions)="data">
           <div class="row">
             <div class="col">
-                <b-icon
-                  icon="eye-fill"
-                  style="cursor: pointer"
-                  :id="data.index + 'f'"
-                >
-                </b-icon>
-                 <b-tooltip :target="data.index + 'f'" triggers="hover">
+              <b-icon
+                icon="eye-fill"
+                style="cursor: pointer"
+                :id="data.index + 'f'"
+              >
+              </b-icon>
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
                 View organization's certificates
               </b-tooltip>
             </div>
@@ -54,6 +68,18 @@
                 Config
               </b-tooltip>
             </div>
+            <div class="col" :id="data.index + 't'">
+              <b-form-checkbox
+                v-model="data.item.status.active"
+                @change="ConfirmChangeStatus(data.item)"
+                switch
+              >
+              </b-form-checkbox>
+            </div>
+            <b-tooltip :target="data.index + 't'" triggers="hover">
+              <span v-if="data.item.status.active">Enabled</span>
+              <span v-else>Disabled</span>
+            </b-tooltip>
           </div>
         </template>
       </b-table>
@@ -74,11 +100,14 @@
 <script>
 import filters from "../components/filter";
 import { mapState } from "vuex";
-
+import loader from "../js/loader";
+import confirmbox from "../components/confirmbox";
 export default {
   name: "Organizations",
+  mixins: [loader],
   components: {
     filters,
+    confirmbox,
   },
 
   methods: {
@@ -86,9 +115,9 @@ export default {
       console.log(value);
     },
     Send_OrgID(id) {
-      this.$router.push({ name: "CertificateCount", params: { id: id} });
+      this.$router.push({ name: "CertificateCount", params: { id: id } });
     },
-     updatecert(id) {
+    updatecert(id) {
       this.$store.commit("certcount/getorg_id", id);
     },
     DateSearch(value) {
@@ -111,9 +140,29 @@ export default {
     Edit_Org(id) {
       this.$router.push({ name: "ViewOrg", params: { id: id } });
     },
-    config(id){
-      this.$router.push('/organization/organizationconfig/'+id)
-    }
+    config(id) {
+      this.$router.push("/organization/config/" + id);
+    },
+    ConfirmChangeStatus(obj) {
+      if (obj.status.active) {
+        this.$refs.c1.show(
+          `Are you sure you want to disable this organization`,
+          obj
+        );
+      } else {
+       
+        this.$refs.c1.show(
+          `Are you sure you want to enable this organization`,
+          obj
+        );
+      }
+    },
+    ChangeStatus(obj) {
+      console.log("ok", obj);
+    },
+    CancelChangeStatus(obj) {
+      obj.status.active = !obj.status.active;
+    },
   },
   data() {
     return {
@@ -151,16 +200,18 @@ export default {
           class: "align-middle",
         },
       ],
+      status: [],
     };
   },
   computed: {
     ...mapState("org_state", ["organizations"]),
   },
   created() {
+    this.show_loader("Fetching...");
     this.$store
       .dispatch("org_state/GetOrg")
       .then(() => {
-        this.loading = false;
+        this.Hide_loader();
       })
       .catch((err) => {
         console.log(err);
@@ -172,7 +223,11 @@ export default {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background:radial-gradient(circle, rgba(121,117,117,1) 0%, rgba(40,40,40,1) 100%);
+  background: radial-gradient(
+    circle,
+    rgba(121, 117, 117, 1) 0%,
+    rgba(40, 40, 40, 1) 100%
+  );
   border-color: #ffffff;
 }
 .page-link {
@@ -189,5 +244,16 @@ export default {
   z-index: 3;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(85, 85, 85, 0.226);
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #bfbfbf;
+  background-color: #343a40 !important;
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem rgba(100, 100, 100, 0.25);
+}
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: #868686;
 }
 </style>

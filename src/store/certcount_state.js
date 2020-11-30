@@ -34,21 +34,20 @@ export default {
       },
       certcount(state, value) {
         state.certhistory.list = value.list
-        console.log(value.list)
         if (value.totalcount) {
           state.certhistory.totalcount = value.totalcount
         }
       },
     },
     actions: {
-      Getcounthistory({ commit }, value) {
+      Getcounthistory({ rootState,commit }, obj) {
         return new Promise((res, rej) => {
-          
-          if (!value) { value = 1 }
-          console.log(value)
-  
-          var temp = url + "api/count?pageno=" + value
+          if (!obj.pagno) { obj.pagno=1 }
+          var temp = url + `api/count/${obj.id}?pageno=${obj.pageno}`
           axios({
+            headers: {
+              'Authorization': `Bearer ${rootState.user_state.user.token}`,
+            },
             method: "GET",
             url: temp
           }).then(response => {
@@ -59,8 +58,7 @@ export default {
           })
         })
       },
-      AddCount({ rootState }, certcount) {
-        console.log(certcount)
+      AddCount({ rootState }, obj) {
         return new Promise((res, rej) => {
           axios({
             headers: {
@@ -69,11 +67,10 @@ export default {
             },
             url: url + "api/count",
             method: "PUT",
-            data: certcount
+            data: obj
           }).then(response => {
             res(response)
           }).catch(err => {
-  
             rej(err)
           })
         })
@@ -81,24 +78,6 @@ export default {
   
   
       },
-      
-
-
-      //CreateOrganization({ commit }) {
-  
-      ///},
-      //GetOrgCerts({ commit }) {
-  
-      //},
-      //AddOrgUser({ commit }) {
-  
-      //},
-      //GetOrgCertCount({ commit }) {
-  
-      //},
-      //AddOrgCertCount({ commit }) {
-  
-    //}
     },
   
   }

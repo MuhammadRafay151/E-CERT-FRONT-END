@@ -10,7 +10,6 @@ import dashboard from '../views/dashboard.vue'
 import store from "../store"
 import certificates from "../views/Certificates.vue"
 import organizations from "../views/Organizations"
-import certificatecount from "../views/certificatecount"
 import notfound from '../views/404.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 import Edit from '../views/Edit.vue'
@@ -45,13 +44,6 @@ const routes = [
     name: "Organizations",
     component: organizations,
     meta: { requiresAuth: true }
-  },
-  {
-    path: "/certificatecount/:id",
-    name: "CertificateCount",
-    component: certificatecount,
-    //meta: { requiresAuth: true },
-    props:true
   },
   {
     path: "/registeration",
@@ -132,7 +124,7 @@ const routes = [
   },
   {
     name: "OrganizationConfig",
-    path: "/organization/OrganizationConfig/:id",
+    path: "/organization/Config/:id",
     component: OrganizationConfig,
     props:true,
     meta: { requiresAuth: true },

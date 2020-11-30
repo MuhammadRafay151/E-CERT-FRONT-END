@@ -56,6 +56,7 @@ export default {
         })
       })
     },
+    ToggleOrgStatus(){},
     RegisterOrg({ rootState }, obj) {
       return new Promise((res, rej) => {
         axios({

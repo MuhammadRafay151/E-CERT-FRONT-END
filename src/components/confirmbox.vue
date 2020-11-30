@@ -36,19 +36,19 @@ export default {
     },
     yes() {
       this.modalShow = false;
-      this.msg=null
+      this.msg = null;
       if (this.obj) {
         this.$emit("yes", this.obj);
-        this.obj=null
+        this.obj = null;
       } else {
         this.$emit("yes");
       }
     },
     cancel() {
       this.modalShow = false;
-      this.obj=null
-      this.msg=null
-      this.$emit("cancel");
+      this.$emit("cancel",this.obj);
+      this.obj = null;
+      this.msg = null;
     },
   },
 };

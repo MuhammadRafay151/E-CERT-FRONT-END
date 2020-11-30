@@ -1,129 +1,50 @@
 <template>
-  <div class="shadow p-3">
-  
-    <!-- <p>{{certhistory}}</p>  -->
-    <b-overlay :show="loading" rounded="sm">
-      <b-table
-        id="CertCountData"
-        white
-        hover
-        fixed
-        responsive
-        no-border-collapse
-        :items="certhistory.list"
-        :fields="fields"
-      >
-        <template #head(date)="data">
-          <filters
-            search_label="Enter Code"
-            class="d-inline"
-            v-on:TextSearch="CodeSearch"
-            v-on:DateSearch="DateSearch"
-          />
-          <span class="d-inline">{{ data.label }}</span>
-        </template>
-        <template #cell(date)="data">
-          <p>{{ new Date(data.value).toISOString().split('T')[0] }}</p>
-        </template>
-
-
-        <template #cell(Actions)="data">
-          <div class="row">
-            <div class="col">
-              <a
-                href="#"
-                class="text-dark"
-                v-on:click="delete_count(data.item._id)"
-              >
-                <b-icon icon="x-circle-fill"> </b-icon>
-              </a>
-            </div>
-          </div>
-        </template>
-      </b-table>
-      <div class="d-flex justify-content-end">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="this.certhistory.totalcount"
-          :per-page="5"
-          aria-controls="CertCountData"
-          v-on:input="page"
-          pills
-        ></b-pagination>
-      </div>
-    </b-overlay>
-
+  <div class="container">
+    <b-modal id="modal-1" hide-footer centered title="IncreaseCount">
+      <AddCertCount :id="id" v-on:Inserted="RefreshHistory" />
+    </b-modal>
+    <div class="shadow p-3 mt-4">
+      <h3 class="d-inline-block">Count History</h3>
+      <b-icon
+        font-scale="2"
+        class="float-right"
+        icon="plus-square-fill"
+        style="cursor: pointer"
+        id="a1"
+        v-b-modal.modal-1
+      ></b-icon>
+      <b-tooltip target="a1" triggers="hover">
+       Increase certificate count
+      </b-tooltip>
+    </div>
+    <CertCount :id="id" ref="h1" />
   </div>
 </template>
 
 <script>
-import filters from "../components/filter";
-import { mapState } from "vuex";
+import CertCount from "../components/CertificateCountHistory";
+import AddCertCount from "../components/AddCertCount";
 
 export default {
-  name: "CertCount",
+  name: "CertificateCount",
+  props: { id: String },
   components: {
-    filters,
+    CertCount,
+    AddCertCount,
   },
 
   methods: {
-    CodeSearch(value) {
-      console.log(value);
-    },
-    DateSearch(value) {
-      console.log(value);
-    },
-    page(evt) {
-      this.loading = true;
-      this.$store
-        .dispatch("certcount_state/Getcounthistory", evt)
-        .then(() => {
-          this.loading = false;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    delete_count(id) {
-      this.$router.push({ name: "deleteCount", params: { id: id } });
+    RefreshHistory() {
+      this.$bvModal.hide("modal-1")
+      this.$refs.h1.page(1);
     },
   },
   data() {
     return {
-      loading: true,
-      perPage: 3,
-      currentPage: 1,
-      fields: [
-        {
-          key: "date",
-          sortable: true,
-          class: "align-middle",
-        },
-         {
-          key: "Count",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "Actions",
-          class: "align-middle",
-        },
-      ],
+      Display: true,
+      Add:true
     };
-  },
-
-  computed: {
-    ...mapState("certcount_state", ["certhistory"]),
-  },
-  created() {
-    this.$store
-      .dispatch("certcount_state/Getcounthistory")
-      .then(() => {
-        this.loading = false;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   },
 };
 </script>
+
