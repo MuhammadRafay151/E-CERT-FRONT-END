@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 200px">
+  <div style="margin-top: 120px">
     <b-iconstack
       font-scale="4"
       class="position-fixed mr-auto"
@@ -43,6 +43,7 @@
         </div>
         <div
           v-b-hover="handleHover2"
+          @click="OpenUser"
           class="p-2 mt-3 text-white border-bottom border-white"
           :class="isHovered2 ? 'bg-secondary' : ''"
         >
@@ -70,17 +71,25 @@
         </div>
       </div>
     </b-sidebar>
-
+    <div class="p-3 shadow mb-4">
+      <h3>{{ org.name }}'s Config</h3>
+    </div>
     <component v-bind:is="currentpage" :id="id" />
   </div>
 </template>
 <script>
 import certcount from "../components/certificatecount";
+import UserManagement from "../components/UserManagement";
+import { mapState } from "vuex";
 export default {
   name: "OrganizationConfig",
   props: ["id"],
   components: {
     certcount,
+    UserManagement,
+  },
+  computed: {
+    ...mapState("org_state", ["org"]),
   },
   data: () => {
     return {
@@ -102,14 +111,24 @@ export default {
       this.isHovered3 = hovered;
     },
     OpenCertCount() {
-      this.currentpage = certcount;
+      this.currentpage = "certcount";
+      this.Display = false;
     },
     OpenUser() {
-      this.currentpage = certcount;
+      this.currentpage = "UserManagement";
+      this.Display = false;
     },
     OpenBasicInfo() {
       this.currentpage = certcount;
     },
+  },
+  created() {
+    this.$store
+      .dispatch("org_state/GetOrg", this.id)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

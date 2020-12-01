@@ -3,7 +3,7 @@
     <b-modal id="modal-1" hide-footer centered title="IncreaseCount">
       <AddCertCount :id="id" v-on:Inserted="RefreshHistory" />
     </b-modal>
-    <div class="shadow p-3 mt-4">
+    <div class="shadow p-3 ">
       <h3 class="d-inline-block">Count History</h3>
       <b-icon
         font-scale="2"

@@ -11,6 +11,7 @@ import store from "../store"
 import certificates from "../views/Certificates.vue"
 import organizations from "../views/Organizations"
 import notfound from '../views/404.vue'
+import forbidden from '../views/forbidden.vue'
 import ViewCertificate from '../views/ViewCertificate.vue'
 import Edit from '../views/Edit.vue'
 import BatchCerts from '../views/BatchCertificates.vue'
@@ -43,7 +44,10 @@ const routes = [
     path: "/organizations",
     name: "Organizations",
     component: organizations,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requireSuperAdmin: true
+    }
   },
   {
     path: "/registeration",
@@ -126,9 +130,13 @@ const routes = [
     name: "OrganizationConfig",
     path: "/organization/Config/:id",
     component: OrganizationConfig,
-    props:true,
-    meta: { requiresAuth: true },
+    props: true,
+    meta: {
+      requiresAuth: true,
+      requireSuperAdmin: true
+    },
   },
+  {name:"403",path:"/forbidden",component:forbidden},
   { name: "404", path: '*', component: notfound }
 ];
 
@@ -145,16 +153,15 @@ router.beforeEach((to, from, next) => {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     if (!store.getters["user_state/IsLoggedIn"]) {
-      next({
-        path: '/login',
-
-      })
-    } else {
-      next()
+      return next({ path: '/login' })
     }
-  } else {
-    next() // make sure to always call next()!
   }
+  if (to.matched.some(record => record.meta.requireSuperAdmin)) {
+    var x = store.state.user_state.Authorization
+    if (!x.SuperAdmin)
+      return next({ path: '/forbidden' })
+  }
+  next() // make sure to always call next()!
 })
 router.afterEach(() => {
   NProgress.done()

@@ -109,7 +109,6 @@ export default {
     filters,
     confirmbox,
   },
-
   methods: {
     CodeSearch(value) {
       console.log(value);
@@ -126,7 +125,7 @@ export default {
     page(evt) {
       this.loading = true;
       this.$store
-        .dispatch("org_state/GetOrg", evt)
+        .dispatch("org_state/GetOrgs", evt)
         .then(() => {
           this.loading = false;
         })
@@ -150,7 +149,6 @@ export default {
           obj
         );
       } else {
-       
         this.$refs.c1.show(
           `Are you sure you want to enable this organization`,
           obj
@@ -158,7 +156,15 @@ export default {
       }
     },
     ChangeStatus(obj) {
-      console.log("ok", obj);
+      this.$store
+        .dispatch("org_state/ToggleOrgStatus", obj.id)
+        .then(() => {
+       
+        })
+        .catch((err) => {
+          console.log(err);
+          this.CancelChangeStatus(obj);
+        });
     },
     CancelChangeStatus(obj) {
       obj.status.active = !obj.status.active;
@@ -167,7 +173,6 @@ export default {
   data() {
     return {
       loading: true,
-      perPage: 3,
       currentPage: 1,
       fields: [
         {
@@ -209,7 +214,7 @@ export default {
   created() {
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("org_state/GetOrg")
+      .dispatch("org_state/GetOrgs")
       .then(() => {
         this.Hide_loader();
       })
