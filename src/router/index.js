@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import login from "../views/login.vue"
 import Create from "../views/Create.vue"
-import registeration from '../views/registeration.vue';
 import forgetcertificate from '../views/forgetcertificate.vue'
 import verification from '../views/verification.vue'
 import dashboard from '../views/dashboard.vue'
@@ -20,6 +19,8 @@ import BatchCertPublication from '../views/BatchCertPublication.vue'
 import RegisterOrganization from '../views/RegisterOrganization.vue'
 import OrganizationConfig from '../views/OrganizationConfig.vue'
 import NProgress from 'nprogress'
+import { CheckAuthorization } from '../js/Authorization'
+import {Roles} from '../js/Roles'
 import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
 
@@ -46,14 +47,8 @@ const routes = [
     component: organizations,
     meta: {
       requiresAuth: true,
-      requireSuperAdmin: true
+      roles: [Roles.SuperAdmin]
     }
-  },
-  {
-    path: "/registeration",
-    name: "registeration",
-    component: registeration,
-    meta: { requiresAuth: true }
   },
   {
     path: "/verification",
@@ -133,10 +128,20 @@ const routes = [
     props: true,
     meta: {
       requiresAuth: true,
-      requireSuperAdmin: true
+      roles: [Roles.SuperAdmin]
     },
   },
-  {name:"403",path:"/forbidden",component:forbidden},
+  {
+    name: "MyOrganizationConfig",
+    path: "/organization/config",
+    component: OrganizationConfig,
+    props: true,
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin,Roles.Admin]
+    },
+  },
+  { name: "403", path: "/forbidden", component: forbidden },
   { name: "404", path: '*', component: notfound }
 ];
 
@@ -156,9 +161,9 @@ router.beforeEach((to, from, next) => {
       return next({ path: '/login' })
     }
   }
-  if (to.matched.some(record => record.meta.requireSuperAdmin)) {
-    var x = store.state.user_state.Authorization
-    if (!x.SuperAdmin)
+  if (to.matched.some(record => record.meta.roles)) {
+    var x = store.state.user_state.user.roles
+    if (!CheckAuthorization(x, to.meta.roles))
       return next({ path: '/forbidden' })
   }
   next() // make sure to always call next()!

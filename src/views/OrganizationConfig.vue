@@ -71,7 +71,7 @@
         </div>
       </div>
     </b-sidebar>
-    <div class="p-3 shadow mb-4">
+    <div class="p-3 shadow  m-5">
       <h3>{{ org.name }}'s Config</h3>
     </div>
     <component v-bind:is="currentpage" :id="id" />
@@ -90,6 +90,7 @@ export default {
   },
   computed: {
     ...mapState("org_state", ["org"]),
+    ...mapState("user_state", ["user", "Authorization"]),
   },
   data: () => {
     return {
@@ -123,12 +124,12 @@ export default {
     },
   },
   created() {
-    this.$store
-      .dispatch("org_state/GetOrg", this.id)
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-      });
+     this.$store
+        .dispatch("org_state/GetOrg", this.id)
+        .then(() => {})
+        .catch((err) => {
+          console.log(err);
+        });
   },
 };
 </script>

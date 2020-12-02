@@ -4,9 +4,9 @@ import { url } from '../js/config'
 export default {
   namespaced: true,
   state: {
-    org:{},
+    org: {},
     organizations: { list: null, totalcount: null },
-    users: { list: null, totalcount: null }
+    users: { list: [], totalcount: null }
   },
   mutations: {
     setorg(state, value) {
@@ -29,7 +29,7 @@ export default {
       state.users.totalcount = value.totalcount
     },
     ClearUsers(state) {
-      state.users = { list: null, totalcount: null }
+      state.users = { list: [], totalcount: null }
     }
   },
   actions: {
@@ -53,8 +53,10 @@ export default {
     },
     GetOrg({ rootState, commit }, id) {
       commit("clearorg")
+      var temp = null
+      if (id) { temp = url + "api/organization/" + id }
+      else { temp = url + "api/organization/details" }
       return new Promise((res, rej) => {
-        var temp = url + "api/organization/" +id
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -104,11 +106,13 @@ export default {
     },
     GetOrgUsers({ rootState, commit }, obj) {
       commit("ClearUsers")
+      var temp = null
+      if (!obj.pageno) { obj.pageno = 1 }
+      if (obj.id)
+        temp = url + `api/users/${obj.id}?pageno=${obj.pageno}`
+      else
+        temp = url + `api/users?pageno=${obj.pageno}`
       return new Promise((res, rej) => {
-
-        if (!obj.pageno) { obj.pageno = 1 }
-        console.log(obj.pageno)
-        var temp = url + `api/users/${obj.id}?pageno=${obj.pageno}`
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -123,22 +127,7 @@ export default {
         })
       })
     },
-    RegisterAdmin({ rootState }, obj) {
-      return new Promise((res, rej) => {
-        axios({
-          headers: {
-            'Authorization': `Bearer ${rootState.user_state.user.token}`,
-          },
-          url: url + "api/certificate",
-          method: "POST",
-          data: obj
-        }).then(() => {
-          res()
-        }).catch(err => {
-          rej(err)
-        })
-      })
-    }
+
 
   },
 

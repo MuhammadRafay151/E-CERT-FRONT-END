@@ -13,7 +13,7 @@
         </div>
       </template>
     </b-overlay>
-    <router-view />
+    <router-view :key="$route.path" />
   </div>
 </template>
 <script>

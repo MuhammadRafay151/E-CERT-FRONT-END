@@ -9,7 +9,7 @@ export default {
   },
   mutations: {
     signout(state) {
-      state.user={ token: null }
+      state.user = { token: null }
       state.Authorization = { SuperAdmin: false, Admin: false, Issuer: false }
       localStorage.removeItem("user")
     },
@@ -23,12 +23,15 @@ export default {
       localStorage.setItem("user", JSON.stringify({ user: user, Authorization: state.Authorization }))
     },
     load_user(state) {
-      var x=JSON.parse(localStorage.getItem("user"))
+      var x = JSON.parse(localStorage.getItem("user"))
       if (x) {
         state.user = x.user
         state.Authorization = x.Authorization
       }
-    }
+    },
+    ToggleUserStatus(state, obj) {
+      console.log(obj, state.organizations)
+    },
   },
   actions: {
     authenticate({ commit }, auth) {
@@ -57,7 +60,67 @@ export default {
     },
     changepassword() {
 
-    }
+    },
+    CheckEmail({ rootState }, email) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "get",
+          url: url + 'api/account/Available/' + email
+        }).then(resposne => {
+          res(resposne.data)
+        }).catch(err => {
+          rej(err)
+
+        })
+      })
+    },
+    RegisterUser({ rootState }, obj) {
+      var temp = null
+      if (obj.orgid) {
+        temp = url + "api/account/Register/" + obj.orgid
+      } else {
+        temp = url + "api/account/Register/"
+      }
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: temp,
+          method: "POST",
+          data: obj.user
+        }).then(() => {
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
+    ToggleUserStatus({ rootState, commit }, obj) {
+      var temp = null
+      if (obj.orgid) {
+        temp = url + `api/account/togglestatus/${obj.orgid}/${obj.userid}`
+      } else {
+        temp = url + `api/account/togglestatus/${obj.userid}`
+      }
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: temp,
+          method: "PUT",
+        }).then(() => {
+          commit("ToggleUserStatus", obj)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
   },
   getters: {
     IsLoggedIn(state) {
