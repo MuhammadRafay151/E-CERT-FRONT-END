@@ -9,6 +9,7 @@
             label="Large Spinner"
           ></b-spinner>
           <b-icon
+            v-else
             icon="exclamation-circle-fill"
             font-scale="2"
             variant="danger"
@@ -133,10 +134,13 @@ export default {
       if (!this.$v.$invalid && this.IsAvailable) {
         this.show_loader("Processing...");
         this.$store
-          .dispatch("user_state/RegisterUser", {orgid:this.id,user:this.user})
+          .dispatch("user_state/RegisterUser", {
+            orgid: this.id,
+            user: this.user,
+          })
           .then(() => {
             this.Hide_loader();
-            this.$emit("done")
+            this.$emit("done");
           })
           .catch((err) => {
             this.show_error(err);

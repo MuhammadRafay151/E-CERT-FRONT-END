@@ -30,6 +30,9 @@ export default {
     },
     ClearUsers(state) {
       state.users = { list: [], totalcount: null }
+    },
+    UpdateUserLimit(state, value) {
+      state.org.user_limit = value
     }
   },
   actions: {
@@ -127,6 +130,26 @@ export default {
         })
       })
     },
+    SetUserLimit({ rootState, commit, state }, obj) {
+      if (!obj.id)
+        obj.id = state.org.id
+      return new Promise((res, rej) => {
+        var temp = url + `api/organization/UserLimit/${obj.id}`
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: temp,
+          method: "PUT",
+          data: { count: obj.count }
+        }).then(() => {
+          commit("UpdateUserLimit", obj.count)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    }
 
 
   },
