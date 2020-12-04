@@ -107,7 +107,7 @@ import { required, email } from "vuelidate/lib/validators";
 import loader from "../js/loader";
 import debounce from "../js/debounce";
 export default {
-  props: ["id"],
+  props: ["id","ULimit"],
   mixins: [loader, debounce],
   name: "registeration",
   data: function () {
@@ -193,5 +193,11 @@ export default {
       password: { required },
     },
   },
+  created(){
+    if(this.ULimit){
+      this.show_error("User limit reached cannot add more users")
+    }
+  }
+
 };
 </script>

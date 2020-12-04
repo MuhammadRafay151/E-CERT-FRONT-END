@@ -135,7 +135,6 @@ const routes = [
     name: "MyOrganizationConfig",
     path: "/organization/config",
     component: OrganizationConfig,
-    props: true,
     meta: {
       requiresAuth: true,
       roles: [Roles.SuperAdmin,Roles.Admin]

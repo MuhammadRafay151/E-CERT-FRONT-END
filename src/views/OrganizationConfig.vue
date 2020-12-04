@@ -127,8 +127,8 @@ export default {
      this.$store
         .dispatch("org_state/GetOrg", this.id)
         .then(() => {})
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.$router.push({name:"404"})
         });
   },
 };

@@ -16,7 +16,7 @@
       centered
       :title="users.list.length == 0 ? 'Register Admin' : 'Register Issuer'"
     >
-      <UserRegisteration :id="id" v-on:done="CloseReg" />
+      <UserRegisteration :id="id" v-on:done="CloseReg" :ULimit="org.user_limit==users.totalcount"  />
     </b-modal>
     <div class="row shadow justify-content-between p-3">
       <div class="col d-flex">
