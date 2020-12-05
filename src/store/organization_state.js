@@ -108,7 +108,6 @@ export default {
       })
     },
     GetOrgUsers({ rootState, commit }, obj) {
-      commit("ClearUsers")
       var temp = null
       if (!obj.pageno) { obj.pageno = 1 }
       if (obj.id)

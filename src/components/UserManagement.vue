@@ -29,7 +29,7 @@
           id="a1"
         ></b-icon>
         <span class="ml-2 align-self-center"
-          >User Limit: {{ users.totalcount }}/{{ org.user_limit }}</span
+          >User Limit: {{ users.totalcount||0 }}/{{ org.user_limit }}</span
         >
       </div>
       <div class="col">

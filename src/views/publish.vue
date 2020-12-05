@@ -24,17 +24,17 @@
     <div class="row mt-1">
       <div class="col">
         <SinglePublication v-if="Display" />
-        <BatchPublication v-else/>
+        <BatchPublication v-else />
       </div>
     </div>
   </div>
 </template>
 <script>
-import BatchPublication from'../components/BatchPublication'
-import SinglePublication from '../components/SinglePublication'
+import BatchPublication from "../components/BatchPublication";
+import SinglePublication from "../components/SinglePublication";
 export default {
   name: "publish",
-  components: {BatchPublication,SinglePublication},
+  components: { BatchPublication, SinglePublication },
   data: () => {
     return { Display: true };
   },
@@ -46,9 +46,12 @@ export default {
       this.Display = false;
     },
   },
-   created() {
+  created() {
     // console.log(this.$route.query.IsBatch)
     // console.log(typeof(this.$route.query.IsBatch))
+    this.$store.commit("cert_state/ClearSingleCertificates");
+    this.$store.commit("cert_state/ClearBatches");
+    this.$store.commit("cert_state/ClearBatchCerts");
     if (this.$route.query.IsBatch) {
       this.showbatch();
     } else {

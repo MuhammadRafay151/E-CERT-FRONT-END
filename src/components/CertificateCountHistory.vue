@@ -108,6 +108,7 @@ export default {
   },
   created() {
     this.show_loader("Fetching...");
+    this.$store.commit("certcount_state/ClearCountHistory")
     this.$store
       .dispatch("certcount_state/Getcounthistory", { id: this.id, pageno: 1 })
       .then(() => {

@@ -60,6 +60,9 @@ export default {
   created() {
     // console.log(this.$route.query.IsBatch)
     // console.log(typeof(this.$route.query.IsBatch))
+    this.$store.commit("cert_state/ClearSingleCertificates")
+    this.$store.commit("cert_state/ClearBatches")
+    this.$store.commit("cert_state/ClearBatchCerts")
     if (this.$route.query.IsBatch) {
       this.showbatch();
     } else {

@@ -111,6 +111,7 @@ export default {
   },
   methods: {
     page(pageno) {
+      console.log(pageno)
       this.show_loader("Fetching...");
       this.$store
         .dispatch("org_state/GetOrgUsers", { pageno: pageno, id: this.id })
@@ -155,6 +156,7 @@ export default {
     },
   },
   created() {
+    this.$store.commit("org_state/ClearUsers")
     this.page(1);
   },
 };
