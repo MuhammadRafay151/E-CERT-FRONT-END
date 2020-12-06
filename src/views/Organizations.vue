@@ -7,7 +7,7 @@
             <div class="col-4"></div>
 
             <div class="col text-center">
-              <h3>Organizations</h3>
+              <h3 class="text-wb">Organizations</h3>
             </div>
             <div class="col text-left">
               <b-icon
@@ -47,17 +47,3 @@ export default {
 };
 </script>
 
-<style scoped>
-a {
-  color: #46b7de;
-}
-
-small {
-  color: black;
-}
-
-small:hover {
-  color: blue;
-  text-decoration-color: blue;
-}
-</style>

@@ -50,6 +50,6 @@ export default {
 
 #nav a.router-link-exact-active {
   /* color: #46b7de; */
-  color: #c4edff;
+  color: #22e1ff;
 }
 </style>

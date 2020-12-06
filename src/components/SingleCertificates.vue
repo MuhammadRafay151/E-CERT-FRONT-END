@@ -72,7 +72,7 @@
           </div>
         </template>
         <template #cell(Publish)="data">
-          <button class="btn btn-dark" @click="publish_confirm(data.item._id)">
+          <button class="btn btn-wb" @click="publish_confirm(data.item._id)">
             Publish
           </button>
         </template>
@@ -83,7 +83,7 @@
           :total-rows="this.single_certificates.totalcount"
           :per-page="5"
           aria-controls="SingleCertificateData"
-          v-on:input="page"
+          v-on:change="page"
           pills
         ></b-pagination>
       </div>
@@ -245,12 +245,12 @@ export default {
     var PageNo = 1;
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
-       this.currentPage=PageNo
     }
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetSingleCertificates", PageNo)
       .then(() => {
+        this.currentPage = PageNo;
         this.Hide_loader();
       })
       .catch((err) => {

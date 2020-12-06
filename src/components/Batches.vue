@@ -77,19 +77,19 @@
           </div>
         </template>
         <template #cell(Publish)="data">
-          <button class="btn btn-dark" @click="publish_confirm(data.item._id)">
+          <button class="btn btn-wb" @click="publish_confirm(data.item._id)">
             Publish
           </button>
         </template>
       </b-table>
-
       <div class="d-flex justify-content-end">
         <b-pagination
           v-model="currentPage"
           :total-rows="batches.totalcount"
           :per-page="5"
-          v-on:input="page"
+          v-on:change="page"
           aria-controls="BatchCertificateData"
+          pills
         ></b-pagination>
       </div>
     </b-overlay>
@@ -205,8 +205,8 @@ export default {
       //created date will not be visible on certificate view only issue date will be visible on certificate view so when batch certs added their will be date on certificate
       this.$router.push({
         name: "ViewCertificate",
-        params: { id: id},
-        query:{ IsBatch: true }
+        params: { id: id },
+        query: { IsBatch: true },
       });
     },
     publish(id) {
@@ -240,12 +240,12 @@ export default {
     var PageNo = 1;
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
-      this.currentPage = PageNo;
     }
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetBatches", PageNo)
       .then(() => {
+        this.currentPage = PageNo;
         this.Hide_loader();
       })
       .catch((err) => {

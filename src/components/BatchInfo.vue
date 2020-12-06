@@ -71,7 +71,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label for="UploadLogo" class="btn btn-dark btn-block"
+                <label for="UploadLogo" class="btn btn-wb btn-block"
                   >UPLOAD LOGO</label
                 >
                 <input
@@ -87,7 +87,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label for="UploadSignature" class="btn btn-dark btn-block"
+                <label for="UploadSignature" class="btn btn-wb btn-block"
                   >UPLOAD SIGNATURE</label
                 >
                 <input
@@ -110,7 +110,7 @@
                 v-if="edit"
                 type="button"
                 @click="Modify_Batch"
-                class="btn btn-dark btn-block"
+                class="btn btn-wb btn-block"
               >
                 Save Changes
               </button>
@@ -118,7 +118,7 @@
                 v-else
                 type="button"
                 @click="Create_Batch"
-                class="btn btn-dark btn-block"
+                class="btn btn-wb btn-block"
               >
                 CREATE
               </button>

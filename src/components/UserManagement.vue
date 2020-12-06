@@ -22,18 +22,19 @@
       <div class="col d-flex">
         <b-icon
           font-scale="1.5"
+          variant="wb"
           class="align-self-center"
           icon="pencil-square"
           style="cursor: pointer"
           v-b-modal.modal-2
           id="a1"
         ></b-icon>
-        <span class="ml-2 align-self-center"
+        <span class="ml-2 align-self-center text-wb"
           >User Limit: {{ users.totalcount||0 }}/{{ org.user_limit }}</span
         >
       </div>
       <div class="col">
-        <h3 class="d-inline-block">Users</h3>
+        <h3 class="d-inline-block text-wb">Users</h3>
       </div>
       <div class="col d-flex justify-content-end">
         <b-icon
@@ -42,6 +43,7 @@
           icon="plus-square-fill"
           style="cursor: pointer"
           v-b-modal.modal-1
+          variant="wb"
           id="a1"
         ></b-icon>
         <b-tooltip target="a1" triggers="hover"> Register new user </b-tooltip>

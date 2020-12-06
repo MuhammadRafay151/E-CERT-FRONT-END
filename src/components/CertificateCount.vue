@@ -4,13 +4,14 @@
       <AddCertCount :id="id" v-on:Inserted="RefreshHistory" />
     </b-modal>
     <div class="shadow p-3 ">
-      <h3 class="d-inline-block">Count History</h3>
+      <h3 class="d-inline-block text-wb">Count History</h3>
       <b-icon
         font-scale="2"
         class="float-right"
         icon="plus-square-fill"
         style="cursor: pointer"
         id="a1"
+        variant="wb"
         v-b-modal.modal-1
       ></b-icon>
       <b-tooltip target="a1" triggers="hover">

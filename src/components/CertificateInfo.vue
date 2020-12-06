@@ -87,7 +87,7 @@
               </div>
 
               <div class="form-group text-left">
-                <label for="UploadLogo" class="btn btn-dark btn-block"
+                <label for="UploadLogo" class="btn btn-wb btn-block"
                   ><sup class="text-danger">*</sup> UPLOAD LOGO</label
                 >
                 <input
@@ -103,7 +103,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label for="UploadSignature" class="btn btn-dark btn-block"
+                <label for="UploadSignature" class="btn btn-wb btn-block"
                   ><sup class="text-danger">*</sup> UPLOAD SIGNATURE</label
                 >
                 <input
@@ -126,7 +126,7 @@
                 type="button"
                 v-on:click="modify_Cert"
                 v-if="edit"
-                class="btn btn-dark btn-block"
+                class="btn btn-wb btn-block"
               >
                 Update
               </button>
@@ -134,7 +134,7 @@
                 type="button"
                 v-on:click="Create_Cert"
                 v-else
-                class="btn btn-dark btn-block"
+                class="btn btn-wb btn-block"
               >
                 CREATE
               </button>

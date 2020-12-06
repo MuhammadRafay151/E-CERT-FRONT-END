@@ -2,13 +2,13 @@
   <div>
     <b-navbar
       toggleable="lg"
-      class="p-4 shadow fixed-top"
+      class="p-2 shadow fixed-top dark"
       type="dark"
-      variant="dark"
+     
     >
       <b-navbar-brand href="#">
-        <!-- <img width="120" src="/logo1.jpg" class="d-inline-block align-top" alt="Kitten"> -->
-        CERTIFIS
+        <img width="200" src="/logo/Certifis Logo Final-01.png" class="d-inline-block align-top" alt="Kitten">
+   
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
@@ -87,7 +87,20 @@ export default {
 };
 </script>
 <style  scoped>
+.dark{
+  background-color: #000d0d;
+}
 .navbar-dark .navbar-nav .nav-link {
-  color: rgb(255 255 255);
+  color: white
+}
+
+</style>
+<style >
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(34 225 255 / 24%);
 }
 </style>

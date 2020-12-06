@@ -9,16 +9,18 @@
       <b-icon
         stacked
         icon="chevron-compact-right"
-        variant="dark"
+        variant="wb"
         scale="0.75"
+        class="bg-primary"
       ></b-icon>
-      <b-icon stacked icon="circle" variant="dark" shift-h="-3"></b-icon>
+      <b-icon stacked icon="circle" variant="wb" shift-h="-3"></b-icon>
     </b-iconstack>
 
     <b-sidebar
       v-model="Display"
       id="sidebar-1"
-      bg-variant="dark"
+      body-class="bg-wb"
+      header-class="bg-wb"
       text-variant="white"
       :title="'UIT ' + 'Config'"
       backdrop-variant="dark"
@@ -71,8 +73,8 @@
         </div>
       </div>
     </b-sidebar>
-    <div class="p-3 shadow  m-5">
-      <h3>{{ org.name }}'s Config</h3>
+    <div class="p-3 shadow m-5">
+      <h3 class="text-wb">{{ org.name }}'s Config</h3>
     </div>
     <component v-bind:is="currentpage" :id="id" />
   </div>
@@ -124,12 +126,12 @@ export default {
     },
   },
   created() {
-     this.$store
-        .dispatch("org_state/GetOrg", this.id)
-        .then(() => {})
-        .catch(() => {
-          this.$router.push({name:"404"})
-        });
+    this.$store
+      .dispatch("org_state/GetOrg", this.id)
+      .then(() => {})
+      .catch(() => {
+        this.$router.push({ name: "404" });
+      });
   },
 };
 </script>

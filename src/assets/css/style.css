@@ -23,6 +23,25 @@ background: radial-gradient(circle, rgba(24,97,104,1) 0%, rgba(1,148,164,1) 100%
     color: white;
     background:linear-gradient(254deg, rgba(121,117,117,1) 0%, rgba(0,0,0,1) 100%);
 }
+.btn-wb {
+    color: #fff;
+    background-color: #000d0d;
+    border-color: #787878;
+    
+}
+.btn-wb:hover {
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border-color: #000000;
+  }
+.bg-wb{
+    color: #fff;
+    background-color: #000d0d;
+}
+.text-wb {
+    color: #000d0d !important;
+  }
+
     /* .btn-primary {
      
       background-color: #007bff;

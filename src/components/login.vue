@@ -34,7 +34,7 @@
                 />
               </div>
 
-              <button type="submit" class="btn btn-dark btn-block mt-5">
+              <button type="submit" class="btn btn-wb  btn-block mt-5">
                 <span v-if="show">
                   <b-spinner small type="grow"></b-spinner>Authenticating...
                 </span>

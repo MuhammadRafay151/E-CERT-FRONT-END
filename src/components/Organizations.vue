@@ -225,14 +225,11 @@ export default {
 };
 </script>
 <style >
+/* Pagination css */
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background: radial-gradient(
-    circle,
-    rgba(121, 117, 117, 1) 0%,
-    rgba(40, 40, 40, 1) 100%
-  );
+  background:#000d0d;
   border-color: #ffffff;
 }
 .page-link {
@@ -250,10 +247,12 @@ export default {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(85, 85, 85, 0.226);
 }
+
+/* switch css */
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #bfbfbf;
-  background-color: #343a40 !important;
+  background-color:#000d0d !important;
 }
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(100, 100, 100, 0.25);

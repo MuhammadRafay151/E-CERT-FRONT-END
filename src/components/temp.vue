@@ -15,10 +15,10 @@
       </div>
       <div class="row mb-3 mr-2 ml-2">
         <div class="col">
-          <b-button squared block variant="dark" v-on:click="view">View</b-button>
+          <b-button squared block class="btn-wb" v-on:click="view">View</b-button>
         </div>
         <div class="col">
-          <b-button squared block variant="dark" v-on:click="select">Start</b-button>
+          <b-button squared block class="btn-wb" v-on:click="select">Start</b-button>
         </div>
       </div>
     </div>

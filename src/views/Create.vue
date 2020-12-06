@@ -3,7 +3,7 @@
     <b-modal
       centered
       id="modalPopover"
-      content-class="bg-dark"
+      content-class="bg-wb"
       hide-header
       hide-footer
       title="Modal with Popover"
@@ -48,7 +48,7 @@
         <a href="#" class="text-dark float-left"  v-on:click="show_selector">
           <b-icon class="h1" icon="arrow-left-circle"></b-icon
         ></a>
-        <h1>{{PageTitle}}</h1>
+        <h1 class="text-wb">{{PageTitle}}</h1>
       </div>
     </div>
     <div class="row" v-if="!template || IsBatch == null">

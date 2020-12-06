@@ -15,7 +15,7 @@
           </div>
 
           <div class="col text-center">
-            <h3>CERTIFICATES</h3>
+            <h3 class="text-wb">CERTIFICATES</h3>
           </div>
           <div class="col text-left"></div>
         </b-row>
@@ -74,7 +74,7 @@ export default {
 
 <style scoped>
 a {
-  color: #46b7de;
+  color: #10c3ff;
 }
 small {
   color: black;
