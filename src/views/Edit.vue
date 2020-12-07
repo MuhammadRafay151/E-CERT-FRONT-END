@@ -136,8 +136,8 @@ export default {
         this.template = res;
         this.Hide_loader()
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        this.$router.push({name:"404"})
       });
   },
 };

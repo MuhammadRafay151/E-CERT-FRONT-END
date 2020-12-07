@@ -8,7 +8,11 @@
     <b-overlay :show="show" no-wrap>
       <template #overlay>
         <div class="text-center">
-          <b-icon icon="exclamation-circle-fill" variant="danger" font-scale="2"></b-icon>
+          <b-icon
+            icon="exclamation-circle-fill"
+            variant="danger"
+            font-scale="2"
+          ></b-icon>
           <p id="cancel-label">waiting for network ...</p>
         </div>
       </template>
@@ -18,6 +22,8 @@
 </template>
 <script>
 import navbar from "@/components/navbar";
+import { io } from "socket.io-client";
+import { url } from "./js/config";
 export default {
   components: {
     navbar,
@@ -36,6 +42,15 @@ export default {
     window.addEventListener("online", this.connection);
     window.addEventListener("offline", this.connection);
     // this.connection()
+    let socket = io.connect(url);
+    socket.on("message", (data) => {
+      this.$bvToast.toast(data, {
+        title: "Notification",
+        toaster: "b-toaster-bottom-right",
+        variant: "default",
+        solid: true,
+      });
+    });
   },
 };
 </script>
