@@ -3,9 +3,10 @@
     <b-modal id="modal-1" hide-footer centered title="IncreaseCount">
       <AddCertCount :id="id" v-on:Inserted="RefreshHistory" />
     </b-modal>
-    <div class="shadow p-3 ">
+    <div class="shadow p-3">
       <h3 class="d-inline-block text-wb">Count History</h3>
       <b-icon
+        v-if="Authorization.SuperAdmin"
         font-scale="2"
         class="float-right"
         icon="plus-square-fill"
@@ -15,7 +16,7 @@
         v-b-modal.modal-1
       ></b-icon>
       <b-tooltip target="a1" triggers="hover">
-       Increase certificate count
+        Increase certificate count
       </b-tooltip>
     </div>
     <CertCount :id="id" ref="h1" />
@@ -25,7 +26,7 @@
 <script>
 import CertCount from "../components/CertificateCountHistory";
 import AddCertCount from "../components/AddCertCount";
-
+import { mapState } from "vuex";
 export default {
   name: "CertificateCount",
   props: { id: String },
@@ -33,17 +34,19 @@ export default {
     CertCount,
     AddCertCount,
   },
-
+  computed: {
+    ...mapState("user_state", ["user", "Authorization"]),
+  },
   methods: {
     RefreshHistory() {
-      this.$bvModal.hide("modal-1")
+      this.$bvModal.hide("modal-1");
       this.$refs.h1.page(1);
     },
   },
   data() {
     return {
       Display: true,
-      Add:true
+      Add: true,
     };
   },
 };

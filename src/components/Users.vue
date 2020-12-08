@@ -39,6 +39,7 @@
                 v-model="data.item.status.active"
                 @change="ConfirmChangeStatus(data.item)"
                 switch
+                :disabled="!id && IsDisabled(data.item.roles)"
               >
               </b-form-checkbox>
             </div>
@@ -55,7 +56,7 @@
           v-model="currentPage"
           :total-rows="this.users.totalcount"
           :per-page="5"
-          v-on:input="page"
+          v-on:change="page"
           pills
         ></b-pagination>
       </div>
@@ -66,6 +67,8 @@
 import loader from "../js/loader";
 import confirmbox from "../components/confirmbox";
 import { mapState } from "vuex";
+import { Roles } from "../js/Roles";
+import { CheckAuthorization } from "../js/Authorization";
 export default {
   name: "Users",
   mixins: [loader],
@@ -111,7 +114,6 @@ export default {
   },
   methods: {
     page(pageno) {
-      console.log(pageno)
       this.show_loader("Fetching...");
       this.$store
         .dispatch("org_state/GetOrgUsers", { pageno: pageno, id: this.id })
@@ -128,15 +130,9 @@ export default {
     },
     ConfirmChangeStatus(obj) {
       if (obj.status.active) {
-        this.$refs.c1.show(
-          `Are you sure you want to disable this user`,
-          obj
-        );
+        this.$refs.c1.show(`Are you sure you want to disable this user`, obj);
       } else {
-        this.$refs.c1.show(
-          `Are you sure you want to enable this user`,
-          obj
-        );
+        this.$refs.c1.show(`Are you sure you want to enable this user`, obj);
       }
     },
     ChangeStatus(obj) {
@@ -154,9 +150,14 @@ export default {
     CancelChangeStatus(obj) {
       obj.status.active = !obj.status.active;
     },
+    IsDisabled(UserRoles) {
+      var x=CheckAuthorization(UserRoles, [Roles.SuperAdmin, Roles.Admin]);
+      console.log(x)
+      return x
+    },
   },
   created() {
-    this.$store.commit("org_state/ClearUsers")
+    this.$store.commit("org_state/ClearUsers");
     this.page(1);
   },
 };

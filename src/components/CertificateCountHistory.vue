@@ -41,7 +41,7 @@
           :total-rows="this.certhistory.totalcount"
           :per-page="5"
           aria-controls="CertCountData"
-          v-on:input="page"
+          v-on:change="page"
           pills
         ></b-pagination>
       </div>
@@ -68,14 +68,14 @@ export default {
       console.log(value);
     },
     page(pageno) {
-      this.loading = true;
+     this.show_loader("Fetching...");
       this.$store
         .dispatch("certcount_state/Getcounthistory", {
           id: this.id,
           pageno: pageno,
         })
         .then(() => {
-          this.loading = false;
+          this.Hide_loader()
         })
         .catch((err) => {
           console.log(err);

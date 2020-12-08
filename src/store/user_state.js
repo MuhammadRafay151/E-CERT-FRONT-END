@@ -1,6 +1,7 @@
 import axios from "axios"
-
+import { connectSocket, CloseSocket } from "../js/socket"
 import { url } from '../js/config'
+
 export default {
   namespaced: true,
   state: {
@@ -12,6 +13,7 @@ export default {
       state.user = { token: null }
       state.Authorization = { SuperAdmin: false, Admin: false, Issuer: false }
       localStorage.removeItem("user")
+      CloseSocket()
     },
     signin(state, user) {
 
@@ -27,6 +29,7 @@ export default {
       if (x) {
         state.user = x.user
         state.Authorization = x.Authorization
+        connectSocket(state.user.token)
       }
     },
     ToggleUserStatus(state, obj) {
@@ -34,7 +37,7 @@ export default {
     },
   },
   actions: {
-    authenticate({ commit }, auth) {
+    authenticate({ state, commit }, auth) {
       return new Promise((res, rej) => {
         axios({
           method: "post",
@@ -42,6 +45,7 @@ export default {
           url: url + 'api/account/login'
         }).then(resposne => {
           commit("signin", resposne.data)
+          connectSocket(state.user.token)
           // console.log(resposne.data)
           res()
 

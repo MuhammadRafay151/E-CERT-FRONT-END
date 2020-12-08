@@ -7,7 +7,12 @@
       centered
       title="Update User Limit"
     >
-      <UserLimit :id="id" :userlimit="org.user_limit" :enrolled_count="users.totalcount" v-on:done="CloseUL" />
+      <UserLimit
+        :id="id"
+        :userlimit="org.user_limit"
+        :enrolled_count="users.totalcount"
+        v-on:done="CloseUL"
+      />
     </b-modal>
     <b-modal
       no-close-on-backdrop
@@ -16,11 +21,16 @@
       centered
       :title="users.list.length == 0 ? 'Register Admin' : 'Register Issuer'"
     >
-      <UserRegisteration :id="id" v-on:done="CloseReg" :ULimit="org.user_limit==users.totalcount"  />
+      <UserRegisteration
+        :id="id"
+        v-on:done="CloseReg"
+        :ULimit="org.user_limit == users.totalcount"
+      />
     </b-modal>
     <div class="row shadow justify-content-between p-3">
       <div class="col d-flex">
         <b-icon
+          v-if="Authorization.SuperAdmin"
           font-scale="1.5"
           variant="wb"
           class="align-self-center"
@@ -30,7 +40,7 @@
           id="a1"
         ></b-icon>
         <span class="ml-2 align-self-center text-wb"
-          >User Limit: {{ users.totalcount||0 }}/{{ org.user_limit }}</span
+          >User Limit: {{ users.totalcount || 0 }}/{{ org.user_limit }}</span
         >
       </div>
       <div class="col">
@@ -63,6 +73,7 @@ export default {
   props: ["id"],
   components: { users, UserRegisteration, UserLimit },
   computed: {
+     ...mapState("user_state", ["user", "Authorization"]),
     ...mapState("org_state", ["users"]),
     ...mapState("org_state", ["org"]),
   },

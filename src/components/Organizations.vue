@@ -158,9 +158,7 @@ export default {
     ChangeStatus(obj) {
       this.$store
         .dispatch("org_state/ToggleOrgStatus", obj.id)
-        .then(() => {
-       
-        })
+        .then(() => {})
         .catch((err) => {
           console.log(err);
           this.CancelChangeStatus(obj);
@@ -229,7 +227,7 @@ export default {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background:#000d0d;
+  background: #000d0d;
   border-color: #ffffff;
 }
 .page-link {
@@ -252,12 +250,16 @@ export default {
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #bfbfbf;
-  background-color:#000d0d !important;
+  background-color: #000d0d;
 }
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(100, 100, 100, 0.25);
 }
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
   border-color: #868686;
+}
+.custom-control-input[disabled] ~ .custom-control-label::before,
+.custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #e9ecef !important;
 }
 </style>

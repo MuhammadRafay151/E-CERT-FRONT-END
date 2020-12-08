@@ -17,20 +17,36 @@
         </div>
       </template>
     </b-overlay>
+    
     <router-view :key="$route.path" />
+    <!-- we are passing this key props so that the view will re redered when the touter params change othwerwise vue will not rendered the 
+    view even if the praams change becaus it doesnot detect any change so only way to rerendere the chage is to provide route path as key -->
+   
   </div>
 </template>
 <script>
 import navbar from "@/components/navbar";
-import { io } from "socket.io-client";
-import { url } from "./js/config";
+
+import { mapState } from "vuex";
 export default {
   components: {
     navbar,
+   
   },
   methods: {
     connection() {
       this.show = !navigator.onLine;
+    },
+  },
+  computed: mapState(["NewMessage"]),
+  watch: {
+    NewMessage(msg) {
+       this.$bvToast.toast(msg, {
+            title: "Notification",
+            toaster: "b-toaster-bottom-right",
+            variant: "default",
+            solid: true,
+        });
     },
   },
   data: () => {
@@ -42,15 +58,6 @@ export default {
     window.addEventListener("online", this.connection);
     window.addEventListener("offline", this.connection);
     // this.connection()
-    let socket = io.connect(url);
-    socket.on("message", (data) => {
-      this.$bvToast.toast(data, {
-        title: "Notification",
-        toaster: "b-toaster-bottom-right",
-        variant: "default",
-        solid: true,
-      });
-    });
   },
 };
 </script>

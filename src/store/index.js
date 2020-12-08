@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     //{RouteName:null,IsBatch:null,PageNo:null}
-    History: []
+    History: [],
+    NewMessage: ""
   },
   mutations: {
     AddToHistory(state, obj) {
@@ -17,6 +18,8 @@ export default new Vuex.Store({
     },
     RemoveFromHistory(state) {
       state.History.pop()
+    }, NewMessage(state, msg) {
+      state.NewMessage = msg
     }
   },
   actions: {},
@@ -24,6 +27,6 @@ export default new Vuex.Store({
     user_state: user_state,
     cert_state: cert_state,
     org_state: org_state,
-    certcount_state:certcount_state
+    certcount_state: certcount_state
   }
 });

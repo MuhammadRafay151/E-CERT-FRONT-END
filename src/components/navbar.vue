@@ -40,6 +40,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav href="#" class="ml-auto">
           <b-nav-item v-if="!IsLoggedIn" href="#" to="/login">Login</b-nav-item>
+          <notification v-if="IsLoggedIn"/>
           <b-nav-item-dropdown v-if="IsLoggedIn" right no-caret>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
@@ -53,7 +54,7 @@
             >
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item v-on:click="config">Config</b-dropdown-item>
+            <b-dropdown-item v-if="Authorization.SuperAdmin||Authorization.Admin" v-on:click="config">Config</b-dropdown-item>
             <b-dropdown-item href="#" v-on:click="signout"
               >Sign Out</b-dropdown-item
             >
@@ -66,6 +67,7 @@
 <script>
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import notification from "../components/Notification"
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 export default {
@@ -84,6 +86,9 @@ export default {
       this.$router.push("/organization/config/");
     },
   },
+  components:{
+    notification
+  }
 };
 </script>
 <style  scoped>
