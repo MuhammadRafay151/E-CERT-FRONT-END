@@ -3,14 +3,18 @@
     <loader ref="l1"></loader>
     <div class="row justify-content-end">
       <div class="col-1">
-        <excel class="d-inline" />
+        <excel class="d-inline" v-on:load="load" />
         <b-button
           class="d-inline ml-2"
           v-on:click="add"
           size="sm"
-          variant="outline-dark"
+          variant="white"
         >
-          <b-icon font-scale="1" icon="plus-square-fill"></b-icon>
+          <b-icon
+            font-scale="1.5"
+            variant="wb"
+            icon="plus-square-fill"
+          ></b-icon>
         </b-button>
       </div>
     </div>
@@ -97,7 +101,7 @@ export default {
           class: "text-center",
         },
       ],
-      candidates: [{ name: "null", email: "null" }],
+      candidates: [{ name: "", email: "" }],
     };
   },
   mixins: [loader2],
@@ -129,6 +133,10 @@ export default {
             console.log(err);
           });
       }
+    },
+    load(data) {
+      console.log(data[0])
+      this.candidates = data;
     },
   },
   validations: {
