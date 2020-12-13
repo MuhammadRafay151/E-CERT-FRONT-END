@@ -1,5 +1,6 @@
 <template>
   <div class="shadow bg-white ">
+
     <div class="row p-2" v-if="edit">
       <div class="col  d-flex justify-content-end">
          <b-icon icon="x-circle" font-scale="2" style="cursor: pointer" v-on:click="close"></b-icon>
@@ -10,7 +11,7 @@
         <temp path="/templates/c1.PNG" tid="c1" v-on:select="select" />
       </div>
       <div class="col  d-flex justify-content-center">
-        <temp path="/templates/c1.PNG" tid="c1" v-on:select="select" />
+        <temp path="/templates/f2b08cc2a4da932e542734ae797563d1.png" tid="c2" v-on:select="select" />
       </div>
     </div>
     <div class="row p-2 ">

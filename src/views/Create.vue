@@ -57,8 +57,9 @@
       </div>
     </div>
     <div v-else class="row justify-content-center">
-      <div class="col-8 d-flex justify-content-center">
-        <div class="d-none d-md-block d-xl-block">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-8 d-flex justify-content-center">
+        <!-- class="d-none d-md-block d-xl-block" -->
+        <div >
           <component v-bind:is="template"  />
           <!-- <Certificate /> -->
         </div>
@@ -77,13 +78,14 @@
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo"
 import c1 from "../components/templates/c1";
+import c2 from "../components/templates/Certificate";
 import templateselector from "../components/template_selector";
 export default {
   name: "Create",
   components: {
     CertificateInfo,
     BatchInfo,
-    c1,
+    c1,c2,
     templateselector,
   },
   data: function () {
@@ -124,4 +126,5 @@ export default {
     this.$store.commit('cert_state/clearcert')
   }
 };
+
 </script>
