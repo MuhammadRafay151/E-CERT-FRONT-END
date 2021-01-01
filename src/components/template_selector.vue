@@ -1,50 +1,48 @@
 <template>
-  <div class="shadow bg-white ">
-
+  <div class="shadow bg-white">
     <div class="row p-2" v-if="edit">
-      <div class="col  d-flex justify-content-end">
-         <b-icon icon="x-circle" font-scale="2" style="cursor: pointer" v-on:click="close"></b-icon>
+      <div class="col d-flex justify-content-end">
+        <b-icon
+          icon="x-circle"
+          font-scale="2"
+          style="cursor: pointer"
+          v-on:click="close"
+        ></b-icon>
       </div>
     </div>
-    <div class="row p-2 ">
+    <div class="row p-2" v-for="(arr, index) in templates" :key="index">
       <div class="col d-flex justify-content-center">
-        <temp path="/templates/c1.PNG" tid="c1" v-on:select="select" />
+        <temp :path="arr[0].img" :tid="arr[0].id" v-on:select="select" />
       </div>
-      <div class="col  d-flex justify-content-center">
-        <temp path="/templates/f2b08cc2a4da932e542734ae797563d1.png" tid="c2" v-on:select="select" />
+      <div v-if="arr.length > 1" class="col d-flex justify-content-center">
+        <temp :path="arr[1].img" :tid="arr[1].id" v-on:select="select" />
       </div>
-    </div>
-    <div class="row p-2 ">
-      <div class="col d-flex justify-content-center">
-        <temp path="/templates/c1.PNG" tid="c1" v-on:select="select" />
-      </div>
-      <div class="col  d-flex justify-content-center">
-        <temp path="/templates/c1.PNG" tid="c1" v-on:select="select" />
-      </div>
+      <div v-else class="col"></div>
     </div>
   </div>
 </template>
 <script>
 import temp from "../components/temp";
-
+import templates from "../js/Templates";
 export default {
   name: "template_selector",
-  props:{edit:Boolean},
+  props: { edit: Boolean },
+  mixins: [templates],
   components: {
     temp,
   },
   data: () => {
     return {
-      show: true
+      show: true,
     };
   },
   methods: {
     select(tid) {
       this.$emit("select", tid);
     },
-    close(){
-      this.$emit("close")
-    }
-  }
+    close() {
+      this.$emit("close");
+    },
+  },
 };
 </script>

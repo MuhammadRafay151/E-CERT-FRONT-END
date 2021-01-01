@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="container1 border">
-      <img src="../../assets/certificate.jpeg" class="cert" alt="">
+      <img src="/templates/certificate.jpeg" class="cert" alt="">
       <img
         :src="cert.logo"
         width="80"

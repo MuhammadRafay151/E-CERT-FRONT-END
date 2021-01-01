@@ -57,6 +57,7 @@
       <button class="btn test">Hello World</button>
     </div>
     <div class="container">
+      <video ref="videoRef" height="200"></video>
       <div class="mb-5">
         <b-card
           overlay
@@ -311,6 +312,13 @@ export default {
   },
   components: {
     fter,
+  },
+  mounted: function () {
+    this.$refs.videoRef.src =
+      "http://iandevlin.github.io/mdn/video-player/video/tears-of-steel-battle-clip-medium.mp4";
+    this.$refs.videoRef.autoplay = true;
+    this.$refs.videoRef.loop = true;
+    this.$refs.videoRef.muted = true;
   },
 };
 </script>

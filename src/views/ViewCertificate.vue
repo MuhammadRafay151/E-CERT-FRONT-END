@@ -48,13 +48,13 @@
 </template>
 <script>
 import { url } from "../js/config";
-import c1 from "../components/templates/c1";
 import loader from "../js/loader";
 import history from "../js/History";
 import { mapState } from "vuex";
+import TemplateComponents from "../js/TemplateComponents"
 export default {
   name: "ViewCertificate",
-  mixins: [loader, history],
+  mixins: [loader, history,TemplateComponents],
   props: ["id", "IsBatch", "batch_id"],
   data: () => {
     return {
@@ -63,9 +63,6 @@ export default {
       fetching: true,
       PageTitle: "View Certificates",
     };
-  },
-  components: {
-    c1,
   },
   computed: {
     ...mapState("cert_state", ["cert"]),

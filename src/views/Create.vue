@@ -77,15 +77,14 @@
 <script>
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo"
-import c1 from "../components/templates/c1";
-import c2 from "../components/templates/Certificate";
 import templateselector from "../components/template_selector";
+import TemplateComponents from "../js/TemplateComponents"
 export default {
   name: "Create",
+  mixins:[TemplateComponents],
   components: {
     CertificateInfo,
     BatchInfo,
-    c1,c2,
     templateselector,
   },
   data: function () {

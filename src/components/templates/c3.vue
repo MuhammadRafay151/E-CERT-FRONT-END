@@ -1,8 +1,7 @@
 <template>
-
   <div class="container1">
     <img
-      src="/templates/f2b08cc2a4da932e542734ae797563d1.png"
+      src="/templates/c3.PNG"
       style="width: 100%; object-fit: cover"
       alt=""
     />
@@ -19,7 +18,7 @@
       verfication code: {{ cert._id }}
     </p>
     <p class="sign">Signature: _____________________</p>
-    <img :src="cert.signature" class="isign " style="" />
+    <img :src="cert.signature" class="isign" style="" />
   </div>
 </template>
 
@@ -32,7 +31,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .t {
   position: absolute;
@@ -41,17 +39,12 @@ export default {
   left: 0;
   right: 0;
   font-size: 3vw;
+  text-transform: uppercase;
 }
 .container1 {
   position: relative;
   text-align: center;
   color: white;
- max-width: 80;
-}
-.scroll {
-  width: 800px;
-  overflow-x: scroll;
-  overflow-y: hidden;
 }
 .desc {
   position: absolute;
@@ -60,40 +53,43 @@ export default {
   left: 0;
   right: 0;
   font-size: 1vw;
-  width: 50%;
+  width: 80%;
   margin: auto;
 }
 .p2 {
   position: absolute;
-  top: 85%;
+  top: 89%;
   color: black;
-  left: 20%;
+  left: 6%;
   font-size: 1vw;
 }
 .p3 {
   position: absolute;
-  top: 88%;
+  top: 93%;
   color: black;
-  left: 20%;
+  left: 6%;
   font-size: 1vw;
 }
 .logo {
   position: absolute;
-  top: 13%;
-  left: 78%;
+  top: 6%;
+  left: 42%;
   width: 8%;
+  width: 16%;
+  height: 18%;
+  object-fit: contain;
 }
 .sign {
   position: absolute;
-  top: 88%;
-  left: 55%;
+  top: 93%;
+  left: 60%;
   color: black;
   font-size: 1vw;
 }
 .isign {
   position: absolute;
-  top: 75%;
-  left: 65%;
+  top: 80%;
+  left: 80%;
   width: 16%;
   height: 15%;
   object-fit: contain;

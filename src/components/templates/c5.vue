@@ -1,15 +1,18 @@
 <template>
-
   <div class="container1">
     <img
-      src="/templates/f2b08cc2a4da932e542734ae797563d1.png"
+      class="border border-dark"
+      src="/templates/c5.png"
       style="width: 100%; object-fit: cover"
       alt=""
     />
     <img :src="cert.logo" alt="" class="logo" />
-    <h3 class="t">{{ cert.title }}</h3>
-    <p class="desc text-left">
-      It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}
+    <h3 class="t text-left">{{ cert.title }}</h3>
+
+    <p class="desc text-left text-justify">
+      It is to certify that <br />
+      <b style="font-size: 2vw; color: black">{{ cert.name }}</b> <br />
+      {{ cert.description }}
     </p>
     <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
       Publish Date:
@@ -18,8 +21,8 @@
     <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
       verfication code: {{ cert._id }}
     </p>
-    <p class="sign">Signature: _____________________</p>
-    <img :src="cert.signature" class="isign " style="" />
+    <p class="sign">Signature: _______________</p>
+    <img :src="cert.signature" class="isign" />
   </div>
 </template>
 
@@ -36,33 +39,34 @@ export default {
 <style scoped>
 .t {
   position: absolute;
-  top: 25%;
-  color: black;
-  left: 0;
-  right: 0;
+  top: 2%;
+  color: #66c8d0;
+  left: 2%;
   font-size: 3vw;
-}
-.container1 {
-  position: relative;
-  text-align: center;
-  color: white;
- max-width: 80;
-}
-.scroll {
-  width: 800px;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  font-family: "Kano regular";
+  text-transform: uppercase;
+  text-align: justify;
+  width: 50%;
+  word-wrap: break-word;
 }
 .desc {
   position: absolute;
   top: 40%;
   color: black;
-  left: 0;
-  right: 0;
+  left: 2%;
   font-size: 1vw;
-  width: 50%;
-  margin: auto;
+  font-family: "Kano regular";
+  text-align: justify;
+  width: 60%;
+  word-wrap: break-word;
 }
+.container1 {
+  position: relative;
+  text-align: center;
+  color: white;
+  max-width: 80;
+}
+
 .p2 {
   position: absolute;
   top: 85%;
@@ -79,21 +83,23 @@ export default {
 }
 .logo {
   position: absolute;
-  top: 13%;
-  left: 78%;
-  width: 8%;
+  top: 4%;
+  left: 80%;
+  width: 16%;
+  height: 18%;
+  object-fit: contain;
 }
 .sign {
   position: absolute;
-  top: 88%;
-  left: 55%;
+  top: 95%;
+  left: 65%;
   color: black;
   font-size: 1vw;
 }
 .isign {
   position: absolute;
-  top: 75%;
-  left: 65%;
+  top: 80%;
+  left: 80%;
   width: 16%;
   height: 15%;
   object-fit: contain;
