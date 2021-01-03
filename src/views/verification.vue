@@ -2,7 +2,7 @@
   <div class="container " style="margin-top:120px">
     <div class="row  justify-content-center">
       <div class="col-5 " v-if="!showcertificate">
-        <verify v-on:myEvent="rendercert" />
+        <verify v-on:ShowView="ShowView" />
       </div>
       <div class="col" v-else>
         <div class="shadow p-3">
@@ -39,6 +39,9 @@ export default {
       rendercert(){
         
           this.showcertificate=true
+      },
+      ShowView(){
+        alert("showing view")
       }
   }
 };

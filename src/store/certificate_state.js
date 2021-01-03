@@ -217,7 +217,7 @@ export default {
       })
     },
     GetPublishCertificates({ rootState, commit }, pageno) {
-    
+
       return new Promise((res, rej) => {
         if (!pageno) { pageno = 1 }
         var temp = url + `api/certificate?pageno=${pageno}&pub=true`
@@ -235,7 +235,23 @@ export default {
         })
       })
     },
-    VerifyCertificate() { },
+    VerifyCertificate({ rootState, commit },code) {
+      return new Promise((res, rej) => {
+        var temp = url + "api/verify/"+code 
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "GET",
+          url: temp
+        }).then(response => {
+          commit("updatecert", response.data)
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     Create_Batch({ rootState }, form) {
       return new Promise((res, rej) => {
         axios({

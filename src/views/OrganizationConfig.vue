@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import certcount from "../components/certificatecount";
+import certcount from "../components/CertificateCount";
 import UserManagement from "../components/UserManagement";
 import { mapState } from "vuex";
 export default {
