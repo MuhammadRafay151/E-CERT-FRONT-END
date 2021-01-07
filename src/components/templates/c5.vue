@@ -42,23 +42,25 @@ export default {
   top: 2%;
   color: #66c8d0;
   left: 2%;
-  font-size: 3vw;
+  font-size: calc(15px + (40 - 15) * ((100vw - 300px) / (1600 - 300)));
   font-family: "Kano regular";
   text-transform: uppercase;
   text-align: justify;
   width: 50%;
   word-wrap: break-word;
 }
+/*  font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width]))); */
 .desc {
   position: absolute;
   top: 40%;
   color: black;
   left: 2%;
-  font-size: 1vw;
+  font-size: calc(4px + (14 - 4) * ((100vw - 200px) / (1800 - 200)));
   font-family: "Kano regular";
   text-align: justify;
   width: 60%;
   word-wrap: break-word;
+  
 }
 .container1 {
   position: relative;
@@ -69,17 +71,17 @@ export default {
 
 .p2 {
   position: absolute;
-  top: 85%;
+  top: 88%;
   color: black;
-  left: 20%;
-  font-size: 1vw;
+  left: 2%;
+  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
 .p3 {
   position: absolute;
-  top: 88%;
+  top: 92%;
   color: black;
-  left: 20%;
-  font-size: 1vw;
+  left: 2%;
+  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
 .logo {
   position: absolute;
@@ -94,7 +96,7 @@ export default {
   top: 95%;
   left: 65%;
   color: black;
-  font-size: 1vw;
+ font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
 .isign {
   position: absolute;

@@ -25,19 +25,7 @@
           ></b-icon>
           <h3>{{ Title }}</h3>
         </div>
-        <form v-if="step == 1">
-          <div class="form-group text-left">
-            <label><sup class="text-danger">*</sup>Organization Id</label>
-            <input
-              class="form-control"
-              v-model.trim="$v.org.id.$model"
-              type="text"
-              placeholder="CERTIFISMSP"
-            />
-            <sub class="text-danger text-left" v-if="$v.org.id.$error">
-              Field is required
-            </sub>
-          </div>
+        <form >
           <div class="form-group text-left">
             <label><sup class="text-danger">*</sup> Organization Name</label>
             <input
@@ -73,7 +61,6 @@
           <div class="col text-right">
             <button
               class="btn btn_fr btn-block"
-              v-if="step == 1"
               @click="confirm_submit"
             >
               Register Organization
@@ -93,10 +80,8 @@ export default {
   mixins: [loader],
   data: () => {
     return {
-      step: 1,
       Title: "Organization Registeration",
-      org: { id: null, name: null, email: null },
-      user: { name: null, email: null, password: null },
+      org: { name: null, email: null },
     };
   },
   methods: {
@@ -134,7 +119,6 @@ export default {
   },
   validations: {
     org: {
-      id: { required },
       name: { required },
       email: { required, email },
     },

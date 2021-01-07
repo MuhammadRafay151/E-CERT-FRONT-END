@@ -6,12 +6,14 @@ import axios from "axios"
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import Vuelidate from 'vuelidate'
 import "./assets/css/style.css"
-
+import Textra from 'vue-textra'
+ 
 
 Vue.use(Vuelidate)
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(Textra);
 store.commit('user_state/load_user')
 new Vue({
   router,

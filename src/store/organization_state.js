@@ -131,7 +131,7 @@ export default {
     },
     SetUserLimit({ rootState, commit, state }, obj) {
       if (!obj.id)
-        obj.id = state.org.id
+        obj.id = state.org._id
       return new Promise((res, rej) => {
         var temp = url + `api/organization/UserLimit/${obj.id}`
         axios({

@@ -24,13 +24,17 @@
       <UserRegisteration
         :id="id"
         v-on:done="CloseReg"
-        :ULimit="org.user_limit == users.totalcount"
+        :ULimit="
+          (org.user_limit == users.totalcount 
+          && Authorization.SuperAdmin==false) ||
+          (org.user_limit == users.totalcount && id)
+        "
       />
     </b-modal>
     <div class="row shadow justify-content-between p-3">
       <div class="col d-flex">
         <b-icon
-          v-if="Authorization.SuperAdmin"
+          v-if="Authorization.SuperAdmin && id"
           font-scale="1.5"
           variant="wb"
           class="align-self-center"
@@ -39,7 +43,10 @@
           v-b-modal.modal-2
           id="a1"
         ></b-icon>
-        <span class="ml-2 align-self-center text-wb"
+        <span class="ml-2 align-self-center text-wb" v-if="Authorization.SuperAdmin && !id">
+          User Count: {{ users.totalcount || 0 }}
+        </span>
+        <span v-else class="ml-2 align-self-center text-wb"
           >User Limit: {{ users.totalcount || 0 }}/{{ org.user_limit }}</span
         >
       </div>
@@ -73,7 +80,7 @@ export default {
   props: ["id"],
   components: { users, UserRegisteration, UserLimit },
   computed: {
-     ...mapState("user_state", ["user", "Authorization"]),
+    ...mapState("user_state", ["user", "Authorization"]),
     ...mapState("org_state", ["users"]),
     ...mapState("org_state", ["org"]),
   },

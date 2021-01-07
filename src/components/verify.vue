@@ -61,7 +61,7 @@
             variant="danger"
             dismissible
           >
-            The certificate doesnot exist
+            {{ msg }}
           </b-alert>
         </div>
       </b-overlay>
@@ -78,6 +78,7 @@ export default {
     return {
       show: false,
       code: "",
+      msg: null,
       showDismissibleAlert: false,
     };
   },
@@ -94,6 +95,11 @@ export default {
           })
           .catch((err) => {
             if (err.response && err.response.status == 404) {
+              this.msg = " The certificate doesnot exist";
+              this.showDismissibleAlert = true;
+              this.Hide_loader();
+            } else if (err.response && err.response.status == 400) {
+              this.msg = "Invalid Code";
               this.showDismissibleAlert = true;
               this.Hide_loader();
             } else {

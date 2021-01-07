@@ -164,6 +164,7 @@ export default {
         templateid: null,
         certificate_img: "base64",
       };
+      this.batch_name = null;
       this.logo_file = null;
       this.signature_file = null;
       this.$refs.logo.value = "";
@@ -235,7 +236,6 @@ export default {
   },
   data() {
     return {
-      src: "",
       logo_file: null,
       signature_file: null,
       batch_name: null,

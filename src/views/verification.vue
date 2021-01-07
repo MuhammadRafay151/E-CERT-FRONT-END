@@ -1,20 +1,32 @@
 <template>
-  <div class="container " style="margin-top:120px">
-    <div class="row  justify-content-center">
-      <div class="col-5 " v-if="!showcertificate">
-        <verify v-on:ShowView="ShowView" />
+  <div class="container" style="margin-top: 120px">
+    <div class="row justify-content-center">
+      <div class="col-5" v-if="!showcertificate">
+        <verify v-on:ShowView="rendercert" />
       </div>
       <div class="col" v-else>
         <div class="shadow p-3">
-          <h2 class="d-inline">Verified!</h2>
+          <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
           <b-button class="d-inline float-right" title="Load file">
             <b-icon icon="cloud-download" aria-hidden="true"></b-icon>
           </b-button>
         </div>
-       
-        <div class="row">
+
+        <div class="row mt-2">
           <div class="col d-flex justify-content-center">
-               <certificate  />
+            <component v-bind:is="template" />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <b-alert
+              class="mt-1"
+              v-model="showDismissibleAlert"
+              :variant="alertvariant"
+              dismissible
+            >
+              {{ msg }}
+            </b-alert>
           </div>
         </div>
       </div>
@@ -23,26 +35,38 @@
 </template>
 <script>
 import verify from "../components/verify";
-import certificate from "../components/templates/Certificate";
+import TemplateComponents from "../js/TemplateComponents";
 export default {
   name: "verification",
-  data: function() {
+  mixins: [TemplateComponents],
+  data: function () {
     return {
-      showcertificate: false
+      showcertificate: false,
+      template: null,
+      title: null,
+      msg: null,
+      showDismissibleAlert: false,
+      alertvariant: null,
     };
   },
   components: {
-    certificate,
-    verify
+    verify,
   },
-  methods:{
-      rendercert(){
-        
-          this.showcertificate=true
-      },
-      ShowView(){
-        alert("showing view")
+  methods: {
+    rendercert() {
+      var x = this.$store.state.cert_state.cert;
+      this.template = x.template_id;
+      this.msg = x.message;
+      if (x.is_expired) {
+        this.title = "Expired";
+        this.alertvariant = "warning";
+      } else {
+        this.title = "Verified";
+        this.alertvariant = "success";
       }
-  }
+      this.showcertificate = true;
+      this.showDismissibleAlert = true;
+    },
+  },
 };
 </script>

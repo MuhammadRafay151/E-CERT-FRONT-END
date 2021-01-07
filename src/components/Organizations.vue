@@ -62,7 +62,7 @@
                 icon="gear-fill"
                 style="cursor: pointer"
                 :id="data.index + 's'"
-                v-on:click="config(data.item.id)"
+                v-on:click="config(data.item._id)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
                 Config
@@ -75,11 +75,11 @@
                 switch
               >
               </b-form-checkbox>
+              <b-tooltip :target="data.index + 't'" triggers="hover">
+                <span v-if="data.item.status.active">Enabled</span>
+                <span v-else>Disabled</span>
+              </b-tooltip>
             </div>
-            <b-tooltip :target="data.index + 't'" triggers="hover">
-              <span v-if="data.item.status.active">Enabled</span>
-              <span v-else>Disabled</span>
-            </b-tooltip>
           </div>
         </template>
       </b-table>
@@ -157,7 +157,7 @@ export default {
     },
     ChangeStatus(obj) {
       this.$store
-        .dispatch("org_state/ToggleOrgStatus", obj.id)
+        .dispatch("org_state/ToggleOrgStatus", obj._id)
         .then(() => {})
         .catch((err) => {
           console.log(err);

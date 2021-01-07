@@ -38,7 +38,7 @@ export default {
   color: black;
   left: 0;
   right: 0;
-  font-size: 3vw;
+  font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
   text-transform: uppercase;
 }
 .container1 {
@@ -52,7 +52,7 @@ export default {
   color: black;
   left: 0;
   right: 0;
-  font-size: 1vw;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
   width: 80%;
   margin: auto;
 }
@@ -61,14 +61,14 @@ export default {
   top: 89%;
   color: black;
   left: 6%;
-  font-size: 1vw;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
 }
 .p3 {
   position: absolute;
   top: 93%;
   color: black;
   left: 6%;
-  font-size: 1vw;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
 }
 .logo {
   position: absolute;

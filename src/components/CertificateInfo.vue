@@ -51,7 +51,7 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label>Insaturctor Name</label>
+                <label>Instructor Name</label>
                 <input
                   type="text"
                   class="form-control form-group"

@@ -53,25 +53,24 @@ export default {
   top: 40%;
   color: black;
   left: 8%;
-  font-size: 0.8vw;
-  
+  font-size: calc(4px + (13 - 4) * ((100vw - 200px) / (1800 - 200)));
   width: 80%;
   word-wrap: break-word;
   font-family: "Century Gothic";
 }
 .p2 {
   position: absolute;
-  top: 89%;
+  top: 85%;
   color: black;
-  left: 6%;
-  font-size: 1vw;
+  left: 8%;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
 }
 .p3 {
   position: absolute;
-  top: 93%;
+  top: 88%;
   color: black;
-  left: 6%;
-  font-size: 1vw;
+  left: 8%;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
 }
 .logo {
   position: absolute;
@@ -84,10 +83,10 @@ export default {
 }
 .sign {
   position: absolute;
-  top: 87%;
-  left: 65%;
+  top: 88%;
+  left: 73%;
   color: black;
-  font-size: 1vw;
+  font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
 }
 .isign {
   position: absolute;
