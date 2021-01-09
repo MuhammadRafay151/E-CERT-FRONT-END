@@ -137,8 +137,8 @@ export default {
 
         }).then(response => {
           var x = response.data
-          x.logo = `data:${x.logo.mimetype};base64,${x.logo.image}`
-          x.signature = `data:${x.signature.mimetype};base64,${x.signature.image}`
+          x.logo = `${url}image/${x.logo}`
+          x.signature = `${url}image/${x.signature}`
           commit("updatecert", response.data)
           res(response.data.template_id)
         }).catch(err => {
@@ -320,8 +320,8 @@ export default {
         })
           .then(response => {
             var x = response.data
-            x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
-            x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
+            x.logo = `${url}image/${x.logo}`
+            x.signature = `${url}image/${x.signature}`
             commit("updatecert", response.data)
             res(response.data.template_id)
           }).catch(err => {
@@ -447,8 +447,8 @@ export default {
           url: temp
         }).then(response => {
           var x = response.data
-          x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
-          x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
+          x.logo = `${url}image/${x.logo}`
+          x.signature = `${url}image/${x.signature}`
           commit("updatecert", x)
           res(response.data.template_id)
         }).catch(err => {
