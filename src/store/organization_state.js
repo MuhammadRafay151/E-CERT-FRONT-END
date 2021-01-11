@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { url } from '../js/config'
-
+const url= process.env.VUE_APP_API_URL
 export default {
   namespaced: true,
   state: {

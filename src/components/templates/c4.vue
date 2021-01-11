@@ -1,7 +1,7 @@
 <template>
   <div class="container1">
     <img
-      src="/templates/c4.PNG"
+      src="/templates/c4.png"
       style="width: 100%; object-fit: cover"
       alt=""
     />

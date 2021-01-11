@@ -1,6 +1,6 @@
 import axios from "axios"
 import { connectSocket, CloseSocket } from "../js/socket"
-import { url } from '../js/config'
+const url= process.env.VUE_APP_API_URL
 
 export default {
   namespaced: true,
