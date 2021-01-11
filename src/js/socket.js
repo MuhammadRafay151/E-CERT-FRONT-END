@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { url } from "./config";
+const url= process.env.VUE_APP_API_URL
 import store from "../store"
 let socket;
 export function connectSocket(token) {
