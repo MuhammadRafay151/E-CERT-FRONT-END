@@ -15,7 +15,8 @@
           </div>
 
           <div class="col text-center">
-            <h3 class="text-wb">PUBLICATIONS</h3>
+            <h3 v-if="org">{{ org.name }}'s PUBLICATIONS</h3>
+            <h3 v-else class="text-wb">PUBLICATIONS</h3>
           </div>
           <div class="col text-left"></div>
         </b-row>
@@ -23,8 +24,8 @@
     </b-card>
     <div class="row mt-1">
       <div class="col">
-        <SinglePublication v-if="Display" />
-        <BatchPublication v-else />
+        <SinglePublication :id="id" v-if="Display" />
+        <BatchPublication :id="id" v-else />
       </div>
     </div>
   </div>
@@ -34,9 +35,11 @@ import BatchPublication from "../components/BatchPublication";
 import SinglePublication from "../components/SinglePublication";
 export default {
   name: "publish",
+  props: ["id"],
+  //id is passed for viweing anpther org certificates if id not passed it will by default show current org data
   components: { BatchPublication, SinglePublication },
   data: () => {
-    return { Display: true };
+    return { Display: true, org: null };
   },
   methods: {
     showsingle() {
@@ -56,6 +59,16 @@ export default {
       this.showbatch();
     } else {
       this.showsingle();
+    }
+    if (this.id) {
+      this.$store
+        .dispatch("org_state/GetOrg", this.id)
+        .then(() => {
+          this.org = this.$store.state.org_state.org;
+        })
+        .catch(() => {
+          this.$router.push({ name: "404" });
+        });
     }
   },
 };

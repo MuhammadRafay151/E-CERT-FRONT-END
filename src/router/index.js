@@ -20,7 +20,7 @@ import RegisterOrganization from '../views/RegisterOrganization.vue'
 import OrganizationConfig from '../views/OrganizationConfig.vue'
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
-import {Roles} from '../js/Roles'
+import { Roles } from '../js/Roles'
 import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
 
@@ -89,6 +89,16 @@ const routes = [
     props: true
   },
   {
+    path: "/vieworgcertificate/:orgid/:id/:batch_id?",
+    name: "vieworgcertificate",
+    component: ViewCertificate,
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin]
+    },
+    props: true
+  },
+  {
     path: "/edit/:id/:IsBatch",
     name: "Edit",
     component: Edit,
@@ -103,7 +113,7 @@ const routes = [
     props: true
   },
   {
-    path: "/BatchCerts/publications/:id",
+    path: "/BatchCerts/publications/:id/:",
     name: "BCP_VIEW",
     component: BatchCertPublication,
     meta: { requiresAuth: true },
@@ -119,7 +129,10 @@ const routes = [
     name: "RegisterOrganization",
     path: "/register/organization",
     component: RegisterOrganization,
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin],
+    },
   },
   {
     name: "OrganizationConfig",
@@ -137,8 +150,28 @@ const routes = [
     component: OrganizationConfig,
     meta: {
       requiresAuth: true,
-      roles: [Roles.SuperAdmin,Roles.Admin]
+      roles: [Roles.SuperAdmin, Roles.Admin]
     },
+  },
+  {
+    name: "OrganizationPublications",
+    path: "/organization/publications/:id",
+    component: published,
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin]
+    },
+    props: true
+  },
+  {
+    name: "OrganizationBCP",
+    path: "/organization/BCP_View/:id/:orgid",
+    component: BatchCertPublication,
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin]
+    },
+    props: true
   },
   { name: "403", path: "/forbidden", component: forbidden },
   { name: "404", path: '*', component: notfound }

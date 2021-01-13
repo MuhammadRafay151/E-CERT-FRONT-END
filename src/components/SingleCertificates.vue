@@ -105,6 +105,7 @@ import loader from "../js/loader";
 export default {
   name: "SingleCertificates",
   mixins: [loader],
+
   components: {
     filters,
     deletebox,
@@ -118,10 +119,12 @@ export default {
     DateSearch(value) {
       console.log(value);
     },
-    page(evt) {
+    page(pageno) {
       this.show_loader("Fetching...");
       this.$store
-        .dispatch("cert_state/GetSingleCertificates", evt)
+        .dispatch("cert_state/GetSingleCertificates", {
+          pageno: pageno,
+        })
         .then(() => {
           this.Hide_loader();
         })
@@ -148,7 +151,11 @@ export default {
     },
     view_Certificate(id) {
       this.AddHistory();
-      this.$router.push({ name: "ViewCertificate", params: { id: id } });
+
+      this.$router.push({
+        name: "ViewCertificate",
+        params: { id: id },
+      });
     },
     Edit_Certificate(id) {
       this.AddHistory();
@@ -248,7 +255,9 @@ export default {
     }
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("cert_state/GetSingleCertificates", PageNo)
+      .dispatch("cert_state/GetSingleCertificates", {
+        pageno: PageNo,
+      })
       .then(() => {
         this.currentPage = PageNo;
         this.Hide_loader();

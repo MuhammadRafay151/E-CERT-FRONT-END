@@ -5,7 +5,7 @@
         <b-row>
           <div class="col-4">
             <b-nav tabs>
-              <b-nav-item :active="Display" v-on:click="showsingle"
+              <b-nav-item :active="Display" v-on:click="showsingle" 
                 >Single Certificates</b-nav-item
               >
               <b-nav-item :active="!Display" v-on:click="showbatch"
@@ -24,8 +24,8 @@
 
     <div class="row mt-1">
       <div class="col">
-        <SingleCertificates v-if="Display" />
-        <batches v-else/>
+        <SingleCertificates  v-if="Display" />
+        <batches  v-else />
       </div>
     </div>
   </div>
@@ -42,7 +42,6 @@ export default {
     SingleCertificates,
     Batches,
   },
-
   methods: {
     showsingle() {
       this.Display = true;
@@ -54,15 +53,12 @@ export default {
   data() {
     return {
       Display: true,
-      
     };
   },
   created() {
-    // console.log(this.$route.query.IsBatch)
-    // console.log(typeof(this.$route.query.IsBatch))
-    this.$store.commit("cert_state/ClearSingleCertificates")
-    this.$store.commit("cert_state/ClearBatches")
-    this.$store.commit("cert_state/ClearBatchCerts")
+    this.$store.commit("cert_state/ClearSingleCertificates");
+    this.$store.commit("cert_state/ClearBatches");
+    this.$store.commit("cert_state/ClearBatchCerts");
     if (this.$route.query.IsBatch) {
       this.showbatch();
     } else {

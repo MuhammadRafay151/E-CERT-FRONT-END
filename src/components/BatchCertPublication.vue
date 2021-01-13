@@ -44,13 +44,12 @@
             </div>
             <div class="col">
               <b-icon
-                icon="check-circle-fill"
-                v-on:click="verify(data.item._id)"
+                icon="envelope-fill"
                 style="cursor: pointer"
                 :id="data.index + 's'"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
-                Verify certificate
+                Email certificate
               </b-tooltip>
             </div>
           </div>
@@ -77,6 +76,7 @@ import loader from "../js/loader";
 export default {
   name: "BCP_Comp",
   mixins: [loader],
+  props: ["id", "orgid"],
   data() {
     return {
       perPage: 3,
@@ -105,7 +105,8 @@ export default {
       this.show_loader("Fetching...");
       this.$store
         .dispatch("cert_state/GetPublishBatchCerts", {
-          id: this.$route.params.id,
+          id: this.id,
+          orgid: this.orgid,
           pageno: pageno,
         })
         .then(() => {
@@ -116,18 +117,33 @@ export default {
         });
     },
     AddHistory() {
-      this.$store.commit("AddToHistory", {
-        RouteName: this.$route.name,
-        PageNo: this.currentPage,
-        params: { id: this.$route.params.id },
-      });
+      if (this.orgid) {
+        this.$store.commit("AddToHistory", {
+          RouteName: this.$route.name,
+          PageNo: this.currentPage,
+          params: { id: this.id, orgid: this.orgid },
+        });
+      } else {
+        this.$store.commit("AddToHistory", {
+          RouteName: this.$route.name,
+          PageNo: this.currentPage,
+          params: { id: this.id },
+        });
+      }
     },
     view(id, batch_id) {
       this.AddHistory();
-      this.$router.push({
-        name: "ViewCertificate",
-        params: { id: id, batch_id: batch_id },
-      });
+      if (this.orgid) {
+        this.$router.push({
+          name: "ViewCertificate",
+          params: { id: id, batch_id: batch_id, orgid: this.orgid },
+        });
+      } else {
+        this.$router.push({
+          name: "ViewCertificate",
+          params: { id: id, batch_id: batch_id },
+        });
+      }
     },
   },
   computed: {
@@ -141,7 +157,8 @@ export default {
     this.show_loader("Fetching...");
     this.$store
       .dispatch("cert_state/GetPublishBatchCerts", {
-        id: this.$route.params.id,
+        id: this.id,
+        orgid: this.orgid,
         pageno: 1,
       })
       .then(() => {

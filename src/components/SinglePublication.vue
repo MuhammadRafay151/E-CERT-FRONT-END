@@ -89,6 +89,8 @@ import { mapState } from "vuex";
 export default {
   name: "SinglePublication",
   mixins: [loader],
+  props: ["id"],
+  //id is passed for viweing anpther org certificates if id not passed it will by default show current org data
   components: { filters },
   computed: { ...mapState("cert_state", ["single_certificates"]) },
   data: () => {
@@ -133,7 +135,10 @@ export default {
     page(pageno) {
       this.show_loader("Fetching...");
       this.$store
-        .dispatch("cert_state/GetPublishCertificates", pageno)
+        .dispatch("cert_state/GetPublishCertificates", {
+          pageno: pageno,
+          id: this.id,
+        })
         .then(() => {
           this.Hide_loader();
         })
@@ -142,15 +147,34 @@ export default {
         });
     },
     AddHistory() {
-      this.$store.commit("AddToHistory", {
-        RouteName: this.$route.name,
-        IsBatch: false,
-        PageNo: this.currentPage,
-      });
+      if (this.id) {
+        this.$store.commit("AddToHistory", {
+          RouteName: this.$route.name,
+          IsBatch: false,
+          params: { id: this.id },
+          PageNo: this.currentPage,
+        });
+      } else {
+        this.$store.commit("AddToHistory", {
+          RouteName: this.$route.name,
+          IsBatch: false,
+          PageNo: this.currentPage,
+        });
+      }
     },
     view_Certificate(id) {
       this.AddHistory();
-      this.$router.push({ name: "ViewCertificate", params: { id: id } });
+      if (this.id) {
+        this.$router.push({
+          name: "vieworgcertificate",
+          params: { id: id, orgid: this.id },
+        });
+      } else {
+        this.$router.push({
+          name: "ViewCertificate",
+          params: { id: id },
+        });
+      }
     },
     email(id) {
       console.log(id);
@@ -165,7 +189,10 @@ export default {
       PageNo = this.$route.query.PageNo;
     }
     this.$store
-      .dispatch("cert_state/GetPublishCertificates", PageNo)
+      .dispatch("cert_state/GetPublishCertificates", {
+        pageno: PageNo,
+        id: this.id,
+      })
       .then(() => {
         this.currentPage = PageNo;
         this.Hide_loader();

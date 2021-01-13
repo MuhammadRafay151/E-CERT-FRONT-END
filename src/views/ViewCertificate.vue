@@ -51,11 +51,11 @@ import { url } from "../js/config";
 import loader from "../js/loader";
 import history from "../js/History";
 import { mapState } from "vuex";
-import TemplateComponents from "../js/TemplateComponents"
+import TemplateComponents from "../js/TemplateComponents";
 export default {
   name: "ViewCertificate",
-  mixins: [loader, history,TemplateComponents],
-  props: ["id", "IsBatch", "batch_id"],
+  mixins: [loader, history, TemplateComponents],
+  props: ["id", "IsBatch", "batch_id", "orgid"],
   data: () => {
     return {
       url: null,
@@ -70,11 +70,11 @@ export default {
   created() {
     this.show_loader("Fetching...");
     var action = null;
-    var obj = { id: this.id, edit: false };
+    var obj = { id: this.id, edit: false, orgid: this.orgid };
     if (this.batch_id) {
       this.PageTitle = "View Batch Certificate";
       action = "cert_state/viewBcert";
-      obj = { id: this.id, batch_id: this.batch_id };
+      obj = { id: this.id, batch_id: this.batch_id, orgid: this.orgid };
       this.url = url + `download/${this.id}/${this.batch_id}`;
     } else if (this.$route.query.IsBatch) {
       this.PageTitle = "View Batch";

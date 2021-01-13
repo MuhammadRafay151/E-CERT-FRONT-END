@@ -82,18 +82,17 @@
 import templateselector from "../components/template_selector";
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
-import c1 from "../components/templates/c1";
+import TemplateComponents from "../js/TemplateComponents"
 import loader from "../js/loader";
 import history from '../js/History'
 export default {
   //we use this for modification of batch and single certificates.
   name: "Edit",
-  mixins: [loader,history],
+  mixins: [loader,history,TemplateComponents],
   props: { id: String, IsBatch: Boolean },
   components: {
     CertificateInfo,
     BatchInfo,
-    c1,
     templateselector,
   },
 

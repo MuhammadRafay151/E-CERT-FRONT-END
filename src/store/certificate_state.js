@@ -1,5 +1,5 @@
 import axios from 'axios'
-const url= process.env.VUE_APP_API_URL
+const url = process.env.VUE_APP_API_URL
 import Vue from "vue";
 export default {
   namespaced: true,
@@ -101,10 +101,10 @@ export default {
     },
   },
   actions: {
-    GetSingleCertificates({ rootState, commit }, value) {
+    GetSingleCertificates({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
-        if (!value) { value = 1 }
-        var temp = url + "api/certificate?pageno=" + value
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = url + "api/certificate?pageno=" + obj.pageno
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -123,9 +123,13 @@ export default {
       var temp = null
       if (obj.edit) {
         temp = url + `api/certificate/${obj.id}?edit=${obj.edit}`
-      } else {
+      } else if (obj.orgid && obj.id) {
+        temp = url + `api/certificate/org_pub/${obj.orgid}/${obj.id}/`
+      }
+      else {
         temp = url + "api/certificate/" + obj.id
       }
+
       return new Promise((res, rej) => {
         axios({
           headers: {
@@ -216,11 +220,15 @@ export default {
         })
       })
     },
-    GetPublishCertificates({ rootState, commit }, pageno) {
-
+    GetPublishCertificates({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
-        if (!pageno) { pageno = 1 }
-        var temp = url + `api/certificate?pageno=${pageno}&pub=true`
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = null
+        if (obj.id) {
+          temp = url + `api/certificate/org_pub/${obj.id}/?pageno=${obj.pageno}`
+        } else {
+          temp = url + `api/certificate?pageno=${obj.pageno}&pub=true`
+        }
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -437,7 +445,13 @@ export default {
     viewBcert({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = url + `api/bcert/view/${obj.id}/${obj.batch_id}`
+        var temp = null
+        if (obj.orgid) {
+          temp = url + `api/bcert/view/${obj.orgid}/${obj.id}/${obj.batch_id}`
+        } else {
+          temp = url + `api/bcert/view/${obj.id}/${obj.batch_id}`
+        }
+
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -473,10 +487,15 @@ export default {
         })
       })
     },
-    GetPublishBatches({ rootState, commit }, pageno) {
+    GetPublishBatches({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
-        if (!pageno) { pageno = 1 }
-        var temp = url + `api/batch?pageno=${pageno}&pub=true`
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = null;
+        if (obj.id) {
+          temp = url + `api/batch/org_pub/${obj.id}/?pageno=${obj.pageno}`
+        } else {
+          temp = url + `api/batch?pageno=${obj.pageno}&pub=true`
+        }
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -494,7 +513,12 @@ export default {
     GetPublishBatchCerts({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = url + `api/bcert/${obj.id}?pageno=${obj.pageno}&pub=true`
+        var temp = null
+        if (obj.orgid) {
+          temp = url + `api/bcert/org_pub/${obj.orgid}/${obj.id}?pageno=${obj.pageno}&pub=true`
+        } else {
+          temp = url + `api/bcert/${obj.id}?pageno=${obj.pageno}&pub=true`
+        }
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,

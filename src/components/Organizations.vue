@@ -51,6 +51,7 @@
                 icon="eye-fill"
                 style="cursor: pointer"
                 :id="data.index + 'f'"
+                v-on:click="ViewCertificate(data.item._id)"
               >
               </b-icon>
               <b-tooltip :target="data.index + 'f'" triggers="hover">
@@ -166,6 +167,9 @@ export default {
     },
     CancelChangeStatus(obj) {
       obj.status.active = !obj.status.active;
+    },
+    ViewCertificate(id) {
+      this.$router.push("/organization/publications/" + id);
     },
   },
   data() {

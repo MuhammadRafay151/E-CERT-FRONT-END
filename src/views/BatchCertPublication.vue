@@ -40,7 +40,7 @@
 
     <div class="row mt-1">
       <div class="col">
-        <BatchCertsPublication />
+        <BatchCertsPublication :id="id" :orgid="orgid" />
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@ import history from "../js/History";
 import { mapState } from "vuex";
 export default {
   name: "BCP_VIEW",
-  props: ["id"],
+  props: ["id", "orgid"],
   mixins: [history],
   components: {
     BatchCertsPublication,
