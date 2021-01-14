@@ -47,7 +47,6 @@
   </div>
 </template>
 <script>
-import { url } from "../js/config";
 import loader from "../js/loader";
 import history from "../js/History";
 import { mapState } from "vuex";
@@ -68,6 +67,7 @@ export default {
     ...mapState("cert_state", ["cert"]),
   },
   created() {
+    var url = process.env.VUE_APP_API_URL;
     this.show_loader("Fetching...");
     var action = null;
     var obj = { id: this.id, edit: false, orgid: this.orgid };
