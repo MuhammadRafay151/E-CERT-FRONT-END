@@ -1,37 +1,46 @@
 <template>
-    <div class="container-fluid">
-        <div class="row justify-content-center" style="margin-top:120px">
-        <div class="col">
-          <div class="shadow">
-              <h1 class="text-wb">Hello {{user.name}}</h1>
-                <!-- <h3 class="text-center">Profile</h3>
-          <table class="mt-2 table table-hover">
-              <tbody>
-                  <tr>
-                      <th scope="col">Name: </th>
-                      <td>{{user.name}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="col">Email: </th>
-                      <td> {{user.email}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="col">Organiaztion: </th>
-                      <td>{{user.organization.name}}</td>
-                  </tr>
-              </tbody>
-          </table> -->
-          </div>
-        </div>
+  <div style="overflow: hidden" class="container-fluid">
+    <user-chart />
+    <div class="row">
+      <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+        <certificate-count-history-chart />
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        <certificate-count-chart />
+      </div>
     </div>
-    </div>
+    <certificate-creation-chart />
+    <certificate-publication-chart />
+    <client-organization-chart />
+  </div>
 </template>
+
 <script>
-import { mapState } from 'vuex'
+import UserChart from "../components/Dashboard/UserChart";
+import CertificateCountHistoryChart from "../components/Dashboard/CertificateCountHistoryChart.vue";
+import CertificateCountChart from "../components/Dashboard/CertificateCountChart.vue";
+import CertificateCreationChart from "../components/Dashboard/CertificateCreationChart.vue";
+import CertificatePublicationChart from "../components/Dashboard/CertificatePublicationChart.vue";
+import ClientOrganizationChart from "../components/Dashboard/ClientOrganizationChart.vue";
 export default {
-    name:"dashboard",
-    computed:{
-        ...mapState('user_state',['user'])
-    }
-}
+  name: "Dashboard",
+  components: {
+    UserChart,
+    CertificateCountHistoryChart,
+    CertificateCountChart,
+    CertificateCreationChart,
+    CertificatePublicationChart,
+    ClientOrganizationChart,
+  },
+  created() {
+    this.$store
+      .dispatch("dashboard_state/GetDashboard")
+      .then(() => {
+        console.log("successful load");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+};
 </script>
