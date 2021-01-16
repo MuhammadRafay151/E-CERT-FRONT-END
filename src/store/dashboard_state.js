@@ -4,10 +4,8 @@ const url = process.env.VUE_APP_API_URL
 
 export default {
     namespaced: true,
-    states: {
-        dashboard: {
-
-        }
+    state: {
+        dashboard: {}
     },
     mutations: {
         UpdateDashbord(state, value) {
@@ -18,7 +16,6 @@ export default {
     actions: {
         GetDashboard({ rootState, commit }) {
             return new Promise((res, rej) => {
-                console.log("Rafay shaytan")
                 var temp = url + "api/dashboard"
                 axios({
                     headers: {
@@ -28,6 +25,7 @@ export default {
                     url: temp
                 }).then(response => {
                     commit("UpdateDashbord", response.data)
+                    console.log(response.data)
                     res()
                 }).catch(err => {
                     rej(err)
