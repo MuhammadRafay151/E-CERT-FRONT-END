@@ -5,13 +5,16 @@ const url = process.env.VUE_APP_API_URL
 export default {
     namespaced: true,
     state: {
-        dashboard: {}
+        UserStats: {},
+        CountHistory: {}
     },
     mutations: {
         UpdateDashbord(state, value) {
-            state.dashboard = value
-            console.log(value)
+            state.UserStats = value.UserStats
+            state.CountHistory = value.CountHistory
+
         }
+        
     },
     actions: {
         GetDashboard({ rootState, commit }) {
@@ -25,7 +28,6 @@ export default {
                     url: temp
                 }).then(response => {
                     commit("UpdateDashbord", response.data)
-                    console.log(response.data)
                     res()
                 }).catch(err => {
                     rej(err)
