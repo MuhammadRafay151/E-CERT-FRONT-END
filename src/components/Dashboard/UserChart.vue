@@ -13,7 +13,6 @@
 </template>
 <script>
 import DoughnutChart from "../Charts/DoughnutChart";
-import {mapState} from "vuex"
 export default {
   name: "UserChart",
   components: {
@@ -29,16 +28,7 @@ export default {
           "Unregistered Users",
         ],
         // this.UserStats.TotalLimit, this.UserStats.Active, this.UserStats.Disabled, this.UserStats.UnRegistered
-        datasets: [
-          {
-            data: [this.UserStats.TotalLimit, this.UserStats.Active, this.UserStats.Disabled, this.UserStats.UnRegistered],
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#E2CC40"],
-            borderWidth: 2,
-            borderAlign: "center",
-            hoverBorderColor: "#fff",
-            hoverBorderWidth: 5,
-          },
-        ],
+        datasets: [],
       },
       chartOptions: {
         responsive: true,
@@ -47,10 +37,21 @@ export default {
       },
     };
   },
-  computed:{
-    
-    // ...mapState("dashboard_state", ["UserStats"]),
-
-  }
+  created() {
+    var x = this.$store.state.dashboard_state.UserStats;
+    this.chartData.datasets.push({
+      data: [
+        x.TotalLimit,
+        x.Active,
+        x.Disabled,
+        x.UnRegistered,
+      ],
+      backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#E2CC40"],
+      borderWidth: 2,
+      borderAlign: "center",
+      hoverBorderColor: "#fff",
+      hoverBorderWidth: 5,
+    });
+  },
 };
 </script>

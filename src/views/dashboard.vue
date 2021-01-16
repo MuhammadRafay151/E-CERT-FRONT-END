@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow: hidden" class="container-fluid">
+  <div style="overflow: hidden; margin-top:120px" class="container-fluid">
     <b-overlay :show="loading" no-wrap rounded="sm">
       <template #overlay>
         <div class="text-center">
