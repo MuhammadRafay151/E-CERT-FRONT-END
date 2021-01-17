@@ -2,7 +2,7 @@
   <div>
     <div class="row mt-5">
       <div class="col">
-        <h2>Certificate Count History</h2>
+        <h2>Published Certificate</h2>
         <b-overlay :show="loading" wrap rounded="sm">
           <template #overlay>
             <div class="text-center">
@@ -20,10 +20,10 @@
   </div>
 </template>
 <script>
-import LineChart from "../Charts/LineChart";
 import loader from "../../js/loader";
+import LineChart from "../Charts/LineChart";
 export default {
-  name: "CertificateCountHistoryChart",
+  name: "BatchCertificatePublicationChart",
   mixins: [loader],
   components: {
     LineChart,
@@ -46,13 +46,13 @@ export default {
         datasets: [
           {
             data: [40, 20, 10, 1, 10, 50, 11, 17, 5, 21],
-            borderColor: "#FF4136",
+            borderColor: "#B6D2FE",
             pointBorderColor: "#ffffff",
-            pointBackgroundColor: "#FF4136",
-            backgroundColor: "#FF41360f",
+            pointBackgroundColor: "#B6D2FE",
+            backgroundColor: "#B6D2FE0f",
             borderWidth: 2,
             pointRadius: 6,
-            label: "Count History",
+            label: "Batch Certificates",
           },
         ],
       },
@@ -65,24 +65,24 @@ export default {
   created() {
     this.show_loader("Fetching...");
     this.$store
-      .dispatch("dashboard_state/GetCountHistory")
+      .dispatch("dashboard_state/GetBatchPublicationHistory")
       .then((res) => {
         var chartData = {
           labels: [],
           datasets: [
             {
               data: [],
-              borderColor: "#FF4136",
+              borderColor: "#B6D2FE",
               pointBorderColor: "#ffffff",
-              pointBackgroundColor: "#FF4136",
-              backgroundColor: "#FF41360f",
+              pointBackgroundColor: "#B6D2FE",
+              backgroundColor: "#B6D2FE0f",
               borderWidth: 2,
               pointRadius: 6,
-              label: "Count History",
+              label: "Batch Certificates",
             },
           ],
         };
-        for (var i = 0; i < res.length; i++) {
+        for (let i = 0; i < res.length; i++) {
           chartData.labels.push(new Date(res[i].date).toLocaleDateString());
           chartData.datasets[0].data.push(res[i].Count);
         }

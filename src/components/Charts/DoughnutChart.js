@@ -3,9 +3,6 @@ const { reactiveProp } = mixins
 export default {
   mixins: [Doughnut,reactiveProp],
   props: {
-    chartData: {
-      type: Object,
-    },
     options: {
       type: Object,
     },
