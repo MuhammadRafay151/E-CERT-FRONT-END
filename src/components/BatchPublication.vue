@@ -14,6 +14,7 @@
         id="SingleCertificateData"
         white
         hover
+        bordered
         sticky-header="500px"
         responsive
         no-border-collapse
@@ -28,6 +29,17 @@
             v-on:DateSearch="DateSearch"
           />
           <span class="d-inline">{{ data.label }}</span>
+        </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col border-right">
+              <span class="">Open Batch</span>
+            </div>
+            <div class="col border-right">
+              <span>Email</span>
+            </div>
+          </div>
         </template>
         <template #cell(publish_date)="data">
           {{ new Date(data.item.publish.publish_date).toLocaleDateString() }}
@@ -61,7 +73,7 @@
                 :id="data.index + 's'"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
-                Email whole batch
+                Open Batch
               </b-tooltip>
             </div>
           </div>

@@ -18,6 +18,7 @@
       </template>
       <b-table
         id="OrganizationData"
+        bordered
         white
         hover
         sticky-header="500px"
@@ -26,7 +27,7 @@
         :items="organizations.list"
         :fields="fields"
       >
-        <template #head(register_date)="data">
+        <template #head(name)="data">
           <filters
             search_label="Enter Code"
             class="d-inline"
@@ -35,18 +36,26 @@
           />
           <span class="d-inline">{{ data.label }}</span>
         </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col p-0 border-right">
+              <span>View<br />Publications</span>
+            </div>
+            <div class="col p-0 border-right">
+              <span>Setting</span>
+            </div>
+            <div class="col p-0 border-right">
+              <span>Enable/<br />Disable</span>
+            </div>
+          </div>
+        </template>
         <template #cell(register_date)="data">
           <p>{{ new Date(data.value).toLocaleDateString() }}</p>
         </template>
-
-        <template #cell(status)="Status">
-          <span v-if="Status.value" class="badge badge-success">Active</span>
-          <span v-else class="badge badge-danger">Disable</span>
-        </template>
-
         <template #cell(Actions)="data">
           <div class="row">
-            <div class="col">
+            <div class="col p-0">
               <b-icon
                 icon="eye-fill"
                 style="cursor: pointer"
@@ -58,7 +67,7 @@
                 View organization's certificates
               </b-tooltip>
             </div>
-            <div class="col">
+            <div class="col p-0">
               <b-icon
                 icon="gear-fill"
                 style="cursor: pointer"
@@ -66,10 +75,10 @@
                 v-on:click="config(data.item._id)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
-                Config
+                Setting
               </b-tooltip>
             </div>
-            <div class="col" :id="data.index + 't'">
+            <div class="col p-0" :id="data.index + 't'">
               <b-form-checkbox
                 v-model="data.item.status.active"
                 @change="ConfirmChangeStatus(data.item)"
@@ -178,11 +187,6 @@ export default {
       currentPage: 1,
       fields: [
         {
-          key: "register_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
           key: "name",
           sortable: true,
           class: "align-middle",
@@ -198,7 +202,7 @@ export default {
           class: "align-middle",
         },
         {
-          key: "status",
+          key: "register_date",
           sortable: true,
           class: "align-middle",
         },

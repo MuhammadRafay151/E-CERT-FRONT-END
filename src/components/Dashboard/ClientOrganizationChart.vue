@@ -1,25 +1,21 @@
 <template>
   <div>
-    <div class="row mt-5">
-      <div class="col">
-        <h2>Client Organizations</h2>
-        <b-overlay :show="loading" wrap rounded="sm">
-          <template #overlay>
-            <div class="text-center">
-              <b-spinner
-                style="width: 3rem; height: 3rem"
-                label="Large Spinner"
-              ></b-spinner>
-              <p id="cancel-label">{{ loading_text }}</p>
-            </div>
-          </template>
-          <DoughnutChart
-            :chartData="chartData"
-            :options="chartOptions"
-          ></DoughnutChart>
-        </b-overlay>
-      </div>
-    </div>
+    <h2>Client Organizations</h2>
+    <b-overlay :show="loading" wrap rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
+      <DoughnutChart
+        :chartData="chartData"
+        :options="chartOptions"
+      ></DoughnutChart>
+    </b-overlay>
   </div>
 </template>
 <script>

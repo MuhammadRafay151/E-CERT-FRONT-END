@@ -14,13 +14,14 @@
         id="SingleCertificateData"
         white
         hover
+        bordered
         sticky-header="500px"
         responsive
         no-border-collapse
         :items="this.single_certificates.list"
         :fields="fields"
       >
-        <template #head(publish_date)="data">
+        <template #head(name)="data">
           <filters
             search_label="Enter Code"
             class="d-inline"
@@ -28,6 +29,17 @@
             v-on:DateSearch="DateSearch"
           />
           <span class="d-inline">{{ data.label }}</span>
+        </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col border-right">
+              <span class="">View</span>
+            </div>
+            <div class="col border-right">
+              <span>Email</span>
+            </div>
+          </div>
         </template>
         <template #cell(publish_date)="data">
           {{ new Date(data.item.publish.publish_date).toLocaleDateString() }}
@@ -99,16 +111,6 @@ export default {
       currentPage: 1,
       fields: [
         {
-          key: "publish_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "expiry_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
           key: "name",
           sortable: true,
           class: "align-middle",
@@ -118,9 +120,18 @@ export default {
           sortable: true,
           class: "align-middle",
         },
-
         {
           key: "publish_by",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "publish_date",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "expiry_date",
           sortable: true,
           class: "align-middle",
         },

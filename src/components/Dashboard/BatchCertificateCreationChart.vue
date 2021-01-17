@@ -1,22 +1,18 @@
 <template>
   <div>
-    <div class="row mt-5">
-      <div class="col">
-        <h2>Batch Certificate Creation</h2>
-        <b-overlay :show="loading" wrap rounded="sm">
-          <template #overlay>
-            <div class="text-center">
-              <b-spinner
-                style="width: 3rem; height: 3rem"
-                label="Large Spinner"
-              ></b-spinner>
-              <p id="cancel-label">{{ loading_text }}</p>
-            </div>
-          </template>
-          <LineChart :chartData="chartData" :options="chartOptions"></LineChart>
-        </b-overlay>
-      </div>
-    </div>
+    <h2>Batch Certificate Creation</h2>
+    <b-overlay :show="loading" wrap rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
+      <LineChart :chartData="chartData" :options="chartOptions"></LineChart>
+    </b-overlay>
   </div>
 </template>
 <script>
@@ -83,9 +79,7 @@ export default {
           ],
         };
         for (let i = 0; i < res.length; i++) {
-          chartData.labels.push(
-            new Date(res[i].date).toLocaleDateString()
-          );
+          chartData.labels.push(new Date(res[i].date).toLocaleDateString());
           chartData.datasets[0].data.push(res[i].Count);
         }
         this.chartData = chartData;

@@ -11,7 +11,7 @@
       size="lg"
     >
       <div class="row pt-5 pb-5">
-        <div class="col border-right">
+        <div class="col border-right text-center">
           <h1
             style="cursor: pointer"
             class="text-white text-center"
@@ -19,8 +19,9 @@
           >
             Single Certificate
           </h1>
+          <sub>Create certificate for individual entity</sub>
         </div>
-        <div class="col border-left">
+        <div class="col border-left text-center">
           <h1
             style="cursor: pointer"
             class="text-white text-center"
@@ -28,6 +29,9 @@
           >
             Batch Certificate
           </h1>
+          <sub
+            >Create Batch for handling mulitple certificate in a group form</sub
+          >
         </div>
       </div>
     </b-modal>
@@ -43,12 +47,15 @@
         </div>
       </template>
     </b-overlay>
-    <div class="row justify-content-center mb-2" v-if="template || IsBatch != null">
-      <div class="col-11 shadow p-2 ">
-        <a href="#" class="text-dark float-left"  v-on:click="show_selector">
+    <div
+      class="row justify-content-center mb-2"
+      v-if="template || IsBatch != null"
+    >
+      <div class="col-11 shadow p-2">
+        <a href="#" class="text-dark float-left" v-on:click="show_selector">
           <b-icon class="h1" icon="arrow-left-circle"></b-icon
         ></a>
-        <h1 class="text-wb">{{PageTitle}}</h1>
+        <h1 class="text-wb">{{ PageTitle }}</h1>
       </div>
     </div>
     <div class="row" v-if="!template || IsBatch == null">
@@ -57,18 +64,28 @@
       </div>
     </div>
     <div v-else class="row justify-content-center">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-8 d-flex justify-content-center">
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-8 d-flex justify-content-center"
+      >
         <!-- class="d-none d-md-block d-xl-block" -->
-        <div >
-          <component v-bind:is="template"  />
+        <div>
+          <component v-bind:is="template" />
           <!-- <Certificate /> -->
         </div>
       </div>
       <div v-if="IsBatch">
-        <BatchInfo v-on:start="start_process" v-on:stop="stop_process" v-bind:template_id="template" />
+        <BatchInfo
+          v-on:start="start_process"
+          v-on:stop="stop_process"
+          v-bind:template_id="template"
+        />
       </div>
       <div v-else class="col d-flex justify-content-center">
-        <CertificateInfo v-on:start="start_process" v-on:stop="stop_process" v-bind:template_id="template" />
+        <CertificateInfo
+          v-on:start="start_process"
+          v-on:stop="stop_process"
+          v-bind:template_id="template"
+        />
       </div>
     </div>
   </div>
@@ -76,12 +93,12 @@
 
 <script>
 import CertificateInfo from "../components/CertificateInfo";
-import BatchInfo from "../components/BatchInfo"
+import BatchInfo from "../components/BatchInfo";
 import templateselector from "../components/template_selector";
-import TemplateComponents from "../js/TemplateComponents"
+import TemplateComponents from "../js/TemplateComponents";
 export default {
   name: "Create",
-  mixins:[TemplateComponents],
+  mixins: [TemplateComponents],
   components: {
     CertificateInfo,
     BatchInfo,
@@ -89,7 +106,7 @@ export default {
   },
   data: function () {
     return {
-      PageTitle:null,
+      PageTitle: null,
       template: "",
       select_variant: false,
       process: false,
@@ -110,9 +127,11 @@ export default {
     setbatch(value) {
       this.select_variant = false;
       this.IsBatch = value;
-      if(value==true){
-        this.PageTitle="Create Batch"
-      }else{this.PageTitle="Create Certificate"}
+      if (value == true) {
+        this.PageTitle = "Create Batch";
+      } else {
+        this.PageTitle = "Create Certificate";
+      }
     },
     start_process() {
       this.process = true;
@@ -121,9 +140,8 @@ export default {
       this.process = false;
     },
   },
-  created(){
-    this.$store.commit('cert_state/clearcert')
-  }
+  created() {
+    this.$store.commit("cert_state/clearcert");
+  },
 };
-
 </script>

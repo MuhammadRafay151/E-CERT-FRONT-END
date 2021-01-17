@@ -17,6 +17,7 @@
         </div>
       </template>
       <b-table
+        bordered
         white
         hover
         sticky-header="500px"
@@ -27,6 +28,17 @@
       >
         <template #cell(register_date)="data">
           <p>{{ new Date(data.value).toLocaleDateString() }}</p>
+        </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col p-0 border-right">
+              <span>Enable/<br />Disable</span>
+            </div>
+            <div class="col p-0 ">
+              <span>Reset<br />Password</span>
+            </div>
+          </div>
         </template>
         <template #cell(roles)="data">
           <p v-for="item in data.item.roles" v-bind:key="item">{{ item }}</p>
@@ -42,11 +54,18 @@
                 :disabled="!id && IsDisabled(data.item.roles)"
               >
               </b-form-checkbox>
+              <b-tooltip :target="data.index + 't'" triggers="hover">
+                <span v-if="data.item.status.active">Enabled</span>
+                <span v-else>Disabled</span>
+              </b-tooltip>
             </div>
-            <b-tooltip :target="data.index + 't'" triggers="hover">
-              <span v-if="data.item.status.active">Enabled</span>
-              <span v-else>Disabled</span>
-            </b-tooltip>
+
+            <div class="col" >
+              <b-icon :id="data.index + 's'" icon="link45deg" style="cursor: pointer;" scale="1.5"></b-icon>
+                <b-tooltip :target="data.index + 's'" triggers="hover">
+                <span >Send reset password link on user's email address</span>
+              </b-tooltip>
+            </div>
           </div>
         </template>
       </b-table>
@@ -102,7 +121,6 @@ export default {
         },
         {
           key: "Actions",
-          sortable: true,
           class: "align-middle",
         },
       ],
@@ -151,9 +169,9 @@ export default {
       obj.status.active = !obj.status.active;
     },
     IsDisabled(UserRoles) {
-      var x=CheckAuthorization(UserRoles, [Roles.SuperAdmin, Roles.Admin]);
-      console.log(x)
-      return x
+      var x = CheckAuthorization(UserRoles, [Roles.SuperAdmin, Roles.Admin]);
+      console.log(x);
+      return x;
     },
   },
   created() {

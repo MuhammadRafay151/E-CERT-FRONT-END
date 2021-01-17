@@ -37,7 +37,6 @@ import Batches from "../components/Batches";
 
 export default {
   name: "CertificateView",
-
   components: {
     SingleCertificates,
     Batches,

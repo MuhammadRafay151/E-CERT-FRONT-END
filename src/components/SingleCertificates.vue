@@ -15,6 +15,7 @@
       </template>
       <b-table
         id="SingleCertificateData"
+        bordered
         white
         hover
         sticky-header="500px"
@@ -23,7 +24,7 @@
         :items="this.single_certificates.list"
         :fields="fields"
       >
-        <template #head(issue_date)="data">
+        <template #head(name)="data">
           <filters
             search_label="Enter Code"
             class="d-inline"
@@ -31,6 +32,20 @@
             v-on:DateSearch="DateSearch"
           />
           <span class="d-inline">{{ data.label }}</span>
+        </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col border-right">
+              <span class="">View</span>
+            </div>
+            <div class="col border-right">
+              <span>Edit</span>
+            </div>
+            <div class="col">
+              <span>Delete</span>
+            </div>
+          </div>
         </template>
         <template #cell(issue_date)="data">
           {{ new Date(data.value).toLocaleString() }}
@@ -52,22 +67,34 @@
                 icon="eye-fill"
                 style="cursor: pointer"
                 v-on:click="view_Certificate(data.item._id)"
+                :id="data.index + 'f'"
               >
               </b-icon>
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
+                view Certificate
+              </b-tooltip>
             </div>
             <div class="col">
               <b-icon
                 style="cursor: pointer"
                 icon="pencil-square"
                 v-on:click="Edit_Certificate(data.item._id)"
+                :id="data.index + 's'"
               ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Edit Certificate
+              </b-tooltip>
             </div>
             <div class="col">
               <b-icon
                 icon="x-circle-fill"
                 v-on:click="delete_confirm(data.item._id)"
                 style="cursor: pointer"
+                :id="data.index + 't'"
               ></b-icon>
+              <b-tooltip :target="data.index + 't'" triggers="hover">
+                Delete certificate
+              </b-tooltip>
             </div>
           </div>
         </template>
@@ -209,16 +236,6 @@ export default {
       currentPage: 1,
       fields: [
         {
-          key: "issue_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "expiry_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
           key: "name",
           sortable: true,
           class: "align-middle",
@@ -231,6 +248,16 @@ export default {
 
         {
           key: "issuedby",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "issue_date",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "expiry_date",
           sortable: true,
           class: "align-middle",
         },

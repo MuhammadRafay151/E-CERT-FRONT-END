@@ -1,22 +1,18 @@
 <template>
   <div>
-    <div class="row mt-5">
-      <div class="col">
-        <h2>Published Certificate</h2>
-         <b-overlay :show="loading" wrap rounded="sm">
-          <template #overlay>
-            <div class="text-center">
-              <b-spinner
-                style="width: 3rem; height: 3rem"
-                label="Large Spinner"
-              ></b-spinner>
-              <p id="cancel-label">{{ loading_text }}</p>
-            </div>
-          </template>
-          <LineChart :chartData="chartData" :options="chartOptions"></LineChart>
-        </b-overlay>
-      </div>
-    </div>
+    <h2>Published Certificate</h2>
+    <b-overlay :show="loading" wrap rounded="sm">
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+          ></b-spinner>
+          <p id="cancel-label">{{ loading_text }}</p>
+        </div>
+      </template>
+      <LineChart :chartData="chartData" :options="chartOptions"></LineChart>
+    </b-overlay>
   </div>
 </template>
 <script>
@@ -24,7 +20,7 @@ import loader from "../../js/loader";
 import LineChart from "../Charts/LineChart";
 export default {
   name: "CertificatePublicationChart",
-    mixins: [loader],
+  mixins: [loader],
   components: {
     LineChart,
   },
@@ -44,15 +40,15 @@ export default {
           "10/1/21",
         ],
         datasets: [
-            {
-            data: [40, 20, 10, 1,10, 50, 11, 17, 5,21],
-             borderColor: "#FF4136",
+          {
+            data: [40, 20, 10, 1, 10, 50, 11, 17, 5, 21],
+            borderColor: "#FF4136",
             pointBorderColor: "#ffffff",
             pointBackgroundColor: "#FF4136",
             backgroundColor: "#FF41360f",
             borderWidth: 2,
             pointRadius: 6,
-            label:"Single Certificates"
+            label: "Single Certificates",
           },
         ],
       },
@@ -62,7 +58,7 @@ export default {
       },
     };
   },
-   created() {
+  created() {
     this.show_loader("Fetching...");
     this.$store
       .dispatch("dashboard_state/GetSinglePublicationHistory")
@@ -83,9 +79,7 @@ export default {
           ],
         };
         for (let i = 0; i < res.length; i++) {
-          chartData.labels.push(
-            new Date(res[i].date).toLocaleDateString()
-          );
+          chartData.labels.push(new Date(res[i].date).toLocaleDateString());
           chartData.datasets[0].data.push(res[i].Count);
         }
         this.chartData = chartData;

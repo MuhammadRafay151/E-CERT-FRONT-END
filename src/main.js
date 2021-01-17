@@ -7,8 +7,11 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import Vuelidate from 'vuelidate'
 import "./assets/css/style.css"
 import Textra from 'vue-textra'
- 
-
+import VueSidebarMenu from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+Vue.use(VueSidebarMenu)
 Vue.use(Vuelidate)
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

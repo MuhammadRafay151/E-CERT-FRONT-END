@@ -16,6 +16,7 @@
       <b-table
         id="BatchCertificateData"
         white
+        bordered
         hover
         sticky-header="500px"
         responsive
@@ -23,7 +24,7 @@
         :items="batches.list"
         :fields="fields"
       >
-        <template #head(created_date)="data">
+        <template #head(batch_name)="data">
           <filters
             search_label="Enter Batch Name"
             class="d-inline"
@@ -31,6 +32,23 @@
             v-on:DateSearch="DateSearch"
           />
           <span class="d-inline">{{ data.label }}</span>
+        </template>
+        <template #head(Actions)>
+          <p>Actions</p>
+          <div class="row">
+            <div class="col border-right">
+              <span class="">View</span>
+            </div>
+            <div class="col border-right">
+              <span>Open</span>
+            </div>
+            <div class="col border-right">
+              <span>Edit</span>
+            </div>
+            <div class="col border-right">
+              <span>Delete</span>
+            </div>
+          </div>
         </template>
         <template #cell(created_date)="data">
           {{ new Date(data.value).toLocaleString() }}
@@ -51,28 +69,44 @@
                 icon="eye-fill"
                 v-on:click="ViewBatch(data.item._id)"
                 style="cursor: pointer"
+                :id="data.index + 'f'"
               ></b-icon>
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
+                View
+              </b-tooltip>
             </div>
             <div class="col border-right">
               <b-icon
                 icon="card-list"
                 style="cursor: pointer"
                 v-on:click="Batchdetails(data.item._id)"
+                :id="data.index + 's'"
               ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Open Batch
+              </b-tooltip>
             </div>
             <div class="col border-right">
               <b-icon
                 icon="pencil-fill"
                 v-on:click="Edit_Batch(data.item._id)"
                 style="cursor: pointer"
+                :id="data.index + 't'"
               ></b-icon>
+              <b-tooltip :target="data.index + 't'" triggers="hover">
+                Edit
+              </b-tooltip>
             </div>
             <div class="col">
               <b-icon
                 icon="x-circle-fill"
                 v-on:click="delete_confirm(data.item._id)"
                 style="cursor: pointer"
+                :id="data.index + 'fr'"
               ></b-icon>
+              <b-tooltip :target="data.index + 'fr'" triggers="hover">
+                Delete
+              </b-tooltip>
             </div>
           </div>
         </template>
@@ -116,16 +150,6 @@ export default {
       perPage: 3,
       fields: [
         {
-          key: "created_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "expiry_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
           key: "batch_name",
           sortable: true,
           class: "align-middle",
@@ -137,6 +161,16 @@ export default {
         },
         {
           key: "created_by",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "created_date",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "expiry_date",
           sortable: true,
           class: "align-middle",
         },

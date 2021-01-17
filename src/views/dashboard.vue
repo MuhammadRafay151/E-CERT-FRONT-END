@@ -11,19 +11,19 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <certificate-creation-chart />
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <BatchCertificateCreationChart />
         </div>
       </div>
 
       <div class="row">
-        <div class="col">
-          <CertificatePublicationChart/>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <CertificatePublicationChart />
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <BatchCertificatePublicationChart />
         </div>
       </div>

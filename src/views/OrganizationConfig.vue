@@ -1,22 +1,23 @@
 <template>
-  <div style="margin-top: 120px">
-    <b-iconstack
-      font-scale="4"
-      class="position-fixed mr-auto"
-      style="left: -22px; top: 50%"
-      v-on:mouseover="Display = true"
-    >
-      <b-icon
-        stacked
-        icon="chevron-compact-right"
-        variant="wb"
-        scale="0.75"
-        class="bg-primary"
-      ></b-icon>
-      <b-icon stacked icon="circle" variant="wb" shift-h="-3"></b-icon>
-    </b-iconstack>
+  <div id="view" :class="[{ collapsed: collapsed }]" style="margin-top: 120px">
+    <div>
+      <!-- <b-iconstack
+        font-scale="4"
+        class="position-fixed mr-auto"
+        style="left: -22px; top: 50%"
+        v-on:mouseover="Display = true"
+      >
+        <b-icon
+          stacked
+          icon="chevron-compact-right"
+          variant="wb"
+          scale="0.75"
+          class="bg-primary"
+        ></b-icon>
+        <b-icon stacked icon="circle" variant="wb" shift-h="-3"></b-icon>
+      </b-iconstack> -->
 
-    <b-sidebar
+      <!-- <b-sidebar
       v-model="Display"
       id="sidebar-1"
       body-class="bg-wb"
@@ -72,11 +73,20 @@
           <h5 class="d-inline-block">Basic Info</h5>
         </div>
       </div>
-    </b-sidebar>
-    <div class="p-3 shadow m-5">
-      <h3 class="text-wb">{{ org.name }}'s Config</h3>
+    </b-sidebar> -->
+      <div class="p-3 shadow m-5">
+        <h3 class="text-wb">{{ org.name }}'s Config</h3>
+      </div>
+      <component v-bind:is="currentpage" :id="id" />
     </div>
-    <component v-bind:is="currentpage" :id="id" />
+    <sidebar-menu
+      style="left: 0px; top: 8.5%"
+      class="sidebar"
+      :menu="menu"
+      :collapsed="collapsed"
+      @item-click="onItemClick"
+      @toggle-collapse="onToggleCollapse"
+    />
   </div>
 </template>
 <script>
@@ -101,6 +111,24 @@ export default {
       isHovered1: false,
       isHovered2: false,
       isHovered3: false,
+      menu: [
+        {
+          header: true,
+          title: "Getting Started",
+        },
+        {
+          title: "Cert Count",
+          icon: "fas fa-certificate",
+          class: "vsm--link vsm--link_exact-active",
+          attributes: { comp: "certcount" },
+        },
+        {
+          title: "User Management",
+          icon: "far fa-user-circle",
+          attributes: { comp: "UserManagement" },
+        },
+      ],
+      collapsed: true,
     };
   },
   methods: {
@@ -113,6 +141,11 @@ export default {
     handleHover3(hovered) {
       this.isHovered3 = hovered;
     },
+    ResetMenu() {
+      for (let i = 0; i < this.menu.length; i++) {
+        this.menu[i].class = "";
+      }
+    },
     OpenCertCount() {
       this.currentpage = "certcount";
       this.Display = false;
@@ -123,6 +156,14 @@ export default {
     },
     OpenBasicInfo() {
       this.currentpage = certcount;
+    },
+    onItemClick(event, item) {
+      this.ResetMenu();
+      item.class = "vsm--link vsm--link_exact-active";
+      this.currentpage = item.attributes.comp;
+    },
+    onToggleCollapse(c) {
+      this.collapsed = c;
     },
   },
   created() {
@@ -135,3 +176,35 @@ export default {
   },
 };
 </script>
+<style scoped>
+#view {
+  padding-left: 350px;
+  transition: 0.3s ease;
+}
+#view.collapsed {
+  padding-left: 50px;
+}
+.sidebar-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 900;
+}
+.test {
+  color: aqua;
+  background-color: rgb(247, 23, 23);
+}
+pre {
+  font-family: Consolas, monospace;
+  color: #000;
+  background: #fff;
+  border-radius: 2px;
+  padding: 15px;
+  line-height: 1.5;
+  overflow: auto;
+}
+</style>

@@ -14,6 +14,7 @@
       </template>
       <b-table
         id="CertCountData"
+        bordered
         white
         hover
         fixed
