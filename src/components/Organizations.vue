@@ -270,4 +270,12 @@ export default {
 .custom-control-input:disabled ~ .custom-control-label::before {
   background-color: #e9ecef !important;
 }
+/* text box style */
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(34 225 255 / 24%);
+}
 </style>

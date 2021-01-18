@@ -1,6 +1,6 @@
 import axios from "axios"
 import { connectSocket, CloseSocket } from "../js/socket"
-const url= process.env.VUE_APP_API_URL
+const url = process.env.VUE_APP_API_URL
 
 export default {
   namespaced: true,
@@ -35,6 +35,10 @@ export default {
     ToggleUserStatus(state, obj) {
       console.log(obj, state.organizations)
     },
+    UpdateAccessToken(state, token) {
+      state.user.token = token
+      localStorage.setItem("user", JSON.stringify({ user: state.user, Authorization: state.Authorization }))
+    }
   },
   actions: {
     authenticate({ state, commit }, auth) {
@@ -56,10 +60,18 @@ export default {
       })
 
     },
-    signout({ commit }) {
-      return new Promise(res => {
-        commit("signout")
-        res()
+    signout({ state, commit }) {
+      return new Promise((res, rej) => {
+        axios({
+          method: "post",
+          data: { RefreshToken: state.user.RefreshToken },
+          url: url + 'api/account/sign_out'
+        }).then(() => {
+          commit("signout")
+          res()
+        }).catch(err => {
+          rej(err)
+        })
       })
     },
     changepassword() {
@@ -130,6 +142,7 @@ export default {
     IsLoggedIn(state) {
       return state.user.token != null
     },
+
 
   }
 }

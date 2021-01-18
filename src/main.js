@@ -28,17 +28,62 @@ new Vue({
   }
 }).$mount("#app");
 function axios_inter(store, router) {
-  axios.interceptors.response.use(res => {
-    // Important: response interceptors **must** return the response.
-    return res;
+  const url = process.env.VUE_APP_API_URL
+  let IsRefreshing = false;
+  let WaitingQueue = [];
+  const ProcessQueue = (error, token = null) => {
+    WaitingQueue.forEach(prom => {
+      if (error) {
+        prom.rej(error);
+      } else {
+        prom.res(token);
+      }
+    })
+
+    WaitingQueue = [];
+  }
+  axios.interceptors.response.use((response) => {
+    return response
   }, err => {
-    if (err.response.status === 403) {
-      console.log(1)
-      router.push('/login?session_expire=true')
-      store.commit("user_state/signout")
+    const originalRequest = err.config;
+    if (err.response.status === 403 && originalRequest.url === url + 'api/account/refresh_token') {
+      store.dispatch("user_state/signout").then(() => {
+        router.push('/login?session_expire=true')
+      })
+      return Promise.reject(err);
     }
-    return new Promise((resolve, reject) => {
-      reject(err);
-    });
+
+    if (err.response.status === 403 && !originalRequest._retry) {
+      if (IsRefreshing) {
+        return new Promise((res, rej) => {
+          WaitingQueue.push({ res, rej })
+        }).then(token => {
+          originalRequest.headers.Authorization = "Bearer " + token
+          return axios(originalRequest);
+        }).catch(err => {
+          return Promise.reject(err);
+        })
+      }
+      originalRequest._retry = true;
+      IsRefreshing = true
+      const RefreshToken = store.state.user_state.user.RefreshToken;
+      return axios.post(url + 'api/account/refresh_token',
+        {
+          RefreshToken: RefreshToken
+        })
+        .then(res => {
+          if (res.status === 200) {
+            store.commit('user_state/UpdateAccessToken', res.data.token);
+            ProcessQueue(null, res.data.token);
+            originalRequest.headers.Authorization = "Bearer " + res.data.token
+            return axios(originalRequest);
+          }
+        }).catch((err) => {
+          ProcessQueue(err, null);
+          return Promise.reject(err);
+        })
+        .finally(() => { IsRefreshing = false })
+    }
+    return Promise.reject(err);
   });
 }
