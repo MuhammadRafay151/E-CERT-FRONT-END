@@ -1,7 +1,10 @@
 <template>
   <div class="w-100">
     <confirm ref="c1" v-on:yes="$router.go(-1)" />
-    <confirm ref="c2" v-on:yes="RegisterOrg" />
+    <confirm
+      ref="c2"
+      v-on="!Edit ? { yes: RegisterOrg } : { yes: UpdateProfile }"
+    />
     <div class="row justify-content-center">
       <div class="col-lg-6 col-md-8 col-sm-12 col-10 shadow p-3">
         <b-overlay :show="loading" rounded="sm" no-wrap>
@@ -22,8 +25,10 @@
             v-on:click="goback"
             font-scale="2"
             class="float-left"
+            v-if="!Edit"
           ></b-icon>
-          <h3>{{ Title }}</h3>
+          <h3 v-if="!Edit">{{ Title }}</h3>
+          <h3>Update Profile</h3>
         </div>
         <form>
           <div class="form-group text-left">
@@ -65,7 +70,11 @@
             <div class="col">
               <div class="form-group text-left">
                 <Label>Country Code</Label>
-                <select name="countryCode" v-model="org.country_code" class="custom-select">
+                <select
+                  name="countryCode"
+                  v-model="org.country_code"
+                  class="custom-select"
+                >
                   <option data-countryCode="PK" value="92" Selected>
                     PAKISTAN (+92)
                   </option>
@@ -750,11 +759,26 @@
         </form>
         <div class="row">
           <div class="col text-right">
-            <button class="btn btn-wb btn-block" @click="confirm_submit">
+            <button
+              v-if="!Edit"
+              class="btn btn-wb btn-block"
+              @click="confirm_submit"
+            >
               Register Organization
+            </button>
+            <button v-else class="btn btn-wb btn-block" @click="confirm_submit">
+              Update
             </button>
           </div>
         </div>
+        <b-alert
+          v-model="showDismissibleAlert"
+          class="mt-1"
+          variant="success"
+          dismissible
+        >
+          Updated Sucessfully!
+        </b-alert>
       </div>
     </div>
   </div>
@@ -772,22 +796,32 @@ const touchMap = new WeakMap();
 export default {
   name: "RegisterOrganization",
   mixins: [loader],
+  props: { id: String, Edit: Boolean },
   data: () => {
     return {
       Title: "Organization Registeration",
-      org: { name: null, email: null, phone: null,country_code:null, address: null },
+      showDismissibleAlert: false,
+      org: {
+        name: null,
+        email: null,
+        phone: null,
+        country_code: 92,
+        address: null,
+      },
     };
   },
   methods: {
     goback() {
       this.$refs.c1.show(
-        "Are you sure you want to cancel registeration process?"
-      );
+          "Are you sure you want to cancel registeration process?"
+        );
     },
     confirm_submit() {
       this.$v.$touch();
-      if (!this.$v.$invalid)
+      if (!this.$v.$invalid && !this.Edit)
         this.$refs.c2.show("Are you sure you want to submit the form?");
+      else if (!this.$v.$invalid && this.Edit)
+        this.$refs.c2.show("Are you sure you want to update the profile?");
     },
     RegisterOrg() {
       this.$v.$touch();
@@ -796,9 +830,34 @@ export default {
         this.$store
           .dispatch("org_state/RegisterOrg", this.org)
           .then(() => {
-            this.org = { name: null, email: null, phone: null,country_code:null, address: null };
+            this.org = {
+              name: null,
+              email: null,
+              phone: null,
+              country_code: null,
+              address: null,
+            };
             this.Hide_loader();
             this.$router.push("/organizations");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        // setTimeout(() => {}, 3000);
+      }
+    },
+    UpdateProfile() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.show_loader("Processing...");
+        this.$store
+          .dispatch("org_state/UpdateOrgProfile", {
+            id: this.id,
+            org: this.org,
+          })
+          .then(() => {
+            this.Hide_loader();
+            this.showDismissibleAlert = true;
           })
           .catch((err) => {
             console.log(err);
@@ -824,6 +883,12 @@ export default {
       phone: { required, minLength: minLength(10), maxLength: maxLength(10) },
       address: { required },
     },
+  },
+  created() {
+    if (this.Edit) {
+      let x = Object.assign({}, this.$store.state.org_state.org);
+      this.org = x;
+    }
   },
 };
 </script>

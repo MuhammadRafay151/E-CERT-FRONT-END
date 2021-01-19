@@ -5,6 +5,15 @@
       v-on:yes="ChangeStatus"
       v-on:cancel="CancelChangeStatus"
     />
+    <b-modal
+      no-close-on-backdrop
+      id="modal-3"
+      hide-footer
+      centered
+      title="Update Profile"
+    >
+      <UserRegisteration :id="id" v-on:done="ClodeReg" :Edit="true"  />
+    </b-modal>
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -35,7 +44,10 @@
             <div class="col p-0 border-right">
               <span>Enable/<br />Disable</span>
             </div>
-            <div class="col p-0 ">
+            <div class="col p-0">
+              <span>Update<br />Profile</span>
+            </div>
+            <div class="col p-0">
               <span>Reset<br />Password</span>
             </div>
           </div>
@@ -46,7 +58,7 @@
 
         <template #cell(Actions)="data">
           <div class="row">
-            <div class="col" :id="data.index + 't'">
+            <div class="col" :id="data.index + 'f'">
               <b-form-checkbox
                 v-model="data.item.status.active"
                 @change="ConfirmChangeStatus(data.item)"
@@ -54,16 +66,31 @@
                 :disabled="!id && IsDisabled(data.item.roles)"
               >
               </b-form-checkbox>
-              <b-tooltip :target="data.index + 't'" triggers="hover">
+              <b-tooltip :target="data.index + 'f'" triggers="hover">
                 <span v-if="data.item.status.active">Enabled</span>
                 <span v-else>Disabled</span>
               </b-tooltip>
             </div>
-
-            <div class="col" >
-              <b-icon :id="data.index + 's'" icon="link45deg" style="cursor: pointer;" scale="1.5"></b-icon>
-                <b-tooltip :target="data.index + 's'" triggers="hover">
-                <span >Send reset password link on user's email address</span>
+            <div class="col">
+              <b-icon
+                style="cursor: pointer"
+                icon="pencil-square"
+                :id="data.index + 's'"
+                v-b-modal.modal-3
+              ></b-icon>
+              <b-tooltip :target="data.index + 's'" triggers="hover">
+                Update user profile
+              </b-tooltip>
+            </div>
+            <div class="col">
+              <b-icon
+                :id="data.index + 't'"
+                icon="link45deg"
+                style="cursor: pointer"
+                scale="1.5"
+              ></b-icon>
+              <b-tooltip :target="data.index + 't'" triggers="hover">
+                <span>Send reset password link on user's email address</span>
               </b-tooltip>
             </div>
           </div>
@@ -85,6 +112,7 @@
 <script>
 import loader from "../js/loader";
 import confirmbox from "../components/confirmbox";
+import UserRegisteration from "./Registeration";
 import { mapState } from "vuex";
 import { Roles } from "../js/Roles";
 import { CheckAuthorization } from "../js/Authorization";
@@ -94,6 +122,7 @@ export default {
   props: ["id"],
   components: {
     confirmbox,
+    UserRegisteration,
   },
   data: () => {
     return {
@@ -172,6 +201,13 @@ export default {
       var x = CheckAuthorization(UserRoles, [Roles.SuperAdmin, Roles.Admin]);
       console.log(x);
       return x;
+    },
+    UpdateProfile() {
+      alert();
+    },
+    ClodeReg() {
+      this.$bvModal.hide("modal-3");
+      this.page(this.currentPage);
     },
   },
   created() {

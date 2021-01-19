@@ -77,7 +77,7 @@
       <div class="p-3 shadow m-5">
         <h3 class="text-wb">{{ org.name }}'s Config</h3>
       </div>
-      <component v-bind:is="currentpage" :id="id" />
+      <component v-bind:is="currentpage" :id="id" :Edit="true" />
     </div>
     <sidebar-menu
       style="left: 0px; top: 8.5%"
@@ -92,6 +92,7 @@
 <script>
 import certcount from "../components/CertificateCount";
 import UserManagement from "../components/UserManagement";
+import EditOrgProfile from "../components/RegisterOrganization";
 import { mapState } from "vuex";
 export default {
   name: "OrganizationConfig",
@@ -99,6 +100,7 @@ export default {
   components: {
     certcount,
     UserManagement,
+    EditOrgProfile,
   },
   computed: {
     ...mapState("org_state", ["org"]),
@@ -126,6 +128,11 @@ export default {
           title: "User Management",
           icon: "far fa-user-circle",
           attributes: { comp: "UserManagement" },
+        },
+        {
+          title: "Edit Profile",
+          icon: "far fa-edit",
+          attributes: { comp: "EditOrgProfile" },
         },
       ],
       collapsed: true,

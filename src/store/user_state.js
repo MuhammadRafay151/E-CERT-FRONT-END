@@ -115,6 +115,28 @@ export default {
         })
       })
     },
+    UpdateUserProfile({ rootState }, obj) {
+      var temp = null
+      if (obj.orgid) {
+        temp = url + `api/account/UpdateProfile/${obj.uid}/${obj.orgid}`
+      } else {
+        temp = url + "api/account/UpdateProfile/" + obj.uid
+      }
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: temp,
+          method: "PUT",
+          data: obj.user
+        }).then(() => {
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     ToggleUserStatus({ rootState, commit }, obj) {
       var temp = null
       if (obj.orgid) {

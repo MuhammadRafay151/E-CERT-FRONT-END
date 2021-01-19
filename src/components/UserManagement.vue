@@ -25,8 +25,8 @@
         :id="id"
         v-on:done="CloseReg"
         :ULimit="
-          (org.user_limit == users.totalcount 
-          && Authorization.SuperAdmin==false) ||
+          (org.user_limit == users.totalcount &&
+            Authorization.SuperAdmin == false) ||
           (org.user_limit == users.totalcount && id)
         "
       />
@@ -43,7 +43,10 @@
           v-b-modal.modal-2
           id="a1"
         ></b-icon>
-        <span class="ml-2 align-self-center text-wb" v-if="Authorization.SuperAdmin && !id">
+        <span
+          class="ml-2 align-self-center text-wb"
+          v-if="Authorization.SuperAdmin && !id"
+        >
           User Count: {{ users.totalcount || 0 }}
         </span>
         <span v-else class="ml-2 align-self-center text-wb"

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const url= process.env.VUE_APP_API_URL
+const url = process.env.VUE_APP_API_URL
 export default {
   namespaced: true,
   state: {
@@ -100,6 +100,23 @@ export default {
           method: "POST",
           data: obj
         }).then(() => {
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
+    UpdateOrgProfile({ rootState, commit }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + "api/organization/" + obj.id,
+          method: "PUT",
+          data: obj.org
+        }).then(response => {
+          commit("setorg", response.data)
           res()
         }).catch(err => {
           rej(err)
