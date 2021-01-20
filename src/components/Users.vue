@@ -12,7 +12,7 @@
       centered
       title="Update Profile"
     >
-      <UserRegisteration :id="id" v-on:done="ClodeReg" :Edit="true"  />
+      <UserRegisteration ref="u1" :id="id" v-on:done="ClodeReg" :Edit="EditableUser" />
     </b-modal>
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
@@ -76,7 +76,7 @@
                 style="cursor: pointer"
                 icon="pencil-square"
                 :id="data.index + 's'"
-                v-b-modal.modal-3
+                v-on:click="OpenEditor(data.item)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
                 Update user profile
@@ -127,6 +127,7 @@ export default {
   data: () => {
     return {
       isempty: false,
+      EditableUser: null,
       fields: [
         {
           key: "register_date",
@@ -204,6 +205,10 @@ export default {
     },
     UpdateProfile() {
       alert();
+    },
+    OpenEditor(user) {
+      this.$bvModal.show("modal-3");
+      this.EditableUser = user;
     },
     ClodeReg() {
       this.$bvModal.hide("modal-3");

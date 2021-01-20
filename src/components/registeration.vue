@@ -756,8 +756,8 @@ import loader from "../js/loader";
 import debounce from "../js/debounce";
 const touchMap = new WeakMap();
 export default {
-  props: ["id", "uid", "ULimit", "Edit"],
-  //id=orgid and uid=userid
+  props: ["id", "ULimit", "Edit"],
+  //id=orgid
   mixins: [loader, debounce],
   name: "registeration",
   data: function () {
@@ -836,12 +836,14 @@ export default {
     },
     UpdateProfile() {
       this.$v.$touch();
-      if (!this.$v.$invalid && this.IsAvailable) {
+      if (
+        !this.$v.$invalid &&
+        (this.IsAvailable || this.Edit.email == this.user.email)
+      ) {
         this.show_loader("Processing...");
         this.$store
           .dispatch("user_state/UpdateUserProfile", {
             orgid: this.id,
-            uid:this.uid,
             user: this.user,
           })
           .then(() => {
@@ -858,7 +860,12 @@ export default {
     "user.email": function () {
       this.IsAvailable = false;
       this.IsNotAvailable = false;
-      if (!this.$v.user.email.$invalid) {
+      if (!this.$v.user.email.$invalid && !this.Edit) {
+        this.debounce(this.CheckEmail);
+      } else if (
+        !this.$v.user.email.$invalid &&
+        this.Edit.email !== this.user.email
+      ) {
         this.debounce(this.CheckEmail);
       } else {
         this.cleardebounce();
@@ -888,6 +895,9 @@ export default {
   created() {
     if (this.ULimit) {
       this.show_error("User limit reached cannot add more users");
+    }
+    if (this.Edit) {
+      this.user = Object.assign({}, this.Edit);
     }
   },
 };

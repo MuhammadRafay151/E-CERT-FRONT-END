@@ -118,9 +118,9 @@ export default {
     UpdateUserProfile({ rootState }, obj) {
       var temp = null
       if (obj.orgid) {
-        temp = url + `api/account/UpdateProfile/${obj.uid}/${obj.orgid}`
+        temp = url + `api/account/UpdateProfile/${obj.orgid}`
       } else {
-        temp = url + "api/account/UpdateProfile/" + obj.uid
+        temp = url + "api/account/UpdateProfile/"
       }
       return new Promise((res, rej) => {
         axios({
