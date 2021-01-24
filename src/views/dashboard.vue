@@ -1,8 +1,8 @@
 <template>
   <div style="overflow: hidden; margin-top: 120px" class="container-fluid">
     <div>
-      <user-chart />
-      <div class="row">
+      <user-chart v-if="Authorization.Admin" />
+      <div class="row" v-if="Authorization.Admin">
         <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
           <certificate-count-history-chart />
         </div>
@@ -10,7 +10,7 @@
           <certificate-count-chart />
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="Authorization.Admin">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <certificate-creation-chart />
         </div>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" v-if="Authorization.Admin">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <CertificatePublicationChart />
         </div>
@@ -27,7 +27,7 @@
           <BatchCertificatePublicationChart />
         </div>
       </div>
-      <client-organization-chart />
+      <client-organization-chart v-if="Authorization.SuperAdmin" />
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@ import BatchCertificateCreationChart from "../components/Dashboard/BatchCertific
 import CertificatePublicationChart from "../components/Dashboard/CertificatePublicationChart.vue";
 import BatchCertificatePublicationChart from "../components/Dashboard/BatchCertificatePublicationHistory";
 import ClientOrganizationChart from "../components/Dashboard/ClientOrganizationChart.vue";
-
+import { mapState } from "vuex";
 export default {
   name: "Dashboard",
   components: {
@@ -54,5 +54,8 @@ export default {
     BatchCertificateCreationChart,
     BatchCertificatePublicationChart,
   },
+  computed:{
+...mapState("user_state",["Authorization"])
+  }
 };
 </script>

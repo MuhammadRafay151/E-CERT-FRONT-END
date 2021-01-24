@@ -18,7 +18,7 @@
             >DashBoard</b-nav-item
           >
 
-          <b-nav-item v-if="IsLoggedIn" href="#" to="/create"
+          <b-nav-item v-if="IsLoggedIn && !Authorization.SuperAdmin" href="#" to="/create"
             >Create</b-nav-item
           >
           <b-nav-item
@@ -26,10 +26,10 @@
             to="/organizations"
             >Organizations</b-nav-item
           >
-          <b-nav-item v-if="IsLoggedIn" href="#" to="/certificates"
+          <b-nav-item v-if="IsLoggedIn && !Authorization.SuperAdmin" href="#" to="/certificates"
             >Certificates</b-nav-item
           >
-          <b-nav-item v-if="IsLoggedIn" href="#" to="/publications"
+          <b-nav-item v-if="IsLoggedIn  && !Authorization.SuperAdmin" href="#" to="/publications"
             >Publications</b-nav-item
           >
           <b-nav-item href="#" to="/verification"
@@ -49,12 +49,12 @@
             </template>
             <b-dropdown-item href="#">Name: {{ user.name }}</b-dropdown-item>
             <b-dropdown-item href="#">Email: {{ user.email }}</b-dropdown-item>
-            <b-dropdown-item href="#"
+            <b-dropdown-item v-if="user.organization" href="#"
               >Org: {{ user.organization.name }}</b-dropdown-item
             >
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item v-if="Authorization.SuperAdmin||Authorization.Admin" v-on:click="config">Config</b-dropdown-item>
+            <b-dropdown-item to="/userprofile">Profile</b-dropdown-item>
+            <b-dropdown-item v-if="Authorization.Admin" v-on:click="config">Config</b-dropdown-item>
             <b-dropdown-item href="#" v-on:click="signout"
               >Sign Out</b-dropdown-item
             >

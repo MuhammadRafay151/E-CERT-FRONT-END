@@ -93,6 +93,7 @@
 import certcount from "../components/CertificateCount";
 import UserManagement from "../components/UserManagement";
 import EditOrgProfile from "../components/RegisterOrganization";
+import OrgAbout from "../components/OrgAbout";
 import { mapState } from "vuex";
 export default {
   name: "OrganizationConfig",
@@ -101,6 +102,7 @@ export default {
     certcount,
     UserManagement,
     EditOrgProfile,
+    OrgAbout,
   },
   computed: {
     ...mapState("org_state", ["org"]),
@@ -130,9 +132,9 @@ export default {
           attributes: { comp: "UserManagement" },
         },
         {
-          title: "Edit Profile",
-          icon: "far fa-edit",
-          attributes: { comp: "EditOrgProfile" },
+          title: "About",
+          icon: "fas fa-info-circle",
+          attributes: { comp: "OrgAbout" },
         },
       ],
       collapsed: true,
@@ -180,6 +182,35 @@ export default {
       .catch(() => {
         this.$router.push({ name: "404" });
       });
+    if (this.id) {
+      this.menu = [
+        {
+          header: true,
+          title: "Getting Started",
+        },
+        {
+          title: "Cert Count",
+          icon: "fas fa-certificate",
+          class: "vsm--link vsm--link_exact-active",
+          attributes: { comp: "certcount" },
+        },
+        {
+          title: "User Management",
+          icon: "far fa-user-circle",
+          attributes: { comp: "UserManagement" },
+        },
+        {
+          title: "Edit Profile",
+          icon: "far fa-edit",
+          attributes: { comp: "EditOrgProfile" },
+        },
+        {
+          title: "About",
+          icon: "fas fa-info-circle",
+          attributes: { comp: "OrgAbout" },
+        },
+      ];
+    }
   },
 };
 </script>

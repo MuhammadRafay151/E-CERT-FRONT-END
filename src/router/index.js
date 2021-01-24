@@ -18,6 +18,7 @@ import published from '../views/publish.vue'
 import BatchCertPublication from '../views/BatchCertPublication.vue'
 import RegisterOrganization from '../views/RegisterOrganization.vue'
 import OrganizationConfig from '../views/OrganizationConfig.vue'
+import UserProfile from "../views/UserProfile.vue"
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
 import { Roles } from '../js/Roles'
@@ -68,13 +69,16 @@ const routes = [
     path: "/create",
     name: "Create",
     component: Create,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin], }
   },
   {
     path: "/certificates",
     name: "certificates",
     component: certificates,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.Issuer, Roles.Admin],
+    }
   },
   {
     path: "/forgetcertificate",
@@ -102,28 +106,28 @@ const routes = [
     path: "/edit/:id/:IsBatch",
     name: "Edit",
     component: Edit,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin], },
     props: true
   },
   {
     path: "/BatchCerts/:id",
     name: "BatchCerts",
     component: BatchCerts,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin] },
     props: true
   },
   {
     path: "/BatchCerts/publications/:id/:",
     name: "BCP_VIEW",
     component: BatchCertPublication,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin] },
     props: true
   },
   {
     name: "publications",
     path: "/publications",
     component: published,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin] },
   },
   {
     name: "RegisterOrganization",
@@ -150,7 +154,7 @@ const routes = [
     component: OrganizationConfig,
     meta: {
       requiresAuth: true,
-      roles: [Roles.SuperAdmin, Roles.Admin]
+      roles: [Roles.Admin]
     },
   },
   {
@@ -170,6 +174,15 @@ const routes = [
     meta: {
       requiresAuth: true,
       roles: [Roles.SuperAdmin]
+    },
+    props: true
+  },
+  {
+    name: "UserProfile",
+    path: "/userprofile",
+    component: UserProfile,
+    meta: {
+      requiresAuth: true,
     },
     props: true
   },
