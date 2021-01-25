@@ -3,6 +3,53 @@
     <msgbox ref="cf" v-on:yes="publish" />
     <deletebox ref="d1" v-on:delete="del_cert" />
     <!-- <p>{{this.single_certificates}}</p> -->
+    <!-- <div class="shadow mb-2" v-if="SQuery">
+      <br />
+      <h4 class="text-left ml-4">
+        Search query: <span style="cursor: pointer" @click="ClearSQ"> x</span>
+      </h4>
+      <div class="row pb-3 pl-3 pr-3">
+        <div class="col border mr-2 ml-2" v-if="SQuery.data.name">
+          <strong>Candidate Name: </strong> {{ SQuery.data.name }}
+        </div>
+        <div class="col border mr-2 ml-2" v-if="SQuery.data.title">
+          <strong>Title: </strong> {{ SQuery.data.title }}
+        </div>
+        <div class="col border mr-2 ml-2" v-if="SQuery.data.fromdate">
+          <strong>From date: </strong> {{ SQuery.data.fromdate }}
+        </div>
+        <div class="col border mr-2 ml-2" v-if="SQuery.data.todate">
+          <strong>To date: </strong> {{ SQuery.data.todate }}
+        </div>
+      </div>
+    </div> -->
+    <b-input-group class="mb-2">
+      <b-form-tags
+        v-if="SQuery"
+        v-model="value"
+        no-outer-focus
+        no-tag-remove
+        class=" text-left"
+      >
+        <template v-slot="{ noTagRemove, tags, tagVariant }">
+          <div class="d-inline-block p-2" style="font-size: 1.3rem;">
+            <b-form-tag
+              v-for="tag in tags"
+              :key="tag"
+              :title="tag"
+              :variant="tagVariant"
+              class="mr-1"
+              :no-remove="noTagRemove"
+              >{{ tag }}</b-form-tag
+            >
+          </div>
+        </template>
+      </b-form-tags>
+      <b-input-group-append>
+       <button class="btn btn-wb btn-block">Clear Search</button>
+      </b-input-group-append>
+    </b-input-group>
+
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -132,7 +179,7 @@ import loader from "../js/loader";
 export default {
   name: "SingleCertificates",
   mixins: [loader],
-
+  props: ["SearchQuery"],
   components: {
     filters,
     deletebox,
@@ -229,6 +276,9 @@ export default {
       var text = "Are you sure u want to publish this certificate";
       this.$refs.cf.show(text, id);
     },
+    ClearSQ() {
+      this.SQuery = null;
+    },
   },
   data() {
     return {
@@ -270,7 +320,20 @@ export default {
           class: "align-middle",
         },
       ],
+      SQuery: null,
+      value: [],
     };
+  },
+  watch: {
+    SearchQuery: function (NewVal) {
+      this.SQuery = NewVal;
+      this.value = [];
+      for (const val of Object.values(NewVal.data)) {
+        if (val) {
+          this.value.push(`${val}`);
+        }
+      }
+    },
   },
   computed: {
     ...mapState("cert_state", ["single_certificates"]),
