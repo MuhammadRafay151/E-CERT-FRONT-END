@@ -12,7 +12,9 @@
 
     <div class="row">
       <div class="col">
-        <button class="btn btn-wb btn-block">Apply</button>
+        <button class="btn btn-wb btn-block" v-on="{ click: apply }">
+          Apply
+        </button>
       </div>
     </div>
   </div>
@@ -22,7 +24,7 @@ export default {
   name: "SingleCertFilter",
   data: () => {
     return {
-      selected: null,
+      selected: "dsc",
       options: [
         { text: "Acsendiing", value: "asc" },
         { text: "Descending", value: "dsc" },
@@ -30,6 +32,11 @@ export default {
         // { text: "This is the 4th radio", value: { fourth: 4 } },
       ],
     };
+  },
+  methods: {
+    apply() {
+      this.$emit("ApplyFilter", this.selected);
+    },
   },
 };
 </script>

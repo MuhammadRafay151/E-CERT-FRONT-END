@@ -104,7 +104,8 @@ export default {
     GetSingleCertificates({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = url + "api/certificate?pageno=" + obj.pageno
+        var temp = url + `api/certificate?pageno=${obj.pageno}&sort=${obj.sort}`
+        obj.query ? temp += `&${obj.query}` : null
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,

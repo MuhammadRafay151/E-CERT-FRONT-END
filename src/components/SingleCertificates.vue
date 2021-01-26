@@ -23,16 +23,15 @@
         </div>
       </div>
     </div> -->
-    <b-input-group class="mb-2">
+    <b-input-group class="mb-2" v-if="value.length > 0">
       <b-form-tags
-        v-if="SQuery"
         v-model="value"
         no-outer-focus
         no-tag-remove
-        class=" text-left"
+        class="text-left"
       >
         <template v-slot="{ noTagRemove, tags, tagVariant }">
-          <div class="d-inline-block p-2" style="font-size: 1.3rem;">
+          <div class="d-inline-block p-2" style="font-size: 1.3rem">
             <b-form-tag
               v-for="tag in tags"
               :key="tag"
@@ -46,7 +45,9 @@
         </template>
       </b-form-tags>
       <b-input-group-append>
-       <button class="btn btn-wb btn-block">Clear Search</button>
+        <button class="btn btn-wb btn-block" v-on="{ click: ClearSQ }">
+          Clear Search
+        </button>
       </b-input-group-append>
     </b-input-group>
 
@@ -179,7 +180,7 @@ import loader from "../js/loader";
 export default {
   name: "SingleCertificates",
   mixins: [loader],
-  props: ["SearchQuery"],
+  props: ["SearchQuery", "SortQuery"],
   components: {
     filters,
     deletebox,
@@ -195,10 +196,15 @@ export default {
     },
     page(pageno) {
       this.show_loader("Fetching...");
+      let payload = {
+        pageno: pageno,
+        sort: this.sort,
+      };
+      if (this.SQuery) {
+        payload.query = this.SQuery.query;
+      }
       this.$store
-        .dispatch("cert_state/GetSingleCertificates", {
-          pageno: pageno,
-        })
+        .dispatch("cert_state/GetSingleCertificates", payload)
         .then(() => {
           this.Hide_loader();
         })
@@ -278,6 +284,9 @@ export default {
     },
     ClearSQ() {
       this.SQuery = null;
+      this.value = [];
+      this.page(1);
+      this.currentPage = 1;
     },
   },
   data() {
@@ -321,6 +330,7 @@ export default {
         },
       ],
       SQuery: null,
+      sort: "dsc",
       value: [],
     };
   },
@@ -328,11 +338,21 @@ export default {
     SearchQuery: function (NewVal) {
       this.SQuery = NewVal;
       this.value = [];
-      for (const val of Object.values(NewVal.data)) {
-        if (val) {
-          this.value.push(`${val}`);
-        }
-      }
+      NewVal.data.name ? this.value.push("Name: " + NewVal.data.name) : null;
+      NewVal.data.title ? this.value.push("title: " + NewVal.data.title) : null;
+      NewVal.data.fromdate
+        ? this.value.push("From date: " + NewVal.data.fromdate)
+        : null;
+      NewVal.data.todate
+        ? this.value.push("To date: " + NewVal.data.todate)
+        : null;
+      this.page(1);
+      this.currentPage = 1;
+    },
+    SortQuery: function (NewVal) {
+      this.sort = NewVal;
+      this.page(1);
+      this.currentPage = 1;
     },
   },
   computed: {
@@ -340,21 +360,13 @@ export default {
   },
   created() {
     var PageNo = 1;
+    console.log(this.SortQuery);
+    this.sort = this.SortQuery || "dsc";
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
     }
-    this.show_loader("Fetching...");
-    this.$store
-      .dispatch("cert_state/GetSingleCertificates", {
-        pageno: PageNo,
-      })
-      .then(() => {
-        this.currentPage = PageNo;
-        this.Hide_loader();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.page(PageNo);
+    this.currentPage = 1;
   },
 };
 </script>

@@ -24,7 +24,6 @@
               toggle-class="text-decoration-none"
               no-caret
               right
-              lazy
             >
               <template #button-content>
                 <b-icon
@@ -42,7 +41,7 @@
                     );
                   "
                 >
-                  <flr />
+                  <flr v-on="{ ApplyFilter: Sort }" ref="f1" />
                 </div>
               </template>
             </b-dropdown>
@@ -75,8 +74,12 @@
 
     <div class="row mt-1">
       <div class="col">
-        <SingleCertificates v-if="Display" :SearchQuery="SearchQuery" />
-        <batches v-else :SearchQuery="SearchQuery" />
+        <SingleCertificates
+          v-if="Display"
+          :SearchQuery="SearchQuery"
+          :SortQuery="SortQuery"
+        />
+        <batches v-else :SearchQuery="SearchQuery" :SortQuery="SortQuery" />
       </div>
     </div>
   </div>
@@ -106,11 +109,15 @@ export default {
     search(obj) {
       this.SearchQuery = obj;
     },
+    Sort(obj) {
+      this.SortQuery = obj;
+    },
   },
   data() {
     return {
       Display: true,
       SearchQuery: null,
+      SortQuery: null,
     };
   },
   created() {

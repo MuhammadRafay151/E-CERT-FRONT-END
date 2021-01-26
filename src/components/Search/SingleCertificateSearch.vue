@@ -48,14 +48,22 @@ export default {
   },
   methods: {
     Search() {
-      let query = "?";
+      let query = "";
       for (const [key, value] of Object.entries(this.$data)) {
         if (value) {
           query += `${key}=${value}&`;
         }
       }
       query = query.slice(0, query.length - 1);
-      this.$emit("search", { query: query, data: this.$data });
+      if (query.length > 0) {
+        this.$emit("search", { query: query, data: this.$data });
+      }
+    },
+    Reset() {
+      this.name = "";
+      this.title = "";
+      this.fromdate = "";
+      this.todate = "";
     },
   },
 };
