@@ -61,10 +61,9 @@ export default {
         this.Hide_loader();
         this.chartData = {
           labels: [
-            "Total Users",
-            "Active Users",
-            "Inactive Users",
-            "Unregistered Users",
+            "Total Organizations",
+            "Active Organizations",
+            "Inactive Organizations",
           ],
           datasets: [
             {
