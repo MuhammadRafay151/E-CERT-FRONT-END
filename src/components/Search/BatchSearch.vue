@@ -9,8 +9,8 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <label for="">Candidate Name</label>
-          <input type="text" v-model.trim="name" class="form-control" />
+          <label for="">Batch Name</label>
+          <input type="text" v-model.trim="batch_name" class="form-control" />
         </div>
       </div>
     </div>
@@ -38,11 +38,11 @@
 <script>
 import search from "./search";
 export default {
-  name: "SingleCertSearch",
+  name: "BatchSearch",
   mixins: [search],
   data: () => {
     return {
-      name: "",
+      batch_name: "",
     };
   },
 };

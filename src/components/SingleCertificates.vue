@@ -156,7 +156,7 @@
         <b-pagination
           v-model="currentPage"
           :total-rows="this.single_certificates.totalcount"
-          :per-page="5"
+          :per-page="perPage"
           aria-controls="SingleCertificateData"
           v-on:change="page"
           pills
@@ -177,9 +177,10 @@ import deletebox from "./delete_box";
 import filters from "../components/filter";
 import { mapState } from "vuex";
 import loader from "../js/loader";
+import search_tag from "../components/Search/SearchTag";
 export default {
   name: "SingleCertificates",
-  mixins: [loader],
+  mixins: [loader, search_tag],
   props: ["SearchQuery", "SortQuery"],
   components: {
     filters,
@@ -282,16 +283,10 @@ export default {
       var text = "Are you sure u want to publish this certificate";
       this.$refs.cf.show(text, id);
     },
-    ClearSQ() {
-      this.SQuery = null;
-      this.value = [];
-      this.page(1);
-      this.currentPage = 1;
-    },
   },
   data() {
     return {
-      perPage: 3,
+      perPage: 10,
       currentPage: 1,
       fields: [
         {
@@ -331,7 +326,6 @@ export default {
       ],
       SQuery: null,
       sort: "dsc",
-      value: [],
     };
   },
   watch: {
@@ -360,7 +354,6 @@ export default {
   },
   created() {
     var PageNo = 1;
-    console.log(this.SortQuery);
     this.sort = this.SortQuery || "dsc";
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;

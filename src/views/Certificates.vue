@@ -63,7 +63,8 @@
               </template>
               <template #default>
                 <div class="dp">
-                  <SingleCertSearch v-on:search="search" />
+                  <SingleCertSearch v-if="Display" v-on:search="search" />
+                  <BatchSearch v-else v-on:search="search"/>
                 </div>
               </template>
             </b-dropdown>
@@ -87,6 +88,7 @@
 <script>
 import SingleCertificates from "../components/SingleCertificates";
 import SingleCertSearch from "../components/Search/SingleCertificateSearch";
+import BatchSearch from "../components/Search/BatchSearch";
 import Batches from "../components/Batches";
 import flr from "../components/filters/filter";
 export default {
@@ -95,6 +97,7 @@ export default {
     SingleCertificates,
     Batches,
     SingleCertSearch,
+    BatchSearch,
     flr,
   },
   methods: {

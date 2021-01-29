@@ -255,15 +255,9 @@ export default {
           url: temp
         }).then(response => {
           var x = null
-          if (response.data.batch_id) {
-            x = response.data
-            x.logo = `${url}image/${x.logo.image}?mimetype=${x.logo.mimetype}`
-            x.signature = `${url}image/${x.signature.image}?mimetype=${x.signature.mimetype}`
-          } else {
-            x = response.data
-            x.logo = `data:${x.logo.mimetype};base64,${x.logo.image}`
-            x.signature = `data:${x.signature.mimetype};base64,${x.signature.image}`
-          }
+          x = response.data
+          x.logo = `${url}image/${x.logo}`
+          x.signature = `${url}image/${x.signature}`
           commit("updatecert", response.data)
           res()
         }).catch(err => {
@@ -292,14 +286,14 @@ export default {
 
 
     },
-    GetBatches({ commit, rootState }, pageno) {
+    GetBatches({ commit, rootState }, obj) {
       return new Promise((res, rej) => {
-        if (!pageno) { pageno = 1 }
-        var temp = url + "api/batch?pageno=" + pageno
+        if (!obj.pageno) { obj.pageno = 1 }
+        var temp = url + `api/batch?pageno=${obj.pageno}&sort=${obj.sort}`
+        obj.query ? temp += `&${obj.query}` : null
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           method: "GET",
           url: temp
