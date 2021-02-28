@@ -224,12 +224,13 @@ export default {
     GetPublishCertificates({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = null
+        let temp = null
         if (obj.id) {
-          temp = url + `api/certificate/org_pub/${obj.id}/?pageno=${obj.pageno}`
+          temp = url + `api/certificate/org_pub/${obj.id}/?pageno=${obj.pageno}&sort=${obj.sort}`
         } else {
-          temp = url + `api/certificate?pageno=${obj.pageno}&pub=true`
+          temp = url + `api/certificate?pageno=${obj.pageno}&pub=true&sort=${obj.sort}`
         }
+        obj.query ? temp += `&${obj.query}` : null
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
@@ -289,7 +290,7 @@ export default {
     GetBatches({ commit, rootState }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = url + `api/batch?pageno=${obj.pageno}&sort=${obj.sort}`
+        let temp = url + `api/batch?pageno=${obj.pageno}&sort=${obj.sort}`
         obj.query ? temp += `&${obj.query}` : null
         axios({
           headers: {
@@ -485,12 +486,13 @@ export default {
     GetPublishBatches({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
         if (!obj.pageno) { obj.pageno = 1 }
-        var temp = null;
+        let temp = null;
         if (obj.id) {
-          temp = url + `api/batch/org_pub/${obj.id}/?pageno=${obj.pageno}`
+          temp = url + `api/batch/org_pub/${obj.id}/?pageno=${obj.pageno}&sort=${obj.sort}`
         } else {
-          temp = url + `api/batch?pageno=${obj.pageno}&pub=true`
+          temp = url + `api/batch?pageno=${obj.pageno}&pub=true&sort=${obj.sort}`
         }
+        obj.query ? temp += `&${obj.query}` : null
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,

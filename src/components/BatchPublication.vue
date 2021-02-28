@@ -1,5 +1,32 @@
 <template>
   <div class="shadow p-3">
+    <b-input-group class="mb-2" v-if="value.length > 0">
+      <b-form-tags
+        v-model="value"
+        no-outer-focus
+        no-tag-remove
+        class="text-left"
+      >
+        <template v-slot="{ noTagRemove, tags, tagVariant }">
+          <div class="d-inline-block p-2" style="font-size: 1.3rem">
+            <b-form-tag
+              v-for="tag in tags"
+              :key="tag"
+              :title="tag"
+              :variant="tagVariant"
+              class="mr-1"
+              :no-remove="noTagRemove"
+              >{{ tag }}</b-form-tag
+            >
+          </div>
+        </template>
+      </b-form-tags>
+      <b-input-group-append>
+        <button class="btn btn-wb btn-block" v-on="{ click: ClearSQ }">
+          Clear Search
+        </button>
+      </b-input-group-append>
+    </b-input-group>
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -21,15 +48,6 @@
         :items="this.batches.list"
         :fields="fields"
       >
-        <template #head(publish_date)="data">
-          <filters
-            search_label="Enter Code"
-            class="d-inline"
-            v-on:TextSearch="CodeSearch"
-            v-on:DateSearch="DateSearch"
-          />
-          <span class="d-inline">{{ data.label }}</span>
-        </template>
         <template #head(Actions)>
           <p>Actions</p>
           <div class="row">
@@ -93,30 +111,19 @@
 </template>
 <script>
 import loader from "../js/loader";
-import filters from "../components/filter";
 import { mapState } from "vuex";
+import search_tag from "../components/Search/SearchTag";
 export default {
   name: "BatchPublication",
-  props: ["id"],
+  props: ["id", "SearchQuery", "SortQuery"],
   //id is passed for viweing anpther org certificates if id not passed it will by default show current org data
-  mixins: [loader],
-  components: { filters },
+  mixins: [loader, search_tag],
   computed: { ...mapState("cert_state", ["batches"]) },
   data: () => {
     return {
       perPage: 3,
       currentPage: 1,
       fields: [
-        {
-          key: "publish_date",
-          sortable: true,
-          class: "align-middle",
-        },
-        {
-          key: "expiry_date",
-          sortable: true,
-          class: "align-middle",
-        },
         {
           key: "batch_name",
           sortable: true,
@@ -134,20 +141,36 @@ export default {
           class: "align-middle",
         },
         {
+          key: "publish_date",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
+          key: "expiry_date",
+          sortable: true,
+          class: "align-middle",
+        },
+        {
           key: "Actions",
           class: "align-middle",
         },
       ],
+      SQuery: null,
+      sort: "dsc",
     };
   },
   methods: {
     page(pageno) {
       this.show_loader("Fetching...");
+      let payload = {
+        pageno: pageno,
+        sort: this.sort,
+      };
+      if (this.SQuery) {
+        payload.query = this.SQuery.query;
+      }
       this.$store
-        .dispatch("cert_state/GetPublishBatches", {
-          pageno: pageno,
-          id: this.id,
-        })
+        .dispatch("cert_state/GetPublishBatches", payload)
         .then(() => {
           this.Hide_loader();
         })
@@ -185,8 +208,29 @@ export default {
         });
       }
     },
-    CodeSearch() {},
-    DateSearch() {},
+  },
+  watch: {
+    SearchQuery: function (NewVal) {
+      this.SQuery = NewVal;
+      this.value = [];
+      NewVal.data.batch_name
+        ? this.value.push("Batch Name: " + NewVal.data.batch_name)
+        : null;
+      NewVal.data.title ? this.value.push("title: " + NewVal.data.title) : null;
+      NewVal.data.fromdate
+        ? this.value.push("From date: " + NewVal.data.fromdate)
+        : null;
+      NewVal.data.todate
+        ? this.value.push("To date: " + NewVal.data.todate)
+        : null;
+      this.page(1);
+      this.currentPage = 1;
+    },
+    SortQuery: function (NewVal) {
+      this.sort = NewVal;
+      this.page(1);
+      this.currentPage = 1;
+    },
   },
   created() {
     this.show_loader("Fetching...");
@@ -194,17 +238,7 @@ export default {
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
     }
-    this.$store
-      .dispatch("cert_state/GetPublishBatches", {
-        pageno: PageNo,
-        id: this.id,
-      })
-      .then(() => {
-        this.Hide_loader();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.page(PageNo);
   },
 };
 </script>

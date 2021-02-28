@@ -117,7 +117,7 @@ const routes = [
     props: true
   },
   {
-    path: "/BatchCerts/publications/:id/:",
+    path: "/BatchCerts/publications/:id",
     name: "BCP_VIEW",
     component: BatchCertPublication,
     meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin] },

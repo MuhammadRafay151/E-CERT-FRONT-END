@@ -51,15 +51,6 @@
         :items="batches.list"
         :fields="fields"
       >
-        <template #head(batch_name)="data">
-          <filters
-            search_label="Enter Batch Name"
-            class="d-inline"
-            v-on:TextSearch="NameSearch"
-            v-on:DateSearch="DateSearch"
-          />
-          <span class="d-inline">{{ data.label }}</span>
-        </template>
         <template #head(Actions)>
           <p>Actions</p>
           <div class="row">
@@ -158,7 +149,6 @@
 </template>
 
 <script>
-import filters from "../components/filter";
 import { mapState } from "vuex";
 import deletebox from "./delete_box";
 import del_logic from "../js/delete";
@@ -168,8 +158,8 @@ import search_tag from "../components/Search/SearchTag";
 export default {
   name: "Batches",
   props: ["SearchQuery", "SortQuery"],
+  mixins: [del_logic, loader, search_tag],
   components: {
-    filters,
     deletebox,
     msgbox,
   },
@@ -286,8 +276,7 @@ export default {
       this.show_loader("Publishing...");
       this.$store
         .dispatch("cert_state/PublishBatch", id)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.Hide_loader();
           if (this.batches.list.length > 1) {
             this.page(this.currentPage);
@@ -307,12 +296,11 @@ export default {
       this.$refs.cf.show(text, id);
     },
   },
-  mixins: [del_logic, loader, search_tag],
   watch: {
     SearchQuery: function (NewVal) {
       this.SQuery = NewVal;
       this.value = [];
-      NewVal.data.name
+      NewVal.data.batch_name
         ? this.value.push("Batch Name: " + NewVal.data.batch_name)
         : null;
       NewVal.data.title ? this.value.push("title: " + NewVal.data.title) : null;

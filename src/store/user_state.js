@@ -159,6 +159,22 @@ export default {
         })
       })
     },
+    ChangePassword({ rootState }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + "api/account/password",
+          data: obj,
+          method: "PUT",
+        }).then(() => {
+          res()
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    }
   },
   getters: {
     IsLoggedIn(state) {

@@ -66,7 +66,7 @@
             >Email is not availabel</sub
           >
         </div>
-        <div v-if="!Edit" class="form-group- text-left">
+        <div v-if="!Edit" class="form-group text-left">
           <label><sup class="text-danger">*</sup>Password</label>
           <div class="input-group mb-2">
             <input

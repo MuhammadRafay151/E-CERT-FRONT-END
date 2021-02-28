@@ -20,6 +20,14 @@ export default {
       this.loading = true;
       this.spinner = false
     },
-  
+    dismissible_error(text) {
+      this.loading_text = text
+      this.loading = true;
+      this.spinner = false
+      setTimeout(() => {
+        this.Hide_loader()
+      }, 1000);
+    },
+
   }
 }

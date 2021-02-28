@@ -80,8 +80,7 @@
       <component v-bind:is="currentpage" :id="id" :Edit="true" />
     </div>
     <sidebar-menu
-      style="left: 0px; top: 8.5%"
-      class="sidebar"
+      class="sidebar align-side-bar"
       :menu="menu"
       :collapsed="collapsed"
       @item-click="onItemClick"
@@ -226,8 +225,8 @@ export default {
   position: fixed;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
+  /* top: 0;
+  left: 0; */
   background-color: #000;
   opacity: 0.5;
   z-index: 900;
@@ -245,4 +244,25 @@ pre {
   line-height: 1.5;
   overflow: auto;
 }
+@media screen and (max-height: 1080px) {
+  .align-side-bar {
+    left: 0%;
+    top: 8.5%;
+  }
+  
+}
+@media screen and (max-height: 720px) {
+  .align-side-bar {
+    left: 0%;
+    top: 13%;
+  }
+  
+}
+/* @media screen and (max-height: 1100px) {
+  .align-side-bar {
+    left: 0%;
+    top: 20%;
+  }
+  
+} */
 </style>

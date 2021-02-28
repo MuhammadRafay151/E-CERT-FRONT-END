@@ -24,11 +24,7 @@
       <UserRegisteration
         :id="id"
         v-on:done="CloseReg"
-        :ULimit="
-          (org.user_limit == users.totalcount &&
-            Authorization.SuperAdmin == false) ||
-          (org.user_limit == users.totalcount && id)
-        "
+        :ULimit="org.user_limit == users.totalcount"
       />
     </b-modal>
     <div class="row shadow justify-content-between p-3">

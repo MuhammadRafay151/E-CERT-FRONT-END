@@ -72,15 +72,6 @@
         :items="this.single_certificates.list"
         :fields="fields"
       >
-        <template #head(name)="data">
-          <filters
-            search_label="Enter Code"
-            class="d-inline"
-            v-on:TextSearch="CodeSearch"
-            v-on:DateSearch="DateSearch"
-          />
-          <span class="d-inline">{{ data.label }}</span>
-        </template>
         <template #head(Actions)>
           <p>Actions</p>
           <div class="row">
@@ -174,7 +165,6 @@
 // import daterange from '../components/daterange'
 import msgbox from "./confirmbox";
 import deletebox from "./delete_box";
-import filters from "../components/filter";
 import { mapState } from "vuex";
 import loader from "../js/loader";
 import search_tag from "../components/Search/SearchTag";
@@ -183,7 +173,6 @@ export default {
   mixins: [loader, search_tag],
   props: ["SearchQuery", "SortQuery"],
   components: {
-    filters,
     deletebox,
     msgbox,
     // daterange
@@ -260,8 +249,7 @@ export default {
       this.show_loader("Publishing...");
       this.$store
         .dispatch("cert_state/Publish_Certificate", id)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.Hide_loader();
           if (this.single_certificates.list.length > 1) {
             this.page(this.currentPage);
