@@ -23,6 +23,7 @@ export default {
         state.Authorization[user.roles[i]] = true
       }
       localStorage.setItem("user", JSON.stringify({ user: user, Authorization: state.Authorization }))
+      connectSocket(state.user.token)
     },
     load_user(state) {
       var x = JSON.parse(localStorage.getItem("user"))
@@ -38,6 +39,7 @@ export default {
     UpdateAccessToken(state, token) {
       state.user.token = token
       localStorage.setItem("user", JSON.stringify({ user: state.user, Authorization: state.Authorization }))
+      connectSocket(state.user.token)
     }
   },
   actions: {
