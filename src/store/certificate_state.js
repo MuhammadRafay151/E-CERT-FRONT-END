@@ -257,8 +257,14 @@ export default {
         }).then(response => {
           var x = null
           x = response.data
-          x.logo = `${url}image/${x.logo}`
-          x.signature = `${url}image/${x.signature}`
+          if (x.blockchain === true) {
+            x.logo = `data:${x.logo.mimetype};base64,${x.logo.image}`
+            x.signature = `data:${x.signature.mimetype};base64,${x.signature.image}`
+          } else {
+            x.logo = `${url}image/${x.logo}`
+            x.signature = `${url}image/${x.signature}`
+          }
+
           commit("updatecert", response.data)
           res()
         }).catch(err => {
