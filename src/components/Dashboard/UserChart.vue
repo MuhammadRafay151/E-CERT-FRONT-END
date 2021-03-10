@@ -39,7 +39,7 @@ export default {
         datasets: [
           {
             data: [4, 2, 1, 1],
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#E2CC40"],
+            backgroundColor: ["#2da5c4", "#5fdba7", "#c92f2e", "#FFBF00"],
             borderWidth: 2,
             borderAlign: "center",
             hoverBorderColor: "#fff",
@@ -75,7 +75,7 @@ export default {
                 res.Disabled,
                 res.UnRegistered,
               ],
-              backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#E2CC40"],
+              backgroundColor: ["#2da5c4", "#5fdba7", "#c92f2e", "#FFBF00"],
               borderWidth: 2,
               borderAlign: "center",
               hoverBorderColor: "#fff",

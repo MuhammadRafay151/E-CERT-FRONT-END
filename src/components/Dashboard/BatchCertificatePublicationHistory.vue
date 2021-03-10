@@ -42,10 +42,10 @@ export default {
         datasets: [
           {
             data: [40, 20, 10, 1, 10, 50, 11, 17, 5, 21],
-            borderColor: "#B6D2FE",
+            borderColor: "#FFBF00",
             pointBorderColor: "#ffffff",
-            pointBackgroundColor: "#B6D2FE",
-            backgroundColor: "#B6D2FE0f",
+            pointBackgroundColor: "#FFBF00",
+            backgroundColor: "#FFBF000f",
             borderWidth: 2,
             pointRadius: 6,
             label: "Batch Certificates",
@@ -68,10 +68,10 @@ export default {
           datasets: [
             {
               data: [],
-              borderColor: "#B6D2FE",
+              borderColor: "#FFBF00",
               pointBorderColor: "#ffffff",
-              pointBackgroundColor: "#B6D2FE",
-              backgroundColor: "#B6D2FE0f",
+              pointBackgroundColor: "#FFBF00",
+              backgroundColor: "#FFBF000f",
               borderWidth: 2,
               pointRadius: 6,
               label: "Batch Certificates",

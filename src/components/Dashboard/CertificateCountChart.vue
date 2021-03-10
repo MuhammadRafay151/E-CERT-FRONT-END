@@ -38,7 +38,7 @@ export default {
         datasets: [
           {
             data: [3, 2, 1],
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40"],
+            backgroundColor: ["#2da5c4", "#FFBF00", "#5fdba7"],
             borderWidth: 2,
             borderAlign: "center",
             hoverBorderColor: "#fff",
@@ -72,7 +72,7 @@ export default {
                 res.TotalPublications,
                 res.AvailableCount,
               ],
-              backgroundColor: ["#0074D9", "#FF4136", "#2ECC40"],
+              backgroundColor: ["#2da5c4", "#FFBF00", "#5fdba7"],
               borderWidth: 2,
               borderAlign: "center",
               hoverBorderColor: "#fff",

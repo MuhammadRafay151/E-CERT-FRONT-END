@@ -38,7 +38,7 @@ export default {
         datasets: [
           {
             data: [3, 2, 1],
-            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40"],
+            backgroundColor: ["#2da5c4", "#5fdba7", "#c92f2e"],
             borderWidth: 2,
             borderAlign: "center",
             hoverBorderColor: "#fff",
@@ -68,7 +68,7 @@ export default {
           datasets: [
             {
               data: [res.TotalCount, res.ActiveCount, res.DisableCount],
-              backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#E2CC40"],
+              backgroundColor: ["#2da5c4", "#5fdba7", "#c92f2e"],
               borderWidth: 2,
               borderAlign: "center",
               hoverBorderColor: "#fff",
