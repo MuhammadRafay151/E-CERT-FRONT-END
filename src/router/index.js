@@ -19,6 +19,7 @@ import BatchCertPublication from '../views/BatchCertPublication.vue'
 import RegisterOrganization from '../views/RegisterOrganization.vue'
 import OrganizationConfig from '../views/OrganizationConfig.vue'
 import UserProfile from "../views/UserProfile.vue"
+import debugging from "../views/Debugging.vue"
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
 import { Roles } from '../js/Roles'
@@ -52,7 +53,7 @@ const routes = [
     }
   },
   {
-    path: "/verification",
+    path: "/verification/:id?",
     name: "verification",
     component: verification
   },
@@ -185,6 +186,14 @@ const routes = [
       requiresAuth: true,
     },
     props: true
+  },
+  {
+    name: "DebuggingView",
+    path: "/debugging",
+    component: debugging,
+    meta: {
+      requiresAuth: true,
+    },
   },
   { name: "403", path: "/forbidden", component: forbidden },
   { name: "404", path: '*', component: notfound }

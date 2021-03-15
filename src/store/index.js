@@ -11,7 +11,8 @@ export default new Vuex.Store({
   state: {
     //{RouteName:null,IsBatch:null,PageNo:null}
     History: [],
-    NewMessage: ""
+    NewMessage: "",
+    socket: null,
   },
   mutations: {
     AddToHistory(state, obj) {
@@ -21,6 +22,13 @@ export default new Vuex.Store({
       state.History.pop()
     }, NewMessage(state, msg) {
       state.NewMessage = msg
+    },
+    SetSocket(state, socket) {
+      state.socket = socket;
+    },
+    SetSocketToken(state, token) {
+      state.socket.auth.token = token
+      state.socket.connect();
     }
   },
   actions: {},

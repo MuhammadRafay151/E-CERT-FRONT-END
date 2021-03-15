@@ -2,7 +2,7 @@
   <div class="container" style="margin-top: 120px">
     <div class="row justify-content-center">
       <div class="col-5" v-if="!showcertificate">
-        <verify v-on:ShowView="rendercert" />
+        <verify v-on:ShowView="rendercert" ref="v1" />
       </div>
       <div class="col" v-else>
         <div class="shadow p-3">
@@ -67,6 +67,12 @@ export default {
       this.showcertificate = true;
       this.showDismissibleAlert = true;
     },
+  },
+  mounted() {
+    if (this.$route.params.id) {
+      this.$refs.v1.code = this.$route.params.id;
+      this.$refs.v1.send();
+    }
   },
 };
 </script>
