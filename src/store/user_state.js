@@ -1,7 +1,5 @@
 import axios from "axios"
-import { connectSocket, CloseSocket } from "../js/socket"
 const url = process.env.VUE_APP_API_URL
-
 export default {
   namespaced: true,
   state: {
@@ -13,7 +11,6 @@ export default {
       state.user = { token: null }
       state.Authorization = { SuperAdmin: false, Admin: false, Issuer: false }
       localStorage.removeItem("user")
-      CloseSocket()
     },
     signin(state, user) {
 
@@ -23,14 +20,12 @@ export default {
         state.Authorization[user.roles[i]] = true
       }
       localStorage.setItem("user", JSON.stringify({ user: user, Authorization: state.Authorization }))
-      connectSocket(state.user.token)
     },
     load_user(state) {
       var x = JSON.parse(localStorage.getItem("user"))
       if (x) {
         state.user = x.user
         state.Authorization = x.Authorization
-        connectSocket(state.user.token)
       }
     },
     ToggleUserStatus(state, obj) {
@@ -39,11 +34,10 @@ export default {
     UpdateAccessToken(state, token) {
       state.user.token = token
       localStorage.setItem("user", JSON.stringify({ user: state.user, Authorization: state.Authorization }))
-      connectSocket(state.user.token)
     }
   },
   actions: {
-    authenticate({ state, commit }, auth) {
+    authenticate({ commit, rootState }, auth) {
       return new Promise((res, rej) => {
         axios({
           method: "post",
@@ -51,8 +45,10 @@ export default {
           url: url + 'api/account/login'
         }).then(resposne => {
           commit("signin", resposne.data)
-          connectSocket(state.user.token)
-          // console.log(resposne.data)
+          rootState.socket.disconnect();
+          rootState.socket.auth.token = resposne.data.token
+          rootState.socket.connect();
+
           res()
 
         }).catch(err => {
@@ -62,7 +58,7 @@ export default {
       })
 
     },
-    signout({ state, commit }) {
+    signout({ state, commit, rootState }) {
       return new Promise((res, rej) => {
         axios({
           method: "post",
@@ -70,6 +66,7 @@ export default {
           url: url + 'api/account/sign_out'
         }).then(() => {
           commit("signout")
+          rootState.socket.disconnect();
           res()
         }).catch(err => {
           rej(err)

@@ -46,7 +46,11 @@ export default {
     },
     cancel() {
       this.modalShow = false;
-      this.$emit("cancel",this.obj);
+      if(this.obj){
+        this.$emit("cancel",this.obj);
+      }else{
+        this.$emit("cancel");
+      }
       this.obj = null;
       this.msg = null;
     },

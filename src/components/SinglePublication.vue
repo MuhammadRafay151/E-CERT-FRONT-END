@@ -1,5 +1,6 @@
 <template>
   <div class="shadow p-3">
+    <confirmbox ref="c1" v-on:yes="email" />
     <b-input-group class="mb-2" v-if="value.length > 0">
       <b-form-tags
         v-model="value"
@@ -89,7 +90,7 @@
             <div class="col">
               <b-icon
                 icon="envelope-fill"
-                v-on:click="email(data.item._id)"
+                v-on:click="confirm_email(data.item)"
                 style="cursor: pointer"
                 :id="data.index + 's'"
               ></b-icon>
@@ -117,11 +118,16 @@
 import loader from "../js/loader";
 import { mapState } from "vuex";
 import search_tag from "../components/Search/SearchTag";
+import Confirmbox from "./confirmbox.vue";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "SinglePublication",
-  mixins: [loader, search_tag],
+  mixins: [loader, search_tag, GlobalNotification],
   props: ["id", "SearchQuery", "SortQuery"],
   //id is passed for viweing anpther org certificates if id not passed it will by default show current org data
+  components: {
+    Confirmbox,
+  },
   computed: { ...mapState("cert_state", ["single_certificates"]) },
   data: () => {
     return {
@@ -212,8 +218,21 @@ export default {
         });
       }
     },
-    email(id) {
-      console.log(id);
+    confirm_email(obj) {
+      this.$refs.c1.show(
+        `Are you sure you want to eamil send this certificate to ${obj.email}?`,
+        obj
+      );
+    },
+    email(obj) {
+      this.$store
+        .dispatch("cert_state/EmailSingleCert", obj._id)
+        .then(() => {
+           this.GlobalNotify(`Email has been sended successfully to ${obj.email}`)
+        })
+        .catch(() => {
+          this.GlobalNotify(`Error occurs while sending email to ${obj.email}`)
+        });
     },
   },
   watch: {

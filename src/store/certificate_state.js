@@ -535,7 +535,52 @@ export default {
           rej(err)
         })
       })
-    }
+    },
+    EmailSingleCert({ rootState }, id) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "POST",
+          url: url + "api/mail/single/" + id
+        }).then(() => {
+          res()
+        }).catch(() => {
+          rej()
+        })
+      })
+    },
+    EmailBatchCert({ rootState }, id) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "POST",
+          url: url + "api/mail/batchcert/" + id
+        }).then(() => {
+          res()
+        }).catch(() => {
+          rej()
+        })
+      })
+    },
+    EmailBatch({ rootState }, id) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "POST",
+          url: url + "api/mail/batch/" + id
+        }).then(() => {
+          res()
+        }).catch(() => {
+          rej()
+        })
+      })
+    },
   },
 
 }
