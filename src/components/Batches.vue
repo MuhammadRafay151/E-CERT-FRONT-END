@@ -257,6 +257,7 @@ export default {
         .dispatch("cert_state/GetBatches", payload)
         .then(() => {
           this.Hide_loader();
+          this.currentPage = pageno;
         })
         .catch((err) => {
           console.log(err);
@@ -326,7 +327,6 @@ export default {
       PageNo = this.$route.query.PageNo;
     }
     this.page(PageNo);
-    this.currentPage = 1;
   },
 };
 </script>

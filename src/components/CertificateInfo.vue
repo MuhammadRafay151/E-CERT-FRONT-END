@@ -148,9 +148,11 @@
 
 <script>
 import { required, email } from "vuelidate/lib/validators";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "certificateinfo",
   props: { template_id: String, edit: Boolean },
+  mixins: [GlobalNotification],
   methods: {
     HandleFileUpload(flag) {
       if (flag && this.$refs.logo.files.length > 0) {
@@ -191,13 +193,15 @@ export default {
         this.$emit("start");
         this.$store
           .dispatch("cert_state/Create_Certificate", this.form())
-          .then((r) => {
-            console.log("Save succefully");
+          .then(() => {
             this.reset_cert();
             this.updatecert();
             this.$v.$reset();
             this.$emit("stop");
-            console.log(r);
+            this.$router.push("/certificates");
+            this.$nextTick(() => {
+              this.GlobalNotify("certificate has been created");
+            });
           })
           .catch((err) => {
             this.$emit("stop");
@@ -239,17 +243,15 @@ export default {
             form: this.form(),
             id: this.$route.params.id,
           })
-          .then((r) => {
-            this.reset_cert();
+          .then(() => {
+            //this.reset_cert();
             this.updatecert();
-            this.$v.$reset();
+            // this.$v.$reset();
             this.$emit("stop");
-            this.$router.push("/certificates");
-            console.log(r);
+            this.GlobalNotify("certificate has been updated");
           })
-          .catch((err) => {
+          .catch(() => {
             this.$emit("stop");
-            console.log(err);
           });
       }
     },

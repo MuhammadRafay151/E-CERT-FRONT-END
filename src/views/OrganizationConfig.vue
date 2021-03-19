@@ -115,10 +115,10 @@ export default {
       isHovered2: false,
       isHovered3: false,
       menu: [
-        {
-          header: true,
-          title: "Getting Started",
-        },
+        // {
+        //   header: true,
+        //   title: "Getting Started",
+        // },
         {
           title: "Cert Count",
           icon: "fas fa-certificate",
@@ -247,7 +247,7 @@ pre {
 @media screen and (max-height: 1080px) {
   .align-side-bar {
     left: 0%;
-    top: 8.5%;
+    top: 9.3%;
   }
   
 }

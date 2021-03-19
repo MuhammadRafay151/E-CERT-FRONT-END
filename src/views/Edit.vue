@@ -7,14 +7,19 @@
             style="width: 3rem; height: 3rem"
             label="Large Spinner"
           ></b-spinner>
-          <p id="cancel-label">{{loading_text}}</p>
+          <p id="cancel-label">{{ loading_text }}</p>
         </div>
       </template>
     </b-overlay>
     <div class="row justify-content-center mb-2" v-if="template">
       <div class="col-11 shadow p-2">
-         <b-icon class="h1 float-left" style="cursor: pointer;"  v-on:click="goback" icon="arrow-left-circle"></b-icon>
-      
+        <b-icon
+          class="h1 float-left"
+          style="cursor: pointer"
+          v-on:click="goback"
+          icon="arrow-left-circle"
+        ></b-icon>
+
         <h1 class="d-inline-block">{{ PageTitle }}</h1>
         <b-dropdown
           class="d-d-inline-block float-right"
@@ -82,14 +87,14 @@
 import templateselector from "../components/template_selector";
 import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
-import TemplateComponents from "../js/TemplateComponents"
+import TemplateComponents from "../js/TemplateComponents";
 import loader from "../js/loader";
-import history from '../js/History'
+import history from "../js/History";
 export default {
   //we use this for modification of batch and single certificates.
   name: "Edit",
-  mixins: [loader,history,TemplateComponents],
-  props: { id: String, IsBatch: Boolean },
+  mixins: [loader, history, TemplateComponents],
+  props: { id: String },
   components: {
     CertificateInfo,
     BatchInfo,
@@ -98,6 +103,7 @@ export default {
 
   data: () => {
     return {
+      IsBatch: false,
       PageTitle: null,
       template: null,
       select_variant: false,
@@ -122,7 +128,8 @@ export default {
   created() {
     this.show_loader("Fetching...");
     var action = null;
-    if (this.IsBatch) {
+    if (this.$route.query.IsBatch && this.$route.query.IsBatch === "true") {
+      this.IsBatch = true;
       this.PageTitle = "Edit Batch";
       action = "cert_state/GetBatch";
     } else {
@@ -133,10 +140,10 @@ export default {
       .dispatch(action, { id: this.id, edit: true })
       .then((res) => {
         this.template = res;
-        this.Hide_loader()
+        this.Hide_loader();
       })
       .catch(() => {
-        this.$router.push({name:"404"})
+        this.$router.push({ name: "404" });
       });
   },
 };

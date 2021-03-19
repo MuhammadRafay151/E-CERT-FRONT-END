@@ -178,12 +178,6 @@ export default {
     // daterange
   },
   methods: {
-    CodeSearch(value) {
-      console.log(value);
-    },
-    DateSearch(value) {
-      console.log(value);
-    },
     page(pageno) {
       this.show_loader("Fetching...");
       let payload = {
@@ -197,6 +191,7 @@ export default {
         .dispatch("cert_state/GetSingleCertificates", payload)
         .then(() => {
           this.Hide_loader();
+          this.currentPage = pageno
         })
         .catch((err) => {
           console.log(err);
@@ -229,7 +224,11 @@ export default {
     },
     Edit_Certificate(id) {
       this.AddHistory();
-      this.$router.push({ name: "Edit", params: { id: id, IsBatch: false } });
+      this.$router.push({
+        name: "Edit",
+        params: { id: id },
+        query: { IsBatch: false },
+      });
     },
     del_cert(id) {
       this.delete_confirm();
@@ -336,6 +335,9 @@ export default {
       this.page(1);
       this.currentPage = 1;
     },
+    currentPage(newa) {
+      console.log(newa);
+    },
   },
   computed: {
     ...mapState("cert_state", ["single_certificates"]),
@@ -345,9 +347,9 @@ export default {
     this.sort = this.SortQuery || "dsc";
     if (this.$route.query.PageNo) {
       PageNo = this.$route.query.PageNo;
+      this.currentPage = PageNo;
     }
     this.page(PageNo);
-    this.currentPage = 1;
   },
 };
 </script>

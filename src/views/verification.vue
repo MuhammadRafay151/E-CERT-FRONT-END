@@ -1,10 +1,10 @@
 <template>
-  <div class="container" style="margin-top: 120px">
-    <div class="row justify-content-center">
-      <div class="col-5" v-if="!showcertificate">
+  <div class="container vh-100" >
+    <div class="row h-100  justify-content-center">
+      <div class="d-flex justify-content-center  align-self-center" v-if="!showcertificate">
         <verify v-on:ShowView="rendercert" ref="v1" />
       </div>
-      <div class="col" v-else>
+      <div class="col d-flex justify-content-center align-self-center " v-else>
         <div class="shadow p-3">
           <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
           <b-button class="d-inline float-right" title="Load file">

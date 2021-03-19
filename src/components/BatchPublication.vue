@@ -173,6 +173,7 @@ export default {
         .dispatch("cert_state/GetPublishBatches", payload)
         .then(() => {
           this.Hide_loader();
+          this.currentPage = pageno;
         })
         .catch((err) => {
           console.log(err);

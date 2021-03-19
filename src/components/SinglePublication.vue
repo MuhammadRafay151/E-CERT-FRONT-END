@@ -183,6 +183,7 @@ export default {
         .dispatch("cert_state/GetPublishCertificates", payload)
         .then(() => {
           this.Hide_loader();
+          this.currentPage=pageno
         })
         .catch((err) => {
           console.log(err);

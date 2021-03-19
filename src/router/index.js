@@ -104,7 +104,7 @@ const routes = [
     props: true
   },
   {
-    path: "/edit/:id/:IsBatch",
+    path: "/edit/:id",
     name: "Edit",
     component: Edit,
     meta: { requiresAuth: true, roles: [Roles.Issuer, Roles.Admin], },
