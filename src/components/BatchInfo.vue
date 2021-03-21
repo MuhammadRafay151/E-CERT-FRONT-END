@@ -176,13 +176,16 @@ export default {
         this.$emit("start");
         this.$store
           .dispatch("cert_state/Create_Batch", this.form())
-          .then((r) => {
+          .then(() => {
             console.log("Save succefully");
             this.reset_cert();
             this.updatecert();
             this.$v.$reset();
             this.$emit("stop");
-            console.log(r);
+            this.$router.push("/certificates?IsBatch=true");
+            this.$nextTick(() => {
+              this.GlobalNotify("Batch has been created");
+            });
           })
           .catch((err) => {
             this.$emit("stop");

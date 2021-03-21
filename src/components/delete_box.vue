@@ -10,8 +10,8 @@
     >
       <p>Are Your sure you want to delete this certificate?</p>
       <template #modal-footer>
-        <button class="btn btn_gray" @click="close">Cancel</button>
-        <button class="btn btn_fr" v-on:click="yes">Yes</button>
+        <button class="btn btn-gray" @click="close">Cancel</button>
+        <button class="btn btn-wb" v-on:click="yes">Yes</button>
       </template>
     </b-modal>
   </div>

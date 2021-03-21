@@ -59,7 +59,7 @@
           {{ new Date(data.value).toLocaleString() }}
         </template>
         <template #cell(Candidate_Name)="data">
-          <p>{{ data.item.name }}</p>
+          {{ data.item.name }}
         </template>
         <template #cell(Candidate_Email)="data">
           {{ data.item.email }}

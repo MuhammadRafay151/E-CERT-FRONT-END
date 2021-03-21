@@ -52,9 +52,15 @@
         />
         <sub
           class="text-danger text-left"
-          v-if="$v.candidates.$each[data.index].email.$error"
+          v-if="!$v.candidates.$each[data.index].email.required && $v.candidates.$each[data.index].email.$error"
         >
           Field is required
+        </sub>
+        <sub
+          class="text-danger text-left"
+          v-if="!$v.candidates.$each[data.index].email.email && $v.candidates.$each[data.index].email.$error "
+        >
+          invalid email
         </sub>
       </template>
       <template #cell(actions)="data">
@@ -67,7 +73,7 @@
     </b-table>
     <div class="row">
       <div class="col">
-        <button class="btn btn-block btn_fr" v-on:click="submit">submit</button>
+        <button class="btn btn-block btn-wb" v-on:click="submit">submit</button>
       </div>
     </div>
   </div>
@@ -75,7 +81,7 @@
 <script>
 import excel from "./Excel";
 import loader from "./Loader";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, email } from "vuelidate/lib/validators";
 import loader2 from "../js/loader";
 export default {
   components: { excel, loader },
@@ -124,10 +130,12 @@ export default {
             data: this.candidates,
             batch_id: this.$route.params.id,
           })
-          .then((res) => {
+          .then(() => {
             this.candidates = [];
-            console.log(res);
             this.$refs.l1.Hide_loader("Processing...");
+            this.$nextTick(() => {
+              this.$emit("close");
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -135,7 +143,6 @@ export default {
       }
     },
     load(data) {
-      console.log(data[0])
       this.candidates = data;
     },
   },
@@ -147,7 +154,7 @@ export default {
         name: {
           required,
         },
-        email: { required },
+        email: { required, email },
       },
     },
   },

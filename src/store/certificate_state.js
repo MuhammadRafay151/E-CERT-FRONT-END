@@ -381,8 +381,7 @@ export default {
           url: url + "api/bcert",
           method: "POST",
           data: obj
-        }).then(response => {
-          console.log(response.data)
+        }).then(() => {
           res()
         }).catch(err => {
           rej(err)

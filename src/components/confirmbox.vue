@@ -10,7 +10,7 @@
     >
       <p>{{ msg }}</p>
       <template #modal-footer>
-        <button class="btn btn-wb" v-on:click="cancel">Cancel</button>
+        <button class="btn btn-gray" v-on:click="cancel">Cancel</button>
         <button class="btn btn-wb" v-on:click="yes">Yes</button>
       </template>
     </b-modal>

@@ -2,9 +2,14 @@
     color: #fff;
     background:   linear-gradient(60deg,#ab47bc,#7b1fa2);
     }
-.btn_gray{
+.btn-gray{
     color: black;
     background: linear-gradient(60deg,#eee,#bdbdbd);
+}
+.btn-gray:hover {
+    color: rgb(0, 0, 0);
+    border-color: #000000;
+    background:white
 }
 .btn_green{
     color: white;
