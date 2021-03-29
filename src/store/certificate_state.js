@@ -550,14 +550,14 @@ export default {
         })
       })
     },
-    EmailBatchCert({ rootState }, id) {
+    EmailBatchCert({ rootState }, obj) {
       return new Promise((res, rej) => {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
           },
           method: "POST",
-          url: url + "api/mail/batchcert/" + id
+          url: url + `api/mail/batchcert/${obj.batch_id}/${obj.cert_id}`
         }).then(() => {
           res()
         }).catch(() => {

@@ -27,6 +27,7 @@
         </button>
       </b-input-group-append>
     </b-input-group>
+    <Confirmbox ref="c1" v-on:yes="EmailBatch" />
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -89,9 +90,10 @@
                 icon="envelope-fill"
                 style="cursor: pointer"
                 :id="data.index + 's'"
+                v-on:click="ConfirmEmail(data.item)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
-                Open Batch
+                Email Batch
               </b-tooltip>
             </div>
           </div>
@@ -101,7 +103,7 @@
         <b-pagination
           v-model="currentPage"
           :total-rows="this.batches.totalcount"
-          :per-page="5"
+          :per-page="perPage"
           v-on:input="page"
           pills
         ></b-pagination>
@@ -113,15 +115,20 @@
 import loader from "../js/loader";
 import { mapState } from "vuex";
 import search_tag from "../components/Search/SearchTag";
+import GlobalNotification from "../js/GlobalNotification";
+import Confirmbox from "./confirmbox.vue";
 export default {
   name: "BatchPublication",
   props: ["id", "SearchQuery", "SortQuery"],
   //id is passed for viweing anpther org certificates if id not passed it will by default show current org data
-  mixins: [loader, search_tag],
+  mixins: [loader, search_tag, GlobalNotification],
+  components: {
+    Confirmbox,
+  },
   computed: { ...mapState("cert_state", ["batches"]) },
   data: () => {
     return {
-      perPage: 3,
+      perPage: 10,
       currentPage: 1,
       fields: [
         {
@@ -208,6 +215,25 @@ export default {
           params: { id: id },
         });
       }
+    },
+    EmailBatch(obj) {
+      this.$store
+        .dispatch("cert_state/EmailBatch", obj._id)
+        .then(() => {
+          this.GlobalNotify(`Batch with id: ${obj._id} mailed successfully`, true);
+        })
+        .catch(() => {
+          this.GlobalNotify(
+            `Batch with id: ${obj._id},cannot be mailed due to some error`,
+            true
+          );
+        });
+    },
+    ConfirmEmail(obj) {
+      this.$refs.c1.show(
+        `Are you sure you want to  mail '${obj.batch_name}' batch?`,
+        obj
+      );
     },
   },
   watch: {

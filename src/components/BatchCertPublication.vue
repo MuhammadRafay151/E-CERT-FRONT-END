@@ -1,5 +1,6 @@
 <template>
   <div class="shadow p-3">
+    <confirmbox ref="c1" v-on:yes="EmailBatchCert" />
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
         <div class="text-center">
@@ -47,6 +48,7 @@
                 icon="envelope-fill"
                 style="cursor: pointer"
                 :id="data.index + 's'"
+                @click="ConfirmEmail(data.item)"
               ></b-icon>
               <b-tooltip :target="data.index + 's'" triggers="hover">
                 Email certificate
@@ -73,10 +75,15 @@
 <script>
 import { mapState } from "vuex";
 import loader from "../js/loader";
+import GlobalNotification from "../js/GlobalNotification";
+import Confirmbox from "./confirmbox.vue";
 export default {
   name: "BCP_Comp",
-  mixins: [loader],
+  mixins: [loader, GlobalNotification],
   props: ["id", "orgid"],
+  components: {
+    Confirmbox,
+  },
   data() {
     return {
       perPage: 3,
@@ -144,6 +151,28 @@ export default {
           params: { id: id, batch_id: batch_id },
         });
       }
+    },
+    EmailBatchCert(obj) {
+      this.$store
+        .dispatch("cert_state/EmailBatchCert", {batch_id:this.id,cert_id:obj._id})
+        .then(() => {
+          this.GlobalNotify(
+            `Batch certificate with id: ${obj._id} mailed successfully to ${obj.email}`,
+            true
+          );
+        })
+        .catch(() => {
+          this.GlobalNotify(
+            `Batch certificate with id: ${obj._id},cannot be mailed due to some error`,
+            true
+          );
+        });
+    },
+    ConfirmEmail(obj) {
+      this.$refs.c1.show(
+        `Are you sure you want to email this certificate to ${obj.email}?`,
+        obj
+      );
     },
   },
   computed: {

@@ -1,32 +1,37 @@
 <template>
-  <div class="container vh-100" >
-    <div class="row h-100  justify-content-center">
-      <div class="d-flex justify-content-center  align-self-center" v-if="!showcertificate">
+  <div class="container vh-100">
+    <div class="row h-100 justify-content-center">
+      <div
+        class="d-flex justify-content-center align-self-center"
+        v-if="!showcertificate"
+      >
         <verify v-on:ShowView="rendercert" ref="v1" />
       </div>
-      <div class="col d-flex justify-content-center align-self-center " v-else>
-        <div class="shadow p-3">
-          <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
-          <b-button class="d-inline float-right" title="Load file">
-            <b-icon icon="cloud-download" aria-hidden="true"></b-icon>
-          </b-button>
-        </div>
-
-        <div class="row mt-2">
-          <div class="col d-flex justify-content-center">
-            <component v-bind:is="template" />
+      <div class="col d-flex justify-content-center align-self-center" v-else>
+        <div>
+          <div class="shadow p-3">
+            <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
+            <b-button class="d-inline float-right" title="Load file">
+              <b-icon icon="cloud-download" aria-hidden="true"></b-icon>
+            </b-button>
           </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col">
-            <b-alert
-              class="mt-1"
-              v-model="showDismissibleAlert"
-              :variant="alertvariant"
-              dismissible
-            >
-              {{ msg }}
-            </b-alert>
+
+          <div class="row mt-2">
+            <div class="col d-flex justify-content-center">
+              <component v-bind:is="template" />
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <b-alert
+                class="mt-1"
+                v-model="showDismissibleAlert"
+                :variant="alertvariant"
+                dismissible
+              >
+                {{ msg }}
+              </b-alert>
+            </div>
           </div>
         </div>
       </div>
