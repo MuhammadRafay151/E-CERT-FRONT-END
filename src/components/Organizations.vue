@@ -28,12 +28,6 @@
         :fields="fields"
       >
         <template #head(name)="data">
-          <filters
-            search_label="Enter Code"
-            class="d-inline"
-            v-on:TextSearch="CodeSearch"
-            v-on:DateSearch="DateSearch"
-          />
           <span class="d-inline">{{ data.label }}</span>
         </template>
         <template #head(Actions)>
@@ -108,7 +102,6 @@
 </template>
 
 <script>
-import filters from "../components/filter";
 import { mapState } from "vuex";
 import loader from "../js/loader";
 import confirmbox from "../components/confirmbox";
@@ -116,7 +109,6 @@ export default {
   name: "Organizations",
   mixins: [loader],
   components: {
-    filters,
     confirmbox,
   },
   methods: {

@@ -1,33 +1,53 @@
 <template>
-  <div style="overflow: hidden; margin-top: 120px" class="container-fluid">
-    <div>
-      <user-chart v-if="Authorization.Admin" />
+  <div style="margin-top: 120px" class="container-fluid">
+    <div class="p-2">
       <div class="row" v-if="Authorization.Admin">
-        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
-          <certificate-count-history-chart />
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-          <certificate-count-chart />
+        <div class="col">
+          <div class="shadow-lg">
+            <user-chart />
+          </div>
         </div>
       </div>
-      <div class="row" v-if="Authorization.Admin">
+      <div class="row mt-5" v-if="Authorization.Admin">
+        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+          <div class="shadow-lg">
+            <certificate-count-history-chart />
+          </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div class="shadow-lg">
+            <certificate-count-chart />
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5" v-if="Authorization.Admin">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <certificate-creation-chart />
+          <div class="shadow-lg">
+            <certificate-creation-chart />
+          </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <BatchCertificateCreationChart />
+          <div class="shadow-lg">
+            <BatchCertificateCreationChart />
+          </div>
         </div>
       </div>
 
-      <div class="row" v-if="Authorization.Admin">
+      <div class="row mt-5" v-if="Authorization.Admin">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <CertificatePublicationChart />
+          <div class="shadow-lg">
+            <CertificatePublicationChart />
+          </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <BatchCertificatePublicationChart />
+          <div class="shadow-lg">
+            <BatchCertificatePublicationChart />
+          </div>
         </div>
       </div>
-      <client-organization-chart v-if="Authorization.SuperAdmin" />
+      <div class="shadow-lg p-5" v-if="Authorization.SuperAdmin">
+        <client-organization-chart />
+      </div>
     </div>
   </div>
 </template>
@@ -54,8 +74,8 @@ export default {
     BatchCertificateCreationChart,
     BatchCertificatePublicationChart,
   },
-  computed:{
-...mapState("user_state",["Authorization"])
-  }
+  computed: {
+    ...mapState("user_state", ["Authorization"]),
+  },
 };
 </script>
