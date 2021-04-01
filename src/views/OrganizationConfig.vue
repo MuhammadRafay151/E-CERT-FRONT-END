@@ -183,10 +183,10 @@ export default {
       });
     if (this.id) {
       this.menu = [
-        {
-          header: true,
-          title: "Getting Started",
-        },
+        // {
+        //   header: true,
+        //   title: "Getting Started",
+        // },
         {
           title: "Cert Count",
           icon: "fas fa-certificate",
