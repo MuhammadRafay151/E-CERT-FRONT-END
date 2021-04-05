@@ -101,6 +101,12 @@
                 <sub class="text-danger" v-if="$v.cert.logo.$error">
                   logo is required
                 </sub>
+                <sub class="text-danger text-left" v-if="LogoSizeExceed">
+                  image should be less than or equal to 1 mb
+                </sub>
+                <sub class="text-danger text-left" v-if="InvalidLogoType">
+                  Allowed image formats '.jpeg', '.jpg', '.png'
+                </sub>
               </div>
               <div class="form-group text-left">
                 <label for="UploadSignature" class="btn btn-wb btn-block"
@@ -119,6 +125,12 @@
                   v-if="$v.cert.signature.$error"
                 >
                   signature is required
+                </sub>
+                <sub class="text-danger text-left" v-if="SignatureSizeExceed">
+                  image should be less than or equal to 1 mb
+                </sub>
+                <sub class="text-danger text-left" v-if="InvalidSignatureType">
+                  Allowed image formats '.jpeg', '.jpg', '.png'
                 </sub>
               </div>
 
@@ -155,11 +167,41 @@ export default {
   mixins: [GlobalNotification],
   methods: {
     HandleFileUpload(flag) {
+      let AllowedTypes = ["image/jpeg", "image/png"];
       if (flag && this.$refs.logo.files.length > 0) {
+        this.LogoSizeExceed = false;
+        this.InvalidLogoType = false;
+        if (!AllowedTypes.includes(this.$refs.logo.files[0].type)) {
+          this.InvalidLogoType = true;
+          this.cert.logo = null;
+          this.updatecert();
+          return;
+        }
+        if (this.$refs.logo.files[0].size > 1000000) {
+          this.LogoSizeExceed = true;
+          this.cert.logo = null;
+          this.updatecert();
+          return;
+        }
         var logo = this.$refs.logo.files[0];
         this.logo_file = logo;
         this.cert.logo = URL.createObjectURL(logo);
       } else if (this.$refs.signature.files.length > 0) {
+        this.SignatureSizeExceed = false;
+        this.InvalidSignatureType = false;
+        if (!AllowedTypes.includes(this.$refs.signature.files[0].type)) {
+          this.InvalidSignatureType = true;
+          this.cert.signature = null;
+          this.updatecert();
+          return;
+        }
+        if (this.$refs.signature.files[0].size > 1000000) {
+          this.SignatureSizeExceed = true;
+          this.cert.signature = null;
+          this.updatecert();
+          return;
+        }
+
         var signature = this.$refs.signature.files[0];
         this.signature_file = signature;
         this.cert.signature = URL.createObjectURL(signature);
@@ -188,6 +230,13 @@ export default {
       this.$refs.signature.value = "";
     },
     Create_Cert() {
+      if (
+        this.LogoSizeExceed ||
+        this.SignatureSizeExceed ||
+        this.InvalidLogoType ||
+        this.InvalidSignatureType
+      )
+        return;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$emit("start");
@@ -235,6 +284,13 @@ export default {
       return form;
     },
     modify_Cert() {
+      if (
+        this.LogoSizeExceed ||
+        this.SignatureSizeExceed ||
+        this.InvalidLogoType ||
+        this.InvalidSignatureType
+      )
+        return;
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$emit("start");
@@ -269,6 +325,10 @@ export default {
   data() {
     return {
       src: "",
+      InvalidLogoType: false,
+      InvalidSignatureType: false,
+      LogoSizeExceed: false,
+      SignatureSizeExceed: false,
       logo_file: null,
       signature_file: null,
       cert: {

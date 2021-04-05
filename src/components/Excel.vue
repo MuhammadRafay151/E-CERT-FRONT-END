@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <b-button v-b-modal.file variant="white">
       <b-icon variant="wb" icon="file-spreadsheet-fill"></b-icon>
     </b-button>
@@ -10,6 +10,7 @@
       hide-footer
       centered
       no-close-on-backdrop
+      class="text-center"
     >
       <label for="ex" class="btn btn-block btn-wb">Upload Excel File</label>
       <input
@@ -40,6 +41,7 @@
       >
         Load Table
       </button>
+      <sub class="text-danger mt-1 d-flex justify-content-center" v-if="InvaliFileType">Invalid File type</sub>
     </b-modal>
   </div>
 </template>
@@ -49,6 +51,7 @@ export default {
   name: "excel",
   data: function () {
     return {
+      InvaliFileType: false,
       sheetnames: [],
       sheets: [],
       namecol: null,
@@ -57,7 +60,13 @@ export default {
   },
   methods: {
     HandleFileUpload(evt) {
+      let AllowedTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
       if (this.$refs.excel.files.length > 0) {
+        this.InvaliFileType = false;
+        if (!AllowedTypes.includes(evt.target.files[0].type)) {
+          this.InvaliFileType = true;
+          return;
+        }
         var selectedFile = evt.target.files[0];
         var reader = new FileReader();
         reader.onload = (event) => {

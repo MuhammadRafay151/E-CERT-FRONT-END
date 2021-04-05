@@ -221,7 +221,7 @@ export default {
     },
     confirm_email(obj) {
       this.$refs.c1.show(
-        `Are you sure you want to email send this certificate to ${obj.email}?`,
+        `Are you sure you want to email this certificate to ${obj.email}?`,
         obj
       );
     },

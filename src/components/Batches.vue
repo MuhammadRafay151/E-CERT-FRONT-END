@@ -229,7 +229,11 @@ export default {
     },
     Edit_Batch(id) {
       this.AddHistory();
-      this.$router.push({ name: "Edit", params: { id: id, IsBatch: true } });
+      this.$router.push({
+        name: "Edit",
+        params: { id: id, },
+        query: { IsBatch: "true" },
+      });
     },
     del_batch(id) {
       this.delete_confirm();
