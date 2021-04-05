@@ -94,7 +94,7 @@ export default {
 .sign {
   position: absolute;
   top: 95%;
-  left: 65%;
+  left: 70%;
   color: black;
  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }

@@ -1,34 +1,34 @@
 <template>
-  <div >
+  <div>
     <div class="container1 border">
-      <img src="/templates/certificate.jpeg" class="cert" alt="">
       <img
-        :src="cert.logo"
-        width="80"
+        src="/templates/certificate.jpeg"
+        style="width: 100%; object-fit: cover"
         alt=""
-        class="logo"
       />
+      <img :src="cert.logo" width="80" alt="" class="logo" />
 
-      <h3 class="t">{{cert.title}}</h3>
+      <h3 class="t">{{ cert.title }}</h3>
       <p class="desc text-left">
-        It is to certify that <b>{{cert.name}}</b> {{cert.description}}
+        It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}
       </p>
       <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
-        Publish Date: {{new Date(cert.publish.publish_date).toLocaleDateString()}}
+        Publish Date:
+        {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
       </p>
       <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
-        verfication code: {{cert._id}}
+        verfication code: {{ cert._id }}
       </p>
-       <div >
-         <p class="sign">Signature: _____________________</p>
-         <img
-        :src="cert.signature"
-        width="150"
-        height="100"
-        alt=""
-        class="isign"
-      />
-       </div>
+      <div>
+        <p class="sign">Signature: ___________________</p>
+        <img
+          :src="cert.signature"
+          width="150"
+          height="100"
+          alt=""
+          class="isign"
+        />
+      </div>
       <!-- <div class="row  "  >
      <div class="col d-flex  justify-content-center">
        
@@ -52,46 +52,47 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "c2",
-  computed:{
-    ...mapState("cert_state",["cert"])
-  }
-  
+  computed: {
+    ...mapState("cert_state", ["cert"]),
+  },
 };
 </script>
 
 <style scoped>
-.cert{
-  width:   842px;
+.cert {
+  width: 842px;
   height: 595px;
 }
-.logo{
+.logo {
   position: absolute;
-  top:20px;
-  left:700px
+  top: 20px;
+  left: 700px;
 }
-.sign{
-   position: absolute;
-  top:550px;
-  left: 550px;
+.sign {
+  position: absolute;
+  top: 95%;
+  left: 70%;
   color: black;
+  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
-.isign{
-   position: absolute;
-  top:460px;
-  left: 640px;
+.isign {
+  position: absolute;
+  top: 81%;
+  left: 80%;
+  width: 16%;
+  height: 15%;
   object-fit: contain;
- 
 }
 .t {
   position: absolute;
-  top: 160px;
+  top: 20%;
   color: black;
   left: 0;
   right: 0;
-
+  font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
   height: 500px; /* Assign a value */
   margin: auto;
 }
@@ -99,8 +100,7 @@ export default {
   position: relative;
   text-align: center;
   color: white;
-  width:   842px;
-  height: 595px;
+  max-width: 900px;
 }
 .scroll {
   width: 842px;
@@ -109,26 +109,28 @@ export default {
 }
 .desc {
   position: absolute;
-  top: 210px;
+  top: 50%;
   color: black;
   left: 0;
   right: 0;
-
-  width: 600px;
+  top: 40%;
+  font-size: calc(4px + (18 - 4) * ((100vw - 200px) / (1800 - 200)));
+  width: 60%;
+  word-wrap: break-word;
   margin: auto;
 }
 .p2 {
-   position: absolute;
-  top: 530px;
+ position: absolute;
+  top: 88%;
   color: black;
-  left: 60px;
-  right: 0;
+  left: 2%;
+  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
 .p3 {
   position: absolute;
-  top: 550px;
+  top: 92%;
   color: black;
-  left: 60px;
-  right: 0;
+  left: 2%;
+  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
 }
 </style>

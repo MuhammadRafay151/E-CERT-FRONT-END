@@ -17,7 +17,7 @@
     <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
       verfication code: {{ cert._id }}
     </p>
-    <p class="sign">Signature: _____________________</p>
+    <p class="sign">Signature: __________________</p>
     <img :src="cert.signature" class="isign" style="" />
   </div>
 </template>
@@ -82,9 +82,10 @@ export default {
 .sign {
   position: absolute;
   top: 93%;
-  left: 60%;
+  left: 68%;
   color: black;
-  font-size: 1vw;
+    font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+
 }
 .isign {
   position: absolute;

@@ -79,9 +79,11 @@ export default {
 }
 .logo {
   position: absolute;
-  top: 13%;
-  left: 78%;
-  width: 8%;
+  top: 12%;
+  left: 14%;
+  width: 10%;
+  height: 12%;
+  object-fit: contain;
 }
 .sign {
   position: absolute;
