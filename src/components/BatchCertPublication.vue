@@ -153,6 +153,10 @@ export default {
       }
     },
     EmailBatchCert(obj) {
+       this.GlobalNotify(
+            `we are sending email to ${obj.email}. You may continue what you are doing.`,
+            false
+          );
       this.$store
         .dispatch("cert_state/EmailBatchCert", {batch_id:this.id,cert_id:obj._id})
         .then(() => {

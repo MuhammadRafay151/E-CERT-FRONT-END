@@ -102,7 +102,7 @@
                   logo is required
                 </sub>
                 <sub class="text-danger text-left" v-if="LogoSizeExceed">
-                  image should be less than or equal to 1 mb
+                  image should be less than or equal to 500 kb
                 </sub>
                 <sub class="text-danger text-left" v-if="InvalidLogoType">
                   Allowed image formats '.jpeg', '.jpg', '.png'
@@ -195,7 +195,7 @@ export default {
           this.updatecert();
           return;
         }
-        if (this.$refs.signature.files[0].size > 1000000) {
+        if (this.$refs.signature.files[0].size > 500000) {
           this.SignatureSizeExceed = true;
           this.cert.signature = null;
           this.updatecert();

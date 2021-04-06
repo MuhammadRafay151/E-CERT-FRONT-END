@@ -226,13 +226,14 @@ export default {
       );
     },
     email(obj) {
+       this.GlobalNotify(`we are sending email to ${obj.email}. You may continue what you are doing.`,false)
       this.$store
         .dispatch("cert_state/EmailSingleCert", obj._id)
         .then(() => {
-           this.GlobalNotify(`Email has been sended successfully to ${obj.email}`)
+           this.GlobalNotify(`Email has been sended successfully to ${obj.email}`,true)
         })
         .catch(() => {
-          this.GlobalNotify(`Error occurs while sending email to ${obj.email}`)
+          this.GlobalNotify(`Error occurs while sending email to ${obj.email}`,true)
         });
     },
   },

@@ -172,6 +172,7 @@ export default {
       let payload = {
         pageno: pageno,
         sort: this.sort,
+        id: this.id,
       };
       if (this.SQuery) {
         payload.query = this.SQuery.query;
@@ -217,10 +218,17 @@ export default {
       }
     },
     EmailBatch(obj) {
+      this.GlobalNotify(
+            `we are sending emails to batch with id: ${obj._id}.You may continue what you are doing.`,
+            true
+          );
       this.$store
         .dispatch("cert_state/EmailBatch", obj._id)
         .then(() => {
-          this.GlobalNotify(`Batch with id: ${obj._id} mailed successfully`, true);
+          this.GlobalNotify(
+            `Batch with id: ${obj._id} mailed successfully`,
+            true
+          );
         })
         .catch(() => {
           this.GlobalNotify(
