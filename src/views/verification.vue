@@ -11,7 +11,7 @@
         <div>
           <div class="shadow p-3">
             <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
-            <b-button class="d-inline float-right" title="Load file">
+            <b-button class="d-inline float-right" title="Load file" @click="download">
               <b-icon icon="cloud-download" aria-hidden="true"></b-icon>
             </b-button>
           </div>
@@ -41,9 +41,13 @@
 <script>
 import verify from "../components/verify";
 import TemplateComponents from "../js/TemplateComponents";
+import { mapState} from "vuex"
 export default {
   name: "verification",
   mixins: [TemplateComponents],
+  computed:{
+    ...mapState("cert_state", ["cert"])
+  },
   data: function () {
     return {
       showcertificate: false,
@@ -71,6 +75,14 @@ export default {
       }
       this.showcertificate = true;
       this.showDismissibleAlert = true;
+    },
+    download() {
+      const linkSource = `data:application/pdf;base64,${this.cert.pdf}`;
+      const downloadLink = document.createElement("a");
+      const fileName = this.cert._id;
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
     },
   },
   mounted() {
