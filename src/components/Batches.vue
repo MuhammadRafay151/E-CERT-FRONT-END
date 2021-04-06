@@ -155,10 +155,11 @@ import del_logic from "../js/delete";
 import loader from "../js/loader";
 import msgbox from "./confirmbox";
 import search_tag from "../components/Search/SearchTag";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "Batches",
   props: ["SearchQuery", "SortQuery"],
-  mixins: [del_logic, loader, search_tag],
+  mixins: [del_logic, loader, search_tag, GlobalNotification],
   components: {
     deletebox,
     msgbox,
@@ -231,7 +232,7 @@ export default {
       this.AddHistory();
       this.$router.push({
         name: "Edit",
-        params: { id: id, },
+        params: { id: id },
         query: { IsBatch: "true" },
       });
     },
@@ -283,6 +284,10 @@ export default {
         .dispatch("cert_state/PublishBatch", id)
         .then(() => {
           this.Hide_loader();
+          this.GlobalNotify(
+            `we are publishing your batch with id: ${id}. You may continue what you are doing.`,
+            false
+          );
           if (this.batches.list.length > 1) {
             this.page(this.currentPage);
           } else if (this.batches.list.length == 1 && this.currentPage == 1) {

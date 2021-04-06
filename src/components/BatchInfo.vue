@@ -144,9 +144,11 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "batchinfo",
   props: { template_id: String, edit: Boolean },
+  mixins: [GlobalNotification],
   methods: {
     HandleFileUpload(flag) {
       let AllowedTypes = ["image/jpeg", "image/png"];

@@ -29,8 +29,8 @@
         </sub>
       </div>
       <template #modal-footer="{ cancel }">
-        <button class="btn btn_gray" @click="cancel()">Cancel</button>
-        <button class="btn btn_fr" @click="SaveChanges">Save</button>
+        <button class="btn btn-gray" @click="cancel()">Cancel</button>
+        <button class="btn btn-wb" @click="SaveChanges">Save</button>
       </template>
     </b-modal>
     <deletebox ref="d1" v-on:delete="del" />

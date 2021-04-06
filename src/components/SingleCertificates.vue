@@ -168,9 +168,10 @@ import deletebox from "./delete_box";
 import { mapState } from "vuex";
 import loader from "../js/loader";
 import search_tag from "../components/Search/SearchTag";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "SingleCertificates",
-  mixins: [loader, search_tag],
+  mixins: [loader, search_tag, GlobalNotification],
   props: ["SearchQuery", "SortQuery"],
   components: {
     deletebox,
@@ -191,7 +192,7 @@ export default {
         .dispatch("cert_state/GetSingleCertificates", payload)
         .then(() => {
           this.Hide_loader();
-          this.currentPage = pageno
+          this.currentPage = pageno;
         })
         .catch((err) => {
           console.log(err);
@@ -250,6 +251,10 @@ export default {
         .dispatch("cert_state/Publish_Certificate", id)
         .then(() => {
           this.Hide_loader();
+          this.GlobalNotify(
+            `we are publishing your certificate with id: ${id}. You may continue what you are doing.`,
+            false
+          );
           if (this.single_certificates.list.length > 1) {
             this.page(this.currentPage);
           } else if (

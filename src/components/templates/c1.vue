@@ -68,8 +68,8 @@ export default {
 }
 .logo {
   position: absolute;
-  top: 20px;
-  left: 700px;
+  top: 5%;
+  left: 85%;
 }
 .sign {
   position: absolute;
