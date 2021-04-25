@@ -87,7 +87,7 @@ export default {
     RegisterUser() {},
     CloseReg() {
       this.$bvModal.hide("modal-1");
-      this.$refs.u1.page(1);
+      this.$refs.u1.page();
     },
     CloseUL() {
       this.$bvModal.hide("modal-2");

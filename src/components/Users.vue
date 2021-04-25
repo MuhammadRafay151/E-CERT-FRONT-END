@@ -12,7 +12,12 @@
       centered
       title="Update Profile"
     >
-      <UserRegisteration ref="u1" :id="id" v-on:done="ClodeReg" :Edit="EditableUser" />
+      <UserRegisteration
+        ref="u1"
+        :id="id"
+        v-on:done="ClodeReg"
+        :Edit="EditableUser"
+      />
     </b-modal>
     <b-overlay :show="loading" rounded="sm">
       <template #overlay>
@@ -36,7 +41,11 @@
         :fields="fields"
       >
         <template #cell(register_date)="data">
-          <p>{{ new Date(data.value).toLocaleDateString() }}</p>
+          <span>{{ new Date(data.value).toLocaleDateString() }}</span>
+        </template>
+        <template #cell(name)="data">
+          <span v-if="data.item._id===user._id">{{ data.value }} (me)</span>
+          <span v-else>{{ data.value }}</span>
         </template>
         <template #head(Actions)>
           <p>Actions</p>
@@ -63,7 +72,7 @@
                 v-model="data.item.status.active"
                 @change="ConfirmChangeStatus(data.item)"
                 switch
-                :disabled="!id && IsDisabled(data.item.roles)"
+                :disabled="!id && IsDisabled(data.item)"
               >
               </b-form-checkbox>
               <b-tooltip :target="data.index + 'f'" triggers="hover">
@@ -158,13 +167,17 @@ export default {
     };
   },
   computed: {
+    ...mapState("user_state", ["user"]),
     ...mapState("org_state", ["users"]),
   },
   methods: {
     page(pageno) {
       this.show_loader("Fetching...");
       this.$store
-        .dispatch("org_state/GetOrgUsers", { pageno: pageno, id: this.id })
+        .dispatch("org_state/GetOrgUsers", {
+          pageno: pageno ? pageno : this.currentPage,
+          id: this.id,
+        })
         .then(() => {
           this.Hide_loader();
         })
@@ -198,10 +211,15 @@ export default {
     CancelChangeStatus(obj) {
       obj.status.active = !obj.status.active;
     },
-    IsDisabled(UserRoles) {
-      var x = CheckAuthorization(UserRoles, [Roles.SuperAdmin, Roles.Admin]);
-      console.log(x);
-      return x;
+    IsDisabled(User) {
+      if (
+        User._id === this.user._id &&
+        CheckAuthorization(User.roles, [Roles.Admin])
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
     UpdateProfile() {
       alert();

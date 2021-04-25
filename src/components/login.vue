@@ -76,7 +76,7 @@ export default {
           this.show = false;
           if (!err.response) {
             this.message = "no network";
-          } else if (err.response.status == 401 || err.response.status == 403) {
+          } else if (err.response.status == 401 || err.response.status == 403 || err.response.status == 409) {
             console.log(err.response.data);
             this.message = err.response.data.message;
           }

@@ -66,6 +66,7 @@
             >Email is not availabel</sub
           >
         </div>
+
         <div v-if="!Edit" class="form-group text-left">
           <label><sup class="text-danger">*</sup>Password</label>
           <div class="input-group mb-2">
@@ -725,6 +726,16 @@
             v-model.trim="user.address"
           />
         </div>
+        <div class="form-group">
+          <b-form-checkbox
+            id="checkbox-1"
+            v-model="user.AllowAdmin"
+            name="checkbox-1"
+            :disabled="IsDisableCheckBox"
+          >
+            Allow Admin Previliges
+          </b-form-checkbox>
+        </div>
         <button
           type="button"
           v-on:click="submit"
@@ -760,11 +771,17 @@ export default {
   //id=orgid
   mixins: [loader, debounce],
   name: "registeration",
+  computed: {
+    CurrentUser() {
+      return this.$store.state.user_state.user;
+    },
+  },
   data: function () {
     return {
       IsAvailable: false,
       IsNotAvailable: false,
       pagetitle: "Register Issuer",
+      IsDisableCheckBox: false, //for the cuurent user this will be true if he/she is an itself an admin
       user: {
         name: "",
         email: "",
@@ -772,6 +789,7 @@ export default {
         phone: null,
         country_code: 92,
         address: null,
+        AllowAdmin: false,
       },
     };
   },
@@ -898,6 +916,10 @@ export default {
     }
     if (this.Edit) {
       this.user = Object.assign({}, this.Edit);
+      if (this.Edit.roles.includes("Admin")) {
+        this.user.AllowAdmin = true;
+        this.IsDisableCheckBox = this.user._id === this.CurrentUser._id;
+      }
     }
   },
 };
