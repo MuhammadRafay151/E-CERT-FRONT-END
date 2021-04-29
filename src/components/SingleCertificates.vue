@@ -245,7 +245,6 @@ export default {
         });
     },
     publish(id) {
-      console.log(id);
       this.show_loader("Publishing...");
       this.$store
         .dispatch("cert_state/Publish_Certificate", id)
@@ -268,7 +267,9 @@ export default {
           }
         })
         .catch((err) => {
-          this.loading_text = err;
+          this.Hide_loader();
+          if ("response" in err) this.GlobalNotify(err.response.data, true);
+          else this.GlobalNotify("network error", false);
         });
     },
     publish_confirm(id) {

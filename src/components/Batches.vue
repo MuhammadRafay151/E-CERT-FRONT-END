@@ -298,7 +298,9 @@ export default {
           }
         })
         .catch((err) => {
-          this.loading_text = err;
+          this.Hide_loader();
+          if ("response" in err) this.GlobalNotify(err.response.data, true);
+          else this.GlobalNotify("network error", false);
         });
     },
     publish_confirm(id) {
