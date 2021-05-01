@@ -8,10 +8,11 @@
       />
       <img :src="cert.logo" width="80" alt="" class="logo" />
 
-      <h3 class="t">{{ cert.title }}</h3>
+      <!-- <h3 class="t">{{ cert.title }}</h3>
       <p class="desc text-left">
         It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}
-      </p>
+      </p> -->
+      <div class="CertTemplate" v-html="cert.template_display"></div>
       <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
         Publish Date:
         {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
@@ -29,24 +30,7 @@
           class="isign"
         />
       </div>
-      <!-- <div class="row  "  >
-     <div class="col d-flex  justify-content-center">
-       
-     </div>
-   </div> -->
-      <!-- <div class="row">
-     <div class="col d-flex justify-content-center">
-       <div style="max-width: 70%;">
-       <p style=" font-size: 11px;" >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-
-       </div>
-     </div>
-   </div>
-   <div class="row  mb-5">
-     <div class="col d-flex justify-content-center">
-       <img class=" mt-2" src="https://raw.githubusercontent.com/MuhammadRafay151/LMS/master/LeaveApplication/LeaveApplication/Images/uit1fav.png?token=ALFS62WEJAZZ2SIVEL3EI7C7TE6FQ" width="20%"  alt="">
-     </div>
-   </div> -->
+      
     </div>
   </div>
 </template>
@@ -71,6 +55,19 @@ export default {
   top: 5%;
   left: 85%;
 }
+.CertTemplate{
+  position: absolute;
+  top: 20%;
+  left: 20px;
+  color: black;
+  left: 0;
+  right: 0;
+  font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
+  height: 555px; /* Assign a value */
+  width: 802px;
+  word-wrap: break-word;
+  margin: auto;
+}
 .sign {
   position: absolute;
   top: 95%;
@@ -86,16 +83,16 @@ export default {
   height: 15%;
   object-fit: contain;
 }
-.t {
+/* .t {
   position: absolute;
   top: 20%;
   color: black;
   left: 0;
   right: 0;
   font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
-  height: 500px; /* Assign a value */
+  height: 500px; 
   margin: auto;
-}
+} */
 .container1 {
   position: relative;
   text-align: center;
@@ -107,7 +104,7 @@ export default {
   overflow-x: scroll;
   overflow-y: hidden;
 }
-.desc {
+/* .desc {
   position: absolute;
   top: 50%;
   color: black;
@@ -118,7 +115,7 @@ export default {
   width: 60%;
   word-wrap: break-word;
   margin: auto;
-}
+} */
 .p2 {
  position: absolute;
   top: 88%;

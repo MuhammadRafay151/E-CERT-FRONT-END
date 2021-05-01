@@ -6,31 +6,49 @@
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
             <form>
               <div class="form-group text-left">
-                <label><sup class="text-danger">*</sup> Title</label>
+                <label><sup class="text-danger">*</sup>Template</label>
+                <vue-editor
+                  placeholder="Template"
+                  v-model.trim="$v.cert.template.$model"
+                  v-on:input="CertDisplay"
+                  :editorToolbar="customToolbar"
+                ></vue-editor>
+                <sub
+                  class="text-danger text-left"
+                  v-if="$v.cert.template.$error"
+                >
+                  Template is required
+                </sub>
+              </div>
+
+              <div class="form-group text-left">
+                <label><sup class="text-danger">*</sup> Title <small>&lt;&lt;Title&gt;&gt;</small></label>
                 <input
                   type="text"
                   class="form-control"
                   placeholder="Title"
                   v-model.trim="$v.cert.title.$model"
-                  v-on:input="updatecert"
+                  v-on:input="CertDisplay"
                 />
                 <sub class="text-danger text-left" v-if="$v.cert.title.$error">
                   Field is required
                 </sub>
               </div>
+
               <div class="form-group text-left">
-                <label><sup class="text-danger">*</sup> Candidate Name</label>
+                <label><sup class="text-danger">*</sup> Candidate Name <small>&lt;&lt;Name&gt;&gt;</small></label>
                 <input
                   type="text"
                   class="form-control"
                   placeholder="Candidate Name"
                   v-model.trim="$v.cert.name.$model"
-                  v-on:input="updatecert"
+                  v-on:input="CertDisplay"
                 />
                 <sub class="text-danger" v-if="$v.cert.name.$error">
                   Field is required
                 </sub>
               </div>
+
               <div class="form-group text-left">
                 <label><sup class="text-danger">*</sup> Candidate Email</label>
                 <input
@@ -38,7 +56,7 @@
                   class="form-control"
                   placeholder="Candidate Email"
                   v-model.trim="$v.cert.email.$model"
-                  v-on:change="updatecert"
+                  v-on:change="CertDisplay"
                 />
                 <sub
                   class="text-danger"
@@ -50,40 +68,27 @@
                   Not a valid email
                 </sub>
               </div>
+
               <div class="form-group text-left">
-                <label>Instructor Name</label>
+                <label>Instructor Name <small>&lt;&lt;Instructor&gt;&gt;</small></label>
                 <input
                   type="text"
                   class="form-control form-group"
                   placeholder="Instructor Name"
                   v-model="cert.instructor_name"
-                  v-on:input="updatecert"
+                  v-on:input="CertDisplay"
                 />
               </div>
+
               <div class="form-group text-left">
-                <label for="">Expiry Date</label>
+                <label for="">Expiry Date <small>&lt;&lt;Expiry&gt;&gt;</small></label>
                 <input
                   type="date"
                   class="form-control form-group"
                   placeholder="Title"
                   v-model="cert.expiry_date"
-                  v-on:change="updatecert"
+                  v-on:change="CertDisplay"
                 />
-              </div>
-              <div class="form-group text-left">
-                <label><sup class="text-danger">*</sup> Description</label>
-                <b-form-textarea
-                  class="form-control"
-                  placeholder="Description"
-                  v-model.trim="$v.cert.description.$model"
-                  v-on:input="updatecert"
-                ></b-form-textarea>
-                <sub
-                  class="text-danger text-left"
-                  v-if="$v.cert.description.$error"
-                >
-                  Discription is required
-                </sub>
               </div>
 
               <div class="form-group text-left">
@@ -108,6 +113,7 @@
                   Allowed image formats '.jpeg', '.jpg', '.png'
                 </sub>
               </div>
+
               <div class="form-group text-left">
                 <label for="UploadSignature" class="btn btn-wb btn-block"
                   ><sup class="text-danger">*</sup> UPLOAD SIGNATURE</label
@@ -142,6 +148,7 @@
               >
                 Update
               </button>
+
               <button
                 type="button"
                 v-on:click="Create_Cert"
@@ -161,11 +168,38 @@
 <script>
 import { required, email } from "vuelidate/lib/validators";
 import GlobalNotification from "../js/GlobalNotification";
+import { VueEditor } from "vue2-editor";
+
 export default {
   name: "certificateinfo",
   props: { template_id: String, edit: Boolean },
   mixins: [GlobalNotification],
+  components: {
+    VueEditor,
+  },
   methods: {
+    CertDisplay(){
+      this.cert.template_display=this.cert.template;
+
+      if(this.cert.title){
+        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Title&gt;&gt;',this.cert.title);
+      }
+
+      if(this.cert.name){
+        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Name&gt;&gt;',this.cert.name);
+      }
+
+      if(this.cert.instructor_name){
+        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Instructor&gt;&gt;',this.cert.instructor_name);
+      }
+
+      if(this.cert.expiry_date){
+        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
+      }
+      
+      this.updatecert();
+    },
+
     HandleFileUpload(flag) {
       let AllowedTypes = ["image/jpeg", "image/png"];
       if (flag && this.$refs.logo.files.length > 0) {
@@ -208,17 +242,20 @@ export default {
       }
       this.updatecert();
     },
+
     updatecert() {
       this.$store.commit("cert_state/updatecert", this.cert);
     },
+
     reset_cert() {
       this.cert = {
+        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template_display:null,
         title: "",
         name: null,
         email: null,
         instructor_name: null,
         expiry_date: null,
-        description: null,
         logo: null,
         signature: null,
         templateid: null,
@@ -229,6 +266,7 @@ export default {
       this.$refs.logo.value = "";
       this.$refs.signature.value = "";
     },
+
     Create_Cert() {
       if (
         this.LogoSizeExceed ||
@@ -258,11 +296,13 @@ export default {
           });
       }
     },
+
     form() {
       var form = new FormData();
       // for (const [key, value] of Object.entries(this.cert)) {
       //   form.append(key, value);
       // }
+      form.append("template", this.cert.template);
       form.append("title", this.cert.title);
       form.append("name", this.cert.name);
       form.append("email", this.cert.email);
@@ -283,6 +323,7 @@ export default {
       // }
       return form;
     },
+
     modify_Cert() {
       if (
         this.LogoSizeExceed ||
@@ -311,6 +352,7 @@ export default {
           });
       }
     },
+
     getBase64(file) {
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -332,25 +374,40 @@ export default {
       logo_file: null,
       signature_file: null,
       cert: {
+        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template_display:null,
         title: "",
         name: null,
         email: null,
         instructor_name: null,
         expiry_date: null,
-        description: null,
         logo: null,
         signature: null,
         templateid: null,
         certificate_img: "base64",
       },
+
+      customToolbar: [
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        ["bold", "italic", "underline"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ color: [] }, { background: [] }],
+        ["clean"],
+      ],
     };
   },
   validations: {
     cert: {
+      template: { required },
       title: { required },
       name: { required },
       email: { required, email },
-      description: { required },
       logo: { required },
       signature: { required },
     },
