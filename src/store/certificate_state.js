@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     cert: {
+      template: "",
       title: "Certificate Title",
       name: "\"Name\"",
       email: null,
@@ -26,6 +27,7 @@ export default {
     },
     clearcert(state) {
       state.cert = {
+        template: null,
         title: "Certificate Title",
         name: "\"Name\"",
         email: null,
