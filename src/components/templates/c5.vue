@@ -7,13 +7,14 @@
       alt=""
     />
     <img :src="cert.logo" alt="" class="logo" />
-    <h3 class="t text-left">{{ cert.title }}</h3>
+    <div class="CertTemplate" v-html="cert.template_display"></div>
+    <!-- <h3 class="t text-left">{{ cert.title }}</h3>
 
     <p class="desc text-left text-justify">
       It is to certify that <br />
       <b style="font-size: 2vw; color: black">{{ cert.name }}</b> <br />
       {{ cert.description }}
-    </p>
+    </p> -->
     <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
       Publish Date:
       {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
@@ -37,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.t {
+/* .t {
   position: absolute;
   top: 2%;
   color: #66c8d0;
@@ -48,9 +49,9 @@ export default {
   text-align: justify;
   width: 50%;
   word-wrap: break-word;
-}
+} */
 /*  font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width]))); */
-.desc {
+/* .desc {
   position: absolute;
   top: 40%;
   color: black;
@@ -61,7 +62,21 @@ export default {
   width: 60%;
   word-wrap: break-word;
   
+} */
+.CertTemplate{
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  color: black;
+  font-size: 1.75vw;
+  height: 555px; /* Assign a value */
+  width: 68%;
+  word-wrap: break-word;
+  /* margin: auto; */
+  font-family: "Kano regular";
+
 }
+
 .container1 {
   position: relative;
   text-align: center;

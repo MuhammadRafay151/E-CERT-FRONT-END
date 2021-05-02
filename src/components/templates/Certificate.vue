@@ -7,10 +7,11 @@
       alt=""
     />
     <img :src="cert.logo" alt="" class="logo" />
-    <h3 class="t">{{ cert.title }}</h3>
+    <div class="CertTemplate" v-html="cert.template_display"></div>
+    <!-- <h3 class="t">{{ cert.title }}</h3>
     <p class="desc text-left">
       It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}
-    </p>
+    </p> -->
     <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
       Publish Date:
       {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
@@ -34,14 +35,14 @@ export default {
 </script>
 
 <style scoped>
-.t {
+/* .t {
   position: absolute;
   top: 25%;
   color: black;
   left: 0;
   right: 0;
   font-size: 3vw;
-}
+} */
 .container1 {
   position: relative;
   text-align: center;
@@ -53,15 +54,30 @@ export default {
   overflow-x: scroll;
   overflow-y: hidden;
 }
-.desc {
+/* .desc {
   position: absolute;
-  top: 40%;
+  top: 25%;
   color: black;
   left: 0;
   right: 0;
   font-size: 1vw;
   width: 50%;
   margin: auto;
+} */
+.CertTemplate{
+  position: absolute;
+  top: 25%;
+  left: 20px;
+  color: black;
+  left: 0;
+  right: 0;
+  font-size: 1.1vw;
+  height: 555px; /* Assign a value */
+  width: 85%;
+  word-wrap: break-word;
+  margin: auto;
+  font-family: "Century Gothic";
+
 }
 .p2 {
   position: absolute;
