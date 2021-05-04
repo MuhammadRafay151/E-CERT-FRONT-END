@@ -173,7 +173,8 @@ export default {
           rej(err)
         })
       })
-    }
+    },
+ 
   },
   getters: {
     IsLoggedIn(state) {

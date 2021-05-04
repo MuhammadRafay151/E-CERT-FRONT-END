@@ -26,7 +26,6 @@
 <script>
 import navbar from "@/components/navbar";
 import GlobalNotification from "./js/GlobalNotification";
-import { mapState } from "vuex";
 export default {
   components: {
     navbar,
@@ -37,21 +36,20 @@ export default {
       this.show = !navigator.onLine;
     },
   },
-  computed: mapState(["NewMessage"]),
   sockets: {
     connect() {
-      console.log("socket connected")
-      this.GlobalNotify("Your realtime connection has been conected",false);
+      console.log("socket connected");
+      this.GlobalNotify("Your realtime connection has been conected", false);
     },
     disconnect() {
-      console.log("socket disconnected")
-      this.GlobalNotify("Your realtime connection has been disconected",false);
+      console.log("socket disconnected");
+      this.GlobalNotify("Your realtime connection has been disconected", false);
     },
     connect_error(err) {
       console.log(err);
     },
     message(data) {
-      this.GlobalNotify(data,false);
+      this.GlobalNotify(data, false);
     },
   },
   data: () => {
@@ -65,6 +63,15 @@ export default {
   mounted() {
     window.addEventListener("online", this.connection);
     window.addEventListener("offline", this.connection);
+  },
+  async created() {
+    // let user_state = this.$store.state.user_state;
+    // if (
+    //   this.$store.getters["user_state/IsLoggedIn"] &&
+    //   user_state.Authorization.SuperAdmin !== true
+    // ) {
+    await this.$store.dispatch("notification_state/GetNewNotificationCount");
+    // }
   },
 };
 </script>

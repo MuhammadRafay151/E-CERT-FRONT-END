@@ -1,5 +1,5 @@
 import axios from 'axios'
-const url= process.env.VUE_APP_API_URL
+const url = process.env.VUE_APP_API_URL
 
 export default {
   namespaced: true,
@@ -10,17 +10,14 @@ export default {
       count: null,
       currentcount: null
     },
-    certhistory: { list: null, totalcount: null }
+    certhistory: { list: null, totalcount: null, available_balance: null }
   },
   mutations: {
     ClearCountHistory(state) {
       state.certhistory = { list: null, totalcount: null }
     },
     certcount(state, value) {
-      state.certhistory.list = value.list
-      if (value.totalcount) {
-        state.certhistory.totalcount = value.totalcount
-      }
+      state.certhistory=value
     },
   },
   actions: {

@@ -5,6 +5,7 @@ import cert_state from "./certificate_state"
 import org_state from "./organization_state"
 import certcount_state from "./certcount_state"
 import dashboard_state from "./dashboard_state"
+import notification_state from "./notification_state"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -33,10 +34,11 @@ export default new Vuex.Store({
   },
   actions: {},
   modules: {
-    user_state: user_state,
-    cert_state: cert_state,
-    org_state: org_state,
-    certcount_state: certcount_state,
-    dashboard_state: dashboard_state
+    user_state,
+    cert_state,
+    org_state,
+    certcount_state,
+    dashboard_state,
+    notification_state
   }
 });

@@ -6,7 +6,7 @@
     <div class="shadow p-3">
       <div class="row justify-content-between">
         <div class="col d-flex align-items-center">
-          <strong>Total Count: {{ org.ecertcount }}</strong>
+          <strong>Total Count: {{ certhistory.available_balance }}</strong>
         </div>
         <div class="col">
           <h3 class="d-inline-block text-wb">Count History</h3>
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     ...mapState("user_state", ["user", "Authorization"]),
-    ...mapState("org_state", ["org"]),
+    ...mapState("certcount_state", ["certhistory"]),
   },
   methods: {
     RefreshHistory() {

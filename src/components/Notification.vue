@@ -1,56 +1,47 @@
 <template>
-  <div>
-    <b-nav-item-dropdown
-      size="lg"
-      variant="link"
-      toggle-class="text-decoration-none"
-      no-caret
-      right
-      menu-class="myDropdown"
-    >
-      <template #button-content>
-        <b-avatar badge="7" variant="wb" badge-variant="danger">
-          <template #default
-            ><b-icon icon="bell-fill" variant="white"></b-icon
-          ></template>
-        </b-avatar>
-      </template>
-      <b-dropdown-item
-        v-for="i in [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]"
-        v-bind:key="i"
+  <div class="test w-25">
+    <div class="list-group">
+      <a
+        v-for="(i, index) in Notifications.list"
+        v-bind:key="index"
+        href="#"
+        class="list-group-item list-group-item-action"
+        v-bind:class="{ 'bg-secondary': i.Isread }"
       >
-        <b-card header="Default" class="text-center">
-          <b-card-text
-            >Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit.</b-card-text
-          >
-        </b-card>
-      </b-dropdown-item>
-    </b-nav-item-dropdown>
-    <!-- <b-button v-b-modal.modal-tall>Launch overflowing modal</b-button> -->
-
-    <b-modal id="modal-tall" title="Overflowing Content">
-      <b-card
-        header="Default"
-        class="text-center"
-        v-for="i in [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]"
-        v-bind:key="i"
-      >
-        <b-card-text
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text
+        <p class="mb-1 text-left" v-bind:class="{ 'text-white': i.Isread }">
+          {{ i.message }}
+        </p>
+        <div
+          class="d-flex w-100 justify-content-end"
+          v-bind:class="{ 'text-white': i.Isread }"
         >
-      </b-card>
-    </b-modal>
+          <small>{{ new Date(Date.now()).toLocaleString() }}</small>
+        </div>
+      </a>
+    </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Notification",
+  computed: {
+    ...mapState("notification_state", ["Notifications"]),
+  },
+  async created() {
+    await this.$store.dispatch("notification_state/GetNewNotification");
+  },
 };
 </script>
 <style >
 .myDropdown {
   height: 80vh;
   overflow-y: scroll;
+}
+.test {
+  position: fixed;
+  right: 4%;
+  top: 8%;
+  z-index: 100;
 }
 </style>
