@@ -252,7 +252,7 @@ export default {
           this.Hide_loader();
           this.GlobalNotify(
             `we are publishing your certificate with id: ${id}. You may continue what you are doing.`,
-            false
+            true
           );
           if (this.single_certificates.list.length > 1) {
             this.page(this.currentPage);

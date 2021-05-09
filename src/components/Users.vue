@@ -5,6 +5,7 @@
       v-on:yes="ChangeStatus"
       v-on:cancel="CancelChangeStatus"
     />
+    <confirmbox ref="c2" v-on:yes="SendForgetLink" />
     <b-modal
       no-close-on-backdrop
       id="modal-3"
@@ -44,7 +45,7 @@
           <span>{{ new Date(data.value).toLocaleDateString() }}</span>
         </template>
         <template #cell(name)="data">
-          <span v-if="data.item._id===user._id">{{ data.value }} (me)</span>
+          <span v-if="data.item._id === user._id">{{ data.value }} (me)</span>
           <span v-else>{{ data.value }}</span>
         </template>
         <template #head(Actions)>
@@ -97,6 +98,7 @@
                 icon="link45deg"
                 style="cursor: pointer"
                 scale="1.5"
+                v-on:click="ConfirmForget(data.item)"
               ></b-icon>
               <b-tooltip :target="data.index + 't'" triggers="hover">
                 <span>Send reset password link on user's email address</span>
@@ -125,9 +127,10 @@ import UserRegisteration from "./Registeration";
 import { mapState } from "vuex";
 import { Roles } from "../js/Roles";
 import { CheckAuthorization } from "../js/Authorization";
+import GlobalNotification from "../js/GlobalNotification";
 export default {
   name: "Users",
-  mixins: [loader],
+  mixins: [loader, GlobalNotification],
   props: ["id"],
   components: {
     confirmbox,
@@ -231,6 +234,22 @@ export default {
     ClodeReg() {
       this.$bvModal.hide("modal-3");
       this.page(this.currentPage);
+    },
+    ConfirmForget(obj) {
+      this.$refs.c2.show(
+        `Are you sure you want to send reset password link to ${obj.email}`,
+        obj
+      );
+    },
+    SendForgetLink(obj) {
+      this.$store
+        .dispatch("user_state/ResetPasswordLink", obj._id)
+        .then((res) => {
+          this.GlobalNotify(res, true);
+        })
+        .catch((err) => {
+          this.GlobalNotify(err, true);
+        });
     },
   },
   created() {

@@ -73,9 +73,6 @@ export default {
         })
       })
     },
-    changepassword() {
-
-    },
     CheckEmail({ rootState }, email) {
       return new Promise((res, rej) => {
         axios({
@@ -174,7 +171,22 @@ export default {
         })
       })
     },
- 
+    ResetPasswordLink({ rootState }, id) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          url: url + "api/account/resetpassword/" + id,
+          method: "POST",
+        }).then(response => {
+          res(response.data)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    }
+
   },
   getters: {
     IsLoggedIn(state) {

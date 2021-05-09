@@ -1,21 +1,21 @@
 <template>
-  <div class="test w-25">
+  <div class="test w-25 scroll">
     <div class="list-group">
       <a
         v-for="(i, index) in Notifications.list"
         v-bind:key="index"
         href="#"
         class="list-group-item list-group-item-action"
-        v-bind:class="{ 'bg-secondary': i.Isread }"
+        v-bind:class="{ 'bg-secondary': !i.Isread }"
       >
-        <p class="mb-1 text-left" v-bind:class="{ 'text-white': i.Isread }">
+        <p class="mb-1 text-left" v-bind:class="{ 'text-white': !i.Isread }">
           {{ i.message }}
         </p>
         <div
           class="d-flex w-100 justify-content-end"
-          v-bind:class="{ 'text-white': i.Isread }"
+          v-bind:class="{ 'text-white': !i.Isread }"
         >
-          <small>{{ new Date(Date.now()).toLocaleString() }}</small>
+          <small>{{ new Date(i.date).toLocaleString() }}</small>
         </div>
       </a>
     </div>
@@ -33,8 +33,8 @@ export default {
   },
 };
 </script>
-<style >
-.myDropdown {
+<style scoped >
+.scroll {
   height: 80vh;
   overflow-y: scroll;
 }

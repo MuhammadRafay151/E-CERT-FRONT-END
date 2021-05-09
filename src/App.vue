@@ -51,6 +51,9 @@ export default {
     message(data) {
       this.GlobalNotify(data, false);
     },
+    NotificationAlert(data){
+      this.$store.commit("notification_state/SetNotificationCount",data)
+    }
   },
   data: () => {
     return {
@@ -65,13 +68,13 @@ export default {
     window.addEventListener("offline", this.connection);
   },
   async created() {
-    // let user_state = this.$store.state.user_state;
-    // if (
-    //   this.$store.getters["user_state/IsLoggedIn"] &&
-    //   user_state.Authorization.SuperAdmin !== true
-    // ) {
-    await this.$store.dispatch("notification_state/GetNewNotificationCount");
-    // }
+    let user_state = this.$store.state.user_state;
+    if (
+      this.$store.getters["user_state/IsLoggedIn"] &&
+      user_state.Authorization.SuperAdmin !== true
+    ) {
+      await this.$store.dispatch("notification_state/GetNewNotificationCount");
+    }
   },
 };
 </script>
