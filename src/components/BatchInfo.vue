@@ -9,13 +9,13 @@
                 <label><sup class="text-danger">*</sup>Template</label>
                 <vue-editor
                   placeholder="Template"
-                  v-model.trim="$v.cert.template.$model"
+                  v-model.trim="$v.cert.default_template.$model"
                   v-on:input="CertDisplay"
                   :editorToolbar="customToolbar"
                 ></vue-editor>
                 <sub
                   class="text-danger text-left"
-                  v-if="$v.cert.template.$error"
+                  v-if="$v.cert.default_template.$error"
                 >
                   Template is required
                 </sub>
@@ -161,26 +161,22 @@ export default {
   },
   methods: {
     CertDisplay(){
-      this.cert.template_display=this.cert.template;
+      this.cert.template=this.cert.default_template;
 
       if(this.cert.title){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Title&gt;&gt;',this.cert.title);
-      }
-
-      if(this.cert.name){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Name&gt;&gt;',this.cert.name);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Title&gt;&gt;',this.cert.title);
       }
 
       if(this.cert.instructor_name){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Instructor&gt;&gt;',this.cert.instructor_name);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Instructor&gt;&gt;',this.cert.instructor_name);
       }
 
       if(this.cert.expiry_date){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
       }
 
       if(this.batch_name){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Batch&gt;&gt;',this.batch_name);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Batch&gt;&gt;',this.batch_name);
       }
       
       this.updatecert();
@@ -234,8 +230,8 @@ export default {
 
     reset_cert() {
       this.cert = {
-        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course under the <strong>&lt;&lt;Batch&gt;&gt;</strong></p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
-        template_display:null,
+        default_template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course under the <strong>&lt;&lt;Batch&gt;&gt;</strong></p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template:null,
         title: "",
         name: null,
         email: null,
@@ -317,6 +313,7 @@ export default {
 
     form() {
       var form = new FormData();
+      form.append("default_template", this.cert.default_template);
       form.append("template", this.cert.template);
       form.append("title", this.cert.title);
       form.append("batch_name", this.batch_name);
@@ -347,8 +344,8 @@ export default {
       signature_file: null,
       batch_name: null,
       cert: {
-        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course under the <strong>&lt;&lt;Batch&gt;&gt;</strong></p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
-        template_display:null,
+        default_template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course under the <strong>&lt;&lt;Batch&gt;&gt;</strong></p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template:null,
         title: "",
         name: '"Name"',
         email: null,
@@ -379,7 +376,7 @@ export default {
   validations: {
     batch_name: { required },
     cert: {
-      template: { required },
+      default_template: { required },
       title: { required },
       logo: { required },
       signature: { required },
@@ -389,6 +386,7 @@ export default {
   created() {
     if (this.edit) {
       var x = this.$store.state.cert_state.cert;
+      this.cert.default_template = x.default_template;
       this.cert.template = x.template;
       this.cert.title = x.title;
       this.cert.instructor_name = x.instructor_name;

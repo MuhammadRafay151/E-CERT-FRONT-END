@@ -5,6 +5,7 @@ export default {
   namespaced: true,
   state: {
     cert: {
+      default_template:"",
       template: "",
       title: "Certificate Title",
       name: "\"Name\"",
@@ -27,6 +28,7 @@ export default {
     },
     clearcert(state) {
       state.cert = {
+        default_template:null,
         template: null,
         title: "Certificate Title",
         name: "\"Name\"",
@@ -132,16 +134,13 @@ export default {
       else {
         temp = url + "api/certificate/" + obj.id
       }
-
       return new Promise((res, rej) => {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: temp,
           method: "GET",
-
         }).then(response => {
           var x = response.data
           x.logo = `${url}image/${x.logo}`
@@ -149,7 +148,6 @@ export default {
           commit("updatecert", response.data)
           res(response.data.template_id)
         }).catch(err => {
-
           rej(err)
         })
       })
@@ -159,7 +157,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: url + "api/certificate",
           method: "POST",
@@ -167,7 +164,6 @@ export default {
         }).then(response => {
           res(response)
         }).catch(err => {
-
           rej(err)
         })
       })
@@ -177,7 +173,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: url + "api/certificate/" + obj.id,
           method: "PUT",
@@ -194,7 +189,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: url + "api/certificate/" + id,
           method: "DELETE",
@@ -211,7 +205,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: url + "api/publish/single",
           method: "POST",
@@ -266,7 +259,6 @@ export default {
             x.logo = `${url}image/${x.logo}`
             x.signature = `${url}image/${x.signature}`
           }
-
           commit("updatecert", response.data)
           res()
         }).catch(err => {
@@ -279,7 +271,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           url: url + "api/batch",
           method: "POST",
@@ -287,13 +278,9 @@ export default {
         }).then(response => {
           res(response)
         }).catch(err => {
-
           rej(err)
         })
       })
-
-
-
     },
     GetBatches({ commit, rootState }, obj) {
       return new Promise((res, rej) => {
@@ -325,7 +312,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           method: "GET",
           url: temp
@@ -389,7 +375,6 @@ export default {
           rej(err)
         })
       })
-
     },
     GetBatchCerts({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
@@ -398,7 +383,6 @@ export default {
         axios({
           headers: {
             'Authorization': `Bearer ${rootState.user_state.user.token}`,
-
           },
           method: "GET",
           url: temp
@@ -443,7 +427,6 @@ export default {
           rej(err)
         })
       })
-
     },
     viewBcert({ rootState, commit }, obj) {
       return new Promise((res, rej) => {
