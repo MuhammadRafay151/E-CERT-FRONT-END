@@ -12,7 +12,7 @@
       <p class="desc text-left">
         It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}
       </p> -->
-      <div class="CertTemplate" v-html="cert.template_display"></div>
+      <div class="CertTemplate" v-html="cert.template"></div>
       <p v-if="cert.publish && cert.publish.publish_date" class="p2 text-left">
         Publish Date:
         {{ new Date(cert.publish.publish_date).toLocaleDateString() }}

@@ -6,7 +6,7 @@
       alt=""
     />
     <img :src="cert.logo" alt="" class="logo" />
-    <div class="CertTemplate" v-html="cert.template_display"></div>
+    <div class="CertTemplate" v-html="cert.template"></div>
     <!-- <h3 class="t text-center">{{ cert.title }}</h3>
     <p class="desc text-center">
       It is to certify that <b>{{ cert.name }}</b> {{ cert.description }}

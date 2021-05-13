@@ -9,13 +9,13 @@
                 <label><sup class="text-danger">*</sup>Template</label>
                 <vue-editor
                   placeholder="Template"
-                  v-model.trim="$v.cert.template.$model"
+                  v-model.trim="$v.cert.default_template.$model"
                   v-on:input="CertDisplay"
                   :editorToolbar="customToolbar"
                 ></vue-editor>
                 <sub
                   class="text-danger text-left"
-                  v-if="$v.cert.template.$error"
+                  v-if="$v.cert.default_template.$error"
                 >
                   Template is required
                 </sub>
@@ -179,22 +179,22 @@ export default {
   },
   methods: {
     CertDisplay(){
-      this.cert.template_display=this.cert.template;
+      this.cert.template=this.cert.default_template;
 
       if(this.cert.title){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Title&gt;&gt;',this.cert.title);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Title&gt;&gt;',this.cert.title);
       }
 
       if(this.cert.name){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Name&gt;&gt;',this.cert.name);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Name&gt;&gt;',this.cert.name);
       }
 
       if(this.cert.instructor_name){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Instructor&gt;&gt;',this.cert.instructor_name);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Instructor&gt;&gt;',this.cert.instructor_name);
       }
 
       if(this.cert.expiry_date){
-        this.cert.template_display=this.cert.template_display.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
+        this.cert.template=this.cert.template.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
       }
       
       this.updatecert();
@@ -249,8 +249,8 @@ export default {
 
     reset_cert() {
       this.cert = {
-        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
-        template_display:null,
+        default_template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template:null,
         title: "",
         name: null,
         email: null,
@@ -302,6 +302,7 @@ export default {
       // for (const [key, value] of Object.entries(this.cert)) {
       //   form.append(key, value);
       // }
+      form.append("default_template", this.cert.default_template);
       form.append("template", this.cert.template);
       form.append("title", this.cert.title);
       form.append("name", this.cert.name);
@@ -374,8 +375,8 @@ export default {
       logo_file: null,
       signature_file: null,
       cert: {
-        template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
-        template_display:null,
+        default_template: "<h1 style=\"text-align: center;\">&lt;&lt;Title&gt;&gt;</h1><p style=\"text-align: center;\">Is Awarded TO</p><h2 style=\"text-align: center;\">&lt;&lt;Name&gt;&gt;</h2><p style=\"text-align: center;\">upon completion of twenty hours in professional development in Digital Learning and Instructional Technology and meeting all the requirements of Course.</p><p style=\"text-align: center;\">The certification will Expire on: <strong>&lt;&lt;Expiry&gt;&gt;</strong></p>",
+        template:null,
         title: "",
         name: null,
         email: null,
@@ -404,7 +405,7 @@ export default {
   },
   validations: {
     cert: {
-      template: { required },
+      default_template:{required},
       title: { required },
       name: { required },
       email: { required, email },
@@ -416,6 +417,8 @@ export default {
     if (this.edit) {
       var x = this.$store.state.cert_state.cert;
       this.cert.id = x._id;
+      this.cert.default_template=x.default_template;
+      this.cert.template=x.template;
       this.cert.title = x.title;
       this.cert.name = x.name;
       this.cert.email = x.email;

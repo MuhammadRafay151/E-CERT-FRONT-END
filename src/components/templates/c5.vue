@@ -7,7 +7,7 @@
       alt=""
     />
     <img :src="cert.logo" alt="" class="logo" />
-    <div class="CertTemplate" v-html="cert.template_display"></div>
+    <div class="CertTemplate" v-html="cert.template"></div>
     <!-- <h3 class="t text-left">{{ cert.title }}</h3>
 
     <p class="desc text-left text-justify">
