@@ -14,8 +14,8 @@
           <sub class="text-danger" v-if="!$v.email.required && $v.email.$error"
             >Email is required</sub
           >
-          <sub class="text-danger" v-if="!$v.email.email && $v.email.$error"
-            >Email is required</sub
+          <sub class="text-danger d-block mt-2" v-if="!$v.email.email && $v.email.$error"
+            >Invalid Email</sub
           >
         </div>
         <button

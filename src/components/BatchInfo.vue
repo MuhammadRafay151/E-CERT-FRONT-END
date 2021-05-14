@@ -331,7 +331,9 @@ export default {
       var x = this.$store.state.cert_state.cert;
       this.cert.title = x.title;
       this.cert.instructor_name = x.instructor_name;
-      this.cert.expiry_date = x.expiry_date;
+      this.cert.expiry_date = x.expiry_date
+        ? new Date(x.expiry_date).toISOString().slice(0, 10)
+        : "";
       this.cert.description = x.description;
       this.cert.logo = x.logo;
       this.cert.signature = x.signature;
