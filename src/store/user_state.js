@@ -171,6 +171,19 @@ export default {
         })
       })
     },
+    ResetPassword(ctx, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          url: url + "api/account/resetpassword",
+          method: "PUT",
+          data: obj
+        }).then(response => {
+          res(response.data)
+        }).catch(err => {
+          rej(err)
+        })
+      })
+    },
     ResetPasswordLink({ rootState }, id) {
       return new Promise((res, rej) => {
         axios({

@@ -580,6 +580,22 @@ export default {
         })
       })
     },
+    ForgetCertificate({ rootState }, obj) {
+      return new Promise((res, rej) => {
+        axios({
+          headers: {
+            'Authorization': `Bearer ${rootState.user_state.user.token}`,
+          },
+          method: "POST",
+          url: url + "api/forget/certificates",
+          data: obj,
+        }).then(response => {
+          res(response.data)
+        }).catch(() => {
+          rej()
+        })
+      })
+    }
   },
 
 }

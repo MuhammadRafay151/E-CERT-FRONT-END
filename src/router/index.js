@@ -20,6 +20,7 @@ import RegisterOrganization from '../views/RegisterOrganization.vue'
 import OrganizationConfig from '../views/OrganizationConfig.vue'
 import UserProfile from "../views/UserProfile.vue"
 import debugging from "../views/Debugging.vue"
+import ResetPassword from "../views/ResetPassword.vue";
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
 import { Roles } from '../js/Roles'
@@ -194,6 +195,18 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    name: "ResetPassword",
+    path: "/reset-password",
+    component: ResetPassword,
+    beforeEnter: (to, from, next) => {
+      console.log(to, from)
+      if (to.query.token && to.query.token.length > 0)
+        next()
+      else
+        next({ path: '/forbidden' })
+    }
   },
   { name: "403", path: "/forbidden", component: forbidden },
   { name: "404", path: '*', component: notfound }

@@ -18,7 +18,7 @@
         </div>
       </template>
     </b-overlay>
-    <div class="form-group">
+    <div class="form-group" v-if="!reset">
       <label><sup class="text-danger">*</sup>Current Password</label>
       <input
         type="password"
@@ -72,8 +72,15 @@
         >Passwords must be identical.</sub
       >
     </div>
-    <button class="btn btn-wb btn-block" v-on="{ click: changepassword }">
-      Change Password
+    <button
+      class="btn btn-wb btn-block"
+      v-on:click="
+        () => {
+          reset ? ResetPassword() : changepassword();
+        }
+      "
+    >
+      {{ reset ? "Reset Password" : "Change Password" }}
     </button>
   </div>
 </template>
@@ -83,23 +90,39 @@ import loader from "../js/loader";
 export default {
   name: "Password",
   mixins: [loader],
+  props: { reset: Boolean },
   data: () => {
     return {
       ChPass: { current: "", new: "", confirm: "" },
     };
   },
-  validations: {
-    ChPass: {
-      current: {
-        required,
-      },
-      new: {
-        required,
-      },
-      confirm: {
-        sameAsPassword: sameAs("new"),
-      },
-    },
+  validations() {
+    if (!this.reset) {
+      return {
+        ChPass: {
+          current: {
+            required,
+          },
+          new: {
+            required,
+          },
+          confirm: {
+            sameAsPassword: sameAs("new"),
+          },
+        },
+      };
+    } else {
+      return {
+        ChPass: {
+          new: {
+            required,
+          },
+          confirm: {
+            sameAsPassword: sameAs("new"),
+          },
+        },
+      };
+    }
   },
   methods: {
     changepassword() {
@@ -109,11 +132,36 @@ export default {
         this.$store
           .dispatch("user_state/ChangePassword", this.ChPass)
           .then(() => {
-            this.Hide_loader();
-            this.$emit("done");
+            this.show_loader("Signing out...");
+            this.$store.dispatch("user_state/signout").then(() => {
+              this.Hide_loader();
+              this.$emit("done");
+              this.$router.push("/");
+            });
           })
           .catch((err) => {
             this.dismissible_error(err.response.data);
+          });
+      }
+    },
+    ResetPassword() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.show_loader("Resetting Password...");
+        this.$store
+          .dispatch("user_state/ResetPassword", {
+            token: this.$route.query.token,
+            ...this.ChPass,
+          })
+          .then(() => {
+            this.Hide_loader();
+            this.ChPass = { current: "", new: "", confirm: "" };
+            this.$emit("done");
+            this.$router.push("/login");
+          })
+          .catch((err) => {
+            if ("response" in err) this.dismissible_error(err.response.data);
+            else this.dismissible_error(err);
           });
       }
     },
