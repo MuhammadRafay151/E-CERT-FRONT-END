@@ -49,7 +49,7 @@
         <b-navbar-nav href="#" class="ml-auto">
           <b-nav-item v-if="!IsLoggedIn" href="#" to="/login">Login</b-nav-item>
           <b-avatar
-            :badge="NewCount>0?NewCount.toString():false"
+            :badge="NewCount > 0 ? NewCount.toString() : false"
             variant="white"
             badge-variant="danger"
             button
@@ -142,6 +142,7 @@ export default {
     signout() {
       this.$store.dispatch("user_state/signout").then(() => {
         this.$router.push("/");
+        this.$store.dispatch("ResetState");
       });
     },
     config() {

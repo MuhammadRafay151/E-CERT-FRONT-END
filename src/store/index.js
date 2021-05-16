@@ -30,9 +30,20 @@ export default new Vuex.Store({
     SetSocketToken(state, token) {
       state.socket.auth.token = token
       state.socket.connect();
+    },
+    ResetState(state) {
+      state.History = []
+      state.NewMessage = ""
     }
   },
-  actions: {},
+  actions: {
+    ResetState({ commit }) {
+      commit("ResetState")
+      commit("notification_state/ResetState")
+      commit("dashboard_state/ResetState")
+      commit("org_state/ResetState")
+    }
+  },
   modules: {
     user_state,
     cert_state,

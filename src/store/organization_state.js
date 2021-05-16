@@ -32,6 +32,11 @@ export default {
     },
     UpdateUserLimit(state, value) {
       state.org.user_limit = value
+    },
+    ResetState(state) {
+      state.org = {}
+      state.organizations = { list: null, totalcount: null }
+      state.users = { list: [], totalcount: null }
     }
   },
   actions: {

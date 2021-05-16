@@ -71,12 +71,17 @@ export default {
         .then(() => {
           this.show = false;
           this.$router.push("/dashboard");
+          this.$store.dispatch("notification_state/GetNewNotificationCount");
         })
         .catch((err) => {
           this.show = false;
           if (!err.response) {
             this.message = "no network";
-          } else if (err.response.status == 401 || err.response.status == 403 || err.response.status == 409) {
+          } else if (
+            err.response.status == 401 ||
+            err.response.status == 403 ||
+            err.response.status == 409
+          ) {
             console.log(err.response.data);
             this.message = err.response.data.message;
           }

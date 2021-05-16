@@ -13,6 +13,14 @@ export default {
         OrganizationStats: {},
     },
     mutations: {
+        ResetState(state) {
+            state.UserStats = {}
+            state.CountHistory = {}
+            state.CountStats = {}
+            state.CreationHistory = {}
+            state.PublicationHistory = {}
+            state.OrganizationStats = {}
+        }
     },
     actions: {
         GetUserStats({ rootState }) {

@@ -35,7 +35,7 @@ export default {
 </script>
 <style scoped >
 .scroll {
-  height: 80vh;
+  max-height: 80vh;
   overflow-y: scroll;
 }
 .test {
