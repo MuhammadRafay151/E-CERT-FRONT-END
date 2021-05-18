@@ -90,6 +90,7 @@ export default {
   color: black;
   left: 2%;
   font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Kano regular";
 }
 .p3 {
   position: absolute;
@@ -97,6 +98,7 @@ export default {
   color: black;
   left: 2%;
   font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Kano regular";
 }
 .logo {
   position: absolute;
@@ -112,6 +114,7 @@ export default {
   left: 70%;
   color: black;
  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+ font-family: "Kano regular";
 }
 .isign {
   position: absolute;

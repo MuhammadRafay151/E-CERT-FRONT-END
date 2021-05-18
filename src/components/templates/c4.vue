@@ -82,6 +82,7 @@ export default {
   color: black;
   left: 8%;
   font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
+  font-family: "Century Gothic";
 }
 .p3 {
   position: absolute;
@@ -89,6 +90,7 @@ export default {
   color: black;
   left: 8%;
   font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
+  font-family: "Century Gothic";
 }
 .logo {
   position: absolute;
@@ -105,6 +107,7 @@ export default {
   left: 65%;
   color: black;
   font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Century Gothic";
 }
 .isign {
  position: absolute;
