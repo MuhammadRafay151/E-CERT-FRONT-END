@@ -56,6 +56,7 @@ export default {
   left: 0;
   right: 0;
   font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
+  font-family: 'Comfortaa';
   height: 555px; /* Assign a value */
   width: 802px;
   word-wrap: break-word;
@@ -77,6 +78,7 @@ export default {
   color: black;
   left: 6%;
   font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
+  font-family: 'Comfortaa';
 }
 .p3 {
   position: absolute;
@@ -84,6 +86,7 @@ export default {
   color: black;
   left: 6%;
   font-size: calc(6px + (12 - 6) * ((100vw - 200px) / (1800 - 200)));
+  font-family: 'Comfortaa';
 }
 .logo {
   position: absolute;
@@ -100,6 +103,7 @@ export default {
   left: 68%;
   color: black;
     font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+    font-family: 'Comfortaa';
 
 }
 .isign {
