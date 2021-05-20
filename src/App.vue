@@ -52,7 +52,7 @@ export default {
       this.GlobalNotify(data, false);
     },
     NotificationAlert(data){
-      this.$store.commit("notification_state/SetNotificationCount",data)
+      this.$store.commit("notification_state/AddNotificationCount",data)
     }
   },
   data: () => {

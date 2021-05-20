@@ -13,6 +13,9 @@ export default {
         SetNotificationCount(state, value) {
             state.NewCount = value.count
         },
+        AddNotificationCount(state, value) {
+            state.NewCount += value.count
+        },
         ResetState(state) {
             state.NewCount = 0
             state.Notifications = { list: [], count: 0 }
