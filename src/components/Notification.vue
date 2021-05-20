@@ -26,10 +26,16 @@ import { mapState } from "vuex";
 export default {
   name: "Notification",
   computed: {
-    ...mapState("notification_state", ["Notifications"]),
+    ...mapState("notification_state", ["Notifications","NewCount"]),
   },
   async created() {
     await this.$store.dispatch("notification_state/GetNewNotification");
+  },
+  async beforeDestroy() {
+    if (this.NewCount > 0) {
+      await this.$store.dispatch("notification_state/MarkAsRead");
+      await this.$store.dispatch("notification_state/GetNewNotificationCount");
+    }
   },
 };
 </script>

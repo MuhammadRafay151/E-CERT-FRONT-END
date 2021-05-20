@@ -53,6 +53,23 @@ export default {
                     rej(err)
                 })
             })
+        },
+        MarkAsRead({ rootState, state }) {
+            return new Promise((res, rej) => {
+                let ids = state.Notifications.list.filter(x => x.Isread === false).map(x => x._id)
+                axios({
+                    headers: {
+                        'Authorization': `Bearer ${rootState.user_state.user.token}`,
+                    },
+                    url: url + "api/notification/",
+                    method: "PATCH",
+                    data: { ids }
+                }).then(() => {
+                    res()
+                }).catch(err => {
+                    rej(err)
+                })
+            })
         }
     }
 }

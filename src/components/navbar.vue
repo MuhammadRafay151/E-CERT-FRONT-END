@@ -153,6 +153,7 @@ export default {
     },
     HideNotification() {
       this.ShowNotifications = false;
+     
     },
   },
   components: {
