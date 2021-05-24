@@ -196,7 +196,6 @@ export default {
       if(this.cert.expiry_date){
         this.cert.template=this.cert.template.replaceAll('&lt;&lt;Expiry&gt;&gt;',this.cert.expiry_date);
       }
-      
       this.updatecert();
     },
 
@@ -308,7 +307,6 @@ export default {
       form.append("name", this.cert.name);
       form.append("email", this.cert.email);
       form.append("instructor_name", this.cert.instructor_name);
-      form.append("description", this.cert.description);
       if (this.cert.expiry_date) {
         form.append("expiry_date", this.cert.expiry_date);
       }
