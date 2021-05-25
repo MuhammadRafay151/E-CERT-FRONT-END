@@ -21,6 +21,7 @@ import OrganizationConfig from '../views/OrganizationConfig.vue'
 import UserProfile from "../views/UserProfile.vue"
 import debugging from "../views/Debugging.vue"
 import ResetPassword from "../views/ResetPassword.vue";
+import Logs from "../views/logs.vue"
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
 import { Roles } from '../js/Roles'
@@ -192,6 +193,14 @@ const routes = [
     name: "DebuggingView",
     path: "/debugging",
     component: debugging,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    name: "LogsView",
+    path: "/logs",
+    component: Logs,
     meta: {
       requiresAuth: true,
     },
