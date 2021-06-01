@@ -12,23 +12,23 @@
     >
       <div class="row pt-5 pb-5">
         <div class="col border-right text-center">
-          <h1
+          <h2
             style="cursor: pointer"
             class="text-white text-center"
             @click="setbatch(false)"
           >
-            Single Certificate
-          </h1>
+            Individual Certificate
+          </h2>
           <sub>Create certificate for individual entity</sub>
         </div>
         <div class="col border-left text-center">
-          <h1
+          <h2
             style="cursor: pointer"
             class="text-white text-center"
             @click="setbatch(true)"
           >
             Batch Certificate
-          </h1>
+          </h2>
           <sub
             >Create Batch for handling mulitple certificate in a group form</sub
           >

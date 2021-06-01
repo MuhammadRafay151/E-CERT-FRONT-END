@@ -6,7 +6,7 @@
           <div class="col">
             <b-nav tabs>
               <b-nav-item :active="Display" v-on:click="showsingle"
-                >Single Certificates</b-nav-item
+                >Individual Certificates</b-nav-item
               >
               <b-nav-item :active="!Display" v-on:click="showbatch"
                 >Batch Certificates</b-nav-item
