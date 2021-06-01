@@ -38,7 +38,7 @@
             v-if="IsLoggedIn && !Authorization.SuperAdmin"
             href="#"
             to="/publications"
-            >Publications</b-nav-item
+            >Published </b-nav-item
           >
           <b-nav-item href="#" to="/verification"
             >Verify Certificate</b-nav-item

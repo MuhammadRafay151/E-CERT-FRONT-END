@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Single Certificate Creation</h2>
+    <h2>Individual Certificate Creation</h2>
     <b-overlay :show="loading" wrap rounded="sm">
       <template #overlay>
         <div class="text-center">

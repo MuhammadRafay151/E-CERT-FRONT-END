@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Certificate Count</h2>
+    <h2>Total Certificate Count</h2>
     <b-overlay :show="loading" wrap rounded="sm">
       <template #overlay>
         <div class="text-center">
