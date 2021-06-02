@@ -5,21 +5,6 @@
         <b-col class="scroll">
           <b-card-body title="CERTIFICATE INFORMATION" class="h-100">
             <form>
-              <div class="form-group text-left">
-                <label><sup class="text-danger">*</sup>Template</label>
-                <vue-editor
-                  placeholder="Template"
-                  v-model.trim="$v.cert.default_template.$model"
-                  v-on:input="CertDisplay"
-                  :editorToolbar="customToolbar"
-                ></vue-editor>
-                <sub
-                  class="text-danger text-left"
-                  v-if="$v.cert.default_template.$error"
-                >
-                  Template is required
-                </sub>
-              </div>
 
               <div class="form-group text-left">
                 <label><sup class="text-danger">*</sup> Title <small>&lt;&lt;Title&gt;&gt;</small></label>
@@ -89,6 +74,22 @@
                   v-model="cert.expiry_date"
                   v-on:change="CertDisplay"
                 />
+              </div>
+
+              <div class="form-group text-left">
+                <label><sup class="text-danger">*</sup>Template</label>
+                <vue-editor
+                  placeholder="Template"
+                  v-model.trim="$v.cert.default_template.$model"
+                  v-on:input="CertDisplay"
+                  :editorToolbar="customToolbar"
+                ></vue-editor>
+                <sub
+                  class="text-danger text-left"
+                  v-if="$v.cert.default_template.$error"
+                >
+                  Template is required
+                </sub>
               </div>
 
               <div class="form-group text-left">
