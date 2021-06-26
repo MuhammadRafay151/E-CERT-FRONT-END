@@ -249,7 +249,7 @@ export default {
             this.$emit("stop");
             this.$router.push("/certificates");
             this.$nextTick(() => {
-              this.GlobalNotify("certificate has been created");
+              this.GlobalNotify("certificate has been created",false);
             });
           })
           .catch((err) => {

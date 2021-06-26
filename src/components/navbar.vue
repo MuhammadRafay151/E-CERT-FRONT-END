@@ -13,7 +13,10 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item v-if="!IsLoggedIn" href="#" to="/">Home</b-nav-item>
-          <b-nav-item v-if="IsLoggedIn" href="#" to="/dashboard"
+          <b-nav-item
+            v-if="IsLoggedIn && (Authorization.SuperAdmin || Authorization.Admin)"
+            href="#"
+            to="/dashboard"
             >DashBoard</b-nav-item
           >
 
@@ -38,8 +41,8 @@
             v-if="IsLoggedIn && !Authorization.SuperAdmin"
             href="#"
             to="/publications"
-            >Published </b-nav-item
-          >
+            >Published
+          </b-nav-item>
           <b-nav-item href="#" to="/verification"
             >Verify Certificate</b-nav-item
           >
@@ -153,7 +156,6 @@ export default {
     },
     HideNotification() {
       this.ShowNotifications = false;
-     
     },
   },
   components: {
