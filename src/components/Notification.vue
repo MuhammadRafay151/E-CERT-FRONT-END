@@ -1,6 +1,12 @@
 <template>
   <div class="test w-25 scroll">
-    <div class="list-group">
+    <div v-if="loading" class="list-group">
+      <div  class="list-group-item list-group-item-action p-4">
+        <b-spinner label="Spinning" v-show="loading"></b-spinner>
+       <p>{{loading_text}}</p>
+      </div>
+    </div>
+    <div v-else class="list-group">
       <a
         v-for="(i, index) in Notifications.list"
         v-bind:key="index"
@@ -22,14 +28,18 @@
   </div>
 </template>
 <script>
+import loader from "../js/loader";
 import { mapState } from "vuex";
 export default {
   name: "Notification",
+  mixins: [loader],
   computed: {
-    ...mapState("notification_state", ["Notifications","NewCount"]),
+    ...mapState("notification_state", ["Notifications", "NewCount"]),
   },
   async created() {
+    this.show_loader("...Loading");
     await this.$store.dispatch("notification_state/GetNewNotification");
+    this.Hide_loader();
   },
   async beforeDestroy() {
     if (this.NewCount > 0) {
