@@ -68,14 +68,17 @@ function axios_inter(store, router) {
     return response
   }, err => {
     const originalRequest = err.config;
-    if ((err.response.status === 403 || err.response.status === 401) && originalRequest.url === url + 'api/account/refresh_token') {
+    if((err.response.status === 401) && originalRequest.url === url + 'api/account/login'){
+      return Promise.reject(err);
+    }
+    else if ((err.response.status === 401) && originalRequest.url === url + 'api/account/refresh_token') {
       store.dispatch("user_state/signout").then(() => {
         router.push('/login?session_expire=true')
       })
       return Promise.reject(err);
     }
 
-    if (err.response.status === 403 && !originalRequest._retry) {
+    if (err.response.status === 401 && !originalRequest._retry) {
       if (IsRefreshing) {
         return new Promise((res, rej) => {
           WaitingQueue.push({ res, rej })
