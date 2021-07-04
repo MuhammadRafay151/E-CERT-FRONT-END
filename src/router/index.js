@@ -21,6 +21,7 @@ import OrganizationConfig from '../views/OrganizationConfig.vue'
 import UserProfile from "../views/UserProfile.vue"
 import debugging from "../views/Debugging.vue"
 import ResetPassword from "../views/ResetPassword.vue";
+import dockerLogs from "../views/dockerLogs.vue";
 import Logs from "../views/logs.vue"
 import NProgress from 'nprogress'
 import { CheckAuthorization } from '../js/Authorization'
@@ -216,6 +217,15 @@ const routes = [
       else
         next({ path: '/forbidden' })
     }
+  },
+  {
+    name: "containerLogs",
+    path: "/docker/logs",
+    component: dockerLogs,
+    meta: {
+      requiresAuth: true,
+      roles: [Roles.SuperAdmin]
+    },
   },
   { name: "403", path: "/forbidden", component: forbidden },
   { name: "404", path: '*', component: notfound }
