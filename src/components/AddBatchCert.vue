@@ -3,12 +3,13 @@
     <loader ref="l1"></loader>
     <div class="row justify-content-end">
       <div class="col-1">
-        <excel class="d-inline" v-on:load="load" />
+        <excel class="d-inline" v-on:load="load" v-b-tooltip.hover title="Import from excel file"/>
         <b-button
           class="d-inline ml-2"
           v-on:click="add"
           size="sm"
           variant="white"
+          v-b-tooltip.hover title="Add new row"
         >
           <b-icon
             font-scale="1.5"

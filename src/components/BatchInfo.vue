@@ -71,9 +71,12 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label for="UploadLogo" class="btn btn-wb btn-block"
-                  >UPLOAD LOGO</label
-                >
+                <div class="btn-group btn-block">
+                  <label for="UploadLogo" class="btn btn-wb btn-block"
+                    ><sup class="text-danger">*</sup> UPLOAD LOGO</label
+                  >
+                  <label class="btn btn-wb" v-on:click="removeLogo">x</label>
+                </div>
                 <input
                   type="file"
                   id="UploadLogo"
@@ -93,9 +96,14 @@
                 </sub>
               </div>
               <div class="form-group text-left">
-                <label for="UploadSignature" class="btn btn-wb btn-block"
-                  >UPLOAD SIGNATURE</label
-                >
+                <div class="btn-group btn-block">
+                  <label for="UploadSignature" class="btn btn-wb btn-block"
+                    ><sup class="text-danger">*</sup> UPLOAD SIGNATURE</label
+                  >
+                  <label class="btn btn-wb" v-on:click="removeSignature"
+                    >x</label
+                  >
+                </div>
                 <input
                   type="file"
                   id="UploadSignature"
@@ -189,6 +197,20 @@ export default {
         this.signature_file = signature;
         this.cert.signature = URL.createObjectURL(signature);
       }
+      this.updatecert();
+    },
+    removeLogo() {
+      this.$refs.logo.value = "";
+      URL.revokeObjectURL(this.cert.logo);
+      this.cert.logo = null;
+      this.logo_file = null;
+      this.updatecert();
+    },
+    removeSignature() {
+      this.$refs.signature.value = "";
+      URL.revokeObjectURL(this.cert.signature);
+      this.cert.signature = null;
+      this.signature_file = null;
       this.updatecert();
     },
     updatecert() {

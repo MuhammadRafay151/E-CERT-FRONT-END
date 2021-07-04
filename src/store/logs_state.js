@@ -47,7 +47,7 @@ export default {
                     commit("SetDockerLogs", response.data)
                     res()
                 }).catch(err => {
-                    commit("SetDockerLogs", err)
+                    commit("SetDockerLogs", err.response?.data)
                     rej(err)
                 })
             })

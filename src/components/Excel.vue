@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <b-button v-b-modal.file variant="white">
       <b-icon variant="wb" icon="file-spreadsheet-fill"></b-icon>
     </b-button>
@@ -12,7 +12,26 @@
       no-close-on-backdrop
       class="text-center"
     >
-      <label for="ex" class="btn btn-block btn-wb">Upload Excel File</label>
+      <div class="btn-group btn-block">
+        <label for="ex" class="btn btn-block btn-wb">Upload Excel File</label>
+        <label
+          class="btn btn-wb"
+          v-b-tooltip.hover
+          title="Remove file"
+          v-on:click="unloadFile"
+          v-if="sheetnames.length > 0"
+        >
+          X
+        </label>
+        <label
+          class="btn btn-wb"
+          v-on:click="downloadTemplate"
+          v-b-tooltip.hover
+          title="Download file template"
+        >
+          <b-icon font-scale="1.5" icon="arrow-down-circle-fill"></b-icon>
+        </label>
+      </div>
       <input
         ref="excel"
         type="file"
@@ -20,7 +39,13 @@
         hidden
         @change="HandleFileUpload"
       />
-      <b-table striped hover class="text-center" :items="sheetnames">
+      <b-table
+        v-if="sheets"
+        striped
+        hover
+        class="text-center"
+        :items="sheetnames"
+      >
         <template #head(check)>
           <span>Include</span>
         </template>
@@ -41,7 +66,11 @@
       >
         Load Table
       </button>
-      <sub class="text-danger mt-1 d-flex justify-content-center" v-if="InvaliFileType">Invalid File type</sub>
+      <sub
+        class="text-danger mt-1 d-flex justify-content-center"
+        v-if="InvaliFileType"
+        >Invalid File type</sub
+      >
     </b-modal>
   </div>
 </template>
@@ -53,14 +82,16 @@ export default {
     return {
       InvaliFileType: false,
       sheetnames: [],
-      sheets: [],
+      sheets: null,
       namecol: null,
       email: null,
     };
   },
   methods: {
     HandleFileUpload(evt) {
-      let AllowedTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+      let AllowedTypes = [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      ];
       if (this.$refs.excel.files.length > 0) {
         this.InvaliFileType = false;
         if (!AllowedTypes.includes(evt.target.files[0].type)) {
@@ -111,6 +142,19 @@ export default {
 
       this.$emit("load", load_data);
       this.$bvModal.hide("file");
+    },
+    downloadTemplate() {
+      let template = document.createElement("a");
+      template.href = "/files/Template.xlsx";
+      template.target = "_blank";
+      template.click();
+    },
+    unloadFile() {
+      this.$refs.excel.value = "";
+      this.sheets = null;
+      this.$nextTick(() => {
+        this.sheetnames = [];
+      });
     },
   },
 };
