@@ -6,20 +6,16 @@
           <img src="/logo/Certifis%20Logo%20Final-01.png" alt="" width="500" />
           <hr />
           <p>
-            The idea was intitially genreated by
+            The idea was initiated by
             <a href="https://www.linkedin.com/in/mqpasta/" target="_blank"
-              >Dr qasim pasta</a
+              >Dr. Qasim Pasta</a
             >
-            .Then we started R&d which includes to learn about blockchain and
-            diffrent blockchain frameworks,services&platforms. we decided to
-            choose hyperledger fabric as bloackcahin platform. Intial R&D of
-            hyperledger fabric was done by
+            . First, we started R&D which includes findings of blockchain and different blockchain frameworks, services & platforms. we decided to choose hyperledger fabric as a blockchain platform. Initial R&D of hyperledger fabric was done by
             <a
               href="https://www.linkedin.com/in/muhammad-rafay-51563417a/"
               target="_blank"
               >Muhammad Rafay</a
-            >. After completion of R&D actual devlopemnt of project was started
-            which includes a total team of 5 peoples.
+            >. After completion of R&D, the actual development of the project was started which includes a total team of 5 people.
           </p>
         </div>
       </div>
@@ -74,9 +70,9 @@ export default {
           img: "https://avatars.githubusercontent.com/u/46870378?v=4",
           contributions: [
             "System Designing and Architecture",
-            "BlockChain Solution development and intergation",
+            "BlockChain Solution Development & Intergation",
             "BlockChain Automation solution",
-            "BackEnd devlopemrnt",
+            "Back-End Devlopment",
             "Front-End Devlopment",
             "Deployments over cloud and dedicated linux vms",
           ],
@@ -85,10 +81,10 @@ export default {
           name: "Muhammad Aamir",
           img: "https://avatars.githubusercontent.com/u/51251914?v=4",
           contributions: [
-            "BlockChain deployment and configurations",
+            "BlockChain Deployment & Configurations",
             "BlockChain Automation solution",
-            "BackEnd Devlopemrnt",
-            "Front-End Devlopment",
+            "Back-End Development",
+            "Front-End Development",
           ],
         },
         {
@@ -102,13 +98,13 @@ export default {
           contributions: [
             "UI/UX",
             "Docs",
-            "Front-End Devlopment(specefic areas)",
+            "Front-End Development(specific areas)",
           ],
         },
         {
           name: "Muhammad Sabih",
           img: "https://avatars.githubusercontent.com/u/61966856?v=4",
-          contributions: ["Docs", "Testcase devlopment", "BlackBox Testing"],
+          contributions: ["Docs", "Testcase Development", "BlackBox Testing"],
         },
       ],
     };
