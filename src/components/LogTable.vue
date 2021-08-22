@@ -55,7 +55,7 @@
       <p class="my-4">
         {{ currentRow?currentRow.description:"" }}
       </p>
-      <p class="border border-danger">
+      <p v-if="currentRow && currentRow.message" class="border border-danger">
         {{currentRow?currentRow.message:""}}
       </p>
     </b-modal>
