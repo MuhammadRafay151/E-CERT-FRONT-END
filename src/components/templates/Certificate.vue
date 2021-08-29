@@ -1,5 +1,4 @@
 <template>
-
   <div class="container1">
     <img
       src="/templates/f2b08cc2a4da932e542734ae797563d1.png"
@@ -20,7 +19,7 @@
       verfication code: {{ cert._id }}
     </p>
     <p class="sign">Signature: _____________________</p>
-    <img :src="cert.signature" class="isign " style="" />
+    <img :src="cert.signature" class="isign" style="" />
   </div>
 </template>
 
@@ -47,7 +46,8 @@ export default {
   position: relative;
   text-align: center;
   color: white;
- max-width: 80;
+  /* max-width: 80; */
+  width: 900px;
 }
 .scroll {
   width: 800px;
@@ -64,34 +64,35 @@ export default {
   width: 50%;
   margin: auto;
 } */
-.CertTemplate{
+.CertTemplate {
   position: absolute;
   top: 25%;
   left: 20px;
   color: black;
   left: 0;
   right: 0;
-  font-size: 1.1vw;
+  /* font-size: 1.1vw; */
   height: 555px; /* Assign a value */
   width: 85%;
   word-wrap: break-word;
   margin: auto;
   font-family: "Century Gothic";
-
 }
 .p2 {
   position: absolute;
   top: 85%;
   color: black;
   left: 20%;
-  font-size: 1vw;
+  font-family: "Century Gothic";
+  /* font-size: 1vw; */
 }
 .p3 {
   position: absolute;
   top: 88%;
   color: black;
   left: 20%;
-  font-size: 1vw;
+  font-family: "Century Gothic";
+  /* font-size: 1vw; */
 }
 .logo {
   position: absolute;
@@ -107,6 +108,7 @@ export default {
   left: 55%;
   color: black;
   font-size: 1vw;
+  font-family: "Century Gothic";
 }
 .isign {
   position: absolute;
