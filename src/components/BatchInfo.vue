@@ -2,7 +2,7 @@
   <div>
     <b-card no-body class="shadow" style="width: 320px">
       <center>
-        <b-col>
+        <b-col class="scroll">
           <b-card-body title="BATCH INFORMATION" class="h-100">
             <form>
               <div class="form-group text-left">
@@ -364,3 +364,39 @@ export default {
   },
 };
 </script>
+<style  scoped>
+ @media only screen and (max-height: 1000px) {
+  .scroll {
+    overflow: auto;
+  }
+}
+@media only screen and (max-height: 969px) {
+  .scroll {
+    height: 750px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+@media only screen and (max-height: 910px) {
+  .scroll {
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-height: 850px) {
+  .scroll {
+    height: 550px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-height: 700px) {
+  .scroll {
+    height: 420px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+</style>
+

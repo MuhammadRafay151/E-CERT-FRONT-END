@@ -7,7 +7,7 @@
       >
         <verify v-on:ShowView="rendercert" ref="v1" />
       </div>
-      <div class="col d-flex justify-content-center align-self-center" v-else>
+      <div class="col d-flex justify-content-center align-self-center " style="margin-top:10%" v-else>
         <div>
           <div class="shadow p-3">
             <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
