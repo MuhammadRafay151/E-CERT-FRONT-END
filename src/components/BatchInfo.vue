@@ -445,16 +445,35 @@ export default {
 };
 </script>
 <style  scoped>
-@media only screen and (min-width: 1300px) {
+ @media only screen and (max-height: 1000px) {
   .scroll {
-    height: 700px;
+    overflow: auto;
+  }
+}
+@media only screen and (max-height: 969px) {
+  .scroll {
+    height: 750px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+@media only screen and (max-height: 910px) {
+  .scroll {
+    height: 600px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
 }
-@media only screen and (min-height: 969px) {
+@media only screen and (max-height: 850px) {
   .scroll {
-    height: 750px;
+    height: 550px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+@media only screen and (max-height: 700px) {
+  .scroll {
+    height: 420px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
