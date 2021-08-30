@@ -17,7 +17,7 @@
         {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
       </p>
       <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
-        verfication code: {{ cert._id }}
+        Verfication Code: {{ cert._id }}
       </p>
       <p class="sign">Signature: __________________</p>
       <img :src="cert.signature" class="isign" style="" />

@@ -85,7 +85,7 @@
   </div>
   <div v-else>
     <h1 style="margin-top: 120px">
-      This feature is not supported on mobile & template devices
+      This feature is not supported on mobile & tablet devices.
     </h1>
   </div>
 </template>

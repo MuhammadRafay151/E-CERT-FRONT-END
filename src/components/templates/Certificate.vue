@@ -16,7 +16,7 @@
       {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
     </p>
     <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
-      verfication code: {{ cert._id }}
+      Verfication Code: {{ cert._id }}
     </p>
     <p class="sign">Signature: _____________________</p>
     <img :src="cert.signature" class="isign" style="" />
@@ -82,7 +82,7 @@ export default {
   position: absolute;
   top: 85%;
   color: black;
-  left: 20%;
+  left: 18%;
   font-family: "Century Gothic";
   /* font-size: 1vw; */
 }
@@ -90,7 +90,7 @@ export default {
   position: absolute;
   top: 88%;
   color: black;
-  left: 20%;
+  left: 18%;
   font-family: "Century Gothic";
   /* font-size: 1vw; */
 }
@@ -107,7 +107,6 @@ export default {
   top: 88%;
   left: 55%;
   color: black;
-  font-size: 1vw;
   font-family: "Century Gothic";
 }
 .isign {
