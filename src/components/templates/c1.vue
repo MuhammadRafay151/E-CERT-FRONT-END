@@ -18,7 +18,7 @@
         {{ new Date(cert.publish.publish_date).toLocaleDateString() }}
       </p>
       <p v-if="cert.publish && cert.publish.status" class="p3 text-left">
-        verfication code: {{ cert._id }}
+        Verfication Code: {{ cert._id }}
       </p>
       <div>
         <p class="sign">Signature: ___________________</p>
@@ -30,7 +30,6 @@
           class="isign"
         />
       </div>
-      
     </div>
   </div>
 </template>
@@ -55,16 +54,17 @@ export default {
   top: 5%;
   left: 85%;
 }
-.CertTemplate{
+.CertTemplate {
   position: absolute;
   top: 20%;
   left: 20px;
   color: black;
   left: 0;
   right: 0;
-  font-size: calc(6px + (30 - 6) * ((100vw - 200px) / (1800 - 200)));
+  /* font-size: calc(6px + (18 - 6) * ((100vw - 200px) / (1920 - 200))); */
+  font-family: "Times New Roman";
   height: 555px; /* Assign a value */
-  width: 802px;
+  width: 80%;
   word-wrap: break-word;
   margin: auto;
 }
@@ -73,7 +73,8 @@ export default {
   top: 95%;
   left: 70%;
   color: black;
-  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Times New Roman";
+  /* font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300))); */
 }
 .isign {
   position: absolute;
@@ -97,7 +98,8 @@ export default {
   position: relative;
   text-align: center;
   color: white;
-  max-width: 900px;
+  /* max-width: 900px; */
+  width: 900px;
 }
 .scroll {
   width: 842px;
@@ -117,17 +119,19 @@ export default {
   margin: auto;
 } */
 .p2 {
- position: absolute;
+  position: absolute;
   top: 88%;
   color: black;
   left: 2%;
-  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Times New Roman";
+  /* font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300))); */
 }
 .p3 {
   position: absolute;
   top: 92%;
   color: black;
   left: 2%;
-  font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300)));
+  font-family: "Times New Roman";
+  /* font-size: calc(5px + (14 - 5) * ((100vw - 300px) / (1600 - 300))); */
 }
 </style>

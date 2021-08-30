@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" style="margin-top: 120px">
+  <div v-if="isSupported" class="container-fluid" style="margin-top: 120px">
     <b-modal
       centered
       id="modalPopover"
@@ -63,15 +63,9 @@
         <templateselector v-on:select="select" />
       </div>
     </div>
-    <div v-else class="row justify-content-center">
-      <div
-        class="col-12 col-sm-12 col-md-12 col-lg-8 d-flex justify-content-center"
-      >
-        <!-- class="d-none d-md-block d-xl-block" -->
-        <div>
-          <component v-bind:is="template" />
-          <!-- <Certificate /> -->
-        </div>
+    <div v-else class="d-flex justify-content-center">
+      <div>
+        <component v-bind:is="template" />
       </div>
       <div v-if="IsBatch">
         <BatchInfo
@@ -80,7 +74,7 @@
           v-bind:template_id="template"
         />
       </div>
-      <div v-else class="col d-flex justify-content-center">
+      <div v-else class="ml-5">
         <CertificateInfo
           v-on:start="start_process"
           v-on:stop="stop_process"
@@ -89,6 +83,11 @@
       </div>
     </div>
   </div>
+  <div v-else>
+    <h1 style="margin-top: 120px">
+      This feature is not supported on mobile & tablet devices.
+    </h1>
+  </div>
 </template>
 
 <script>
@@ -96,9 +95,10 @@ import CertificateInfo from "../components/CertificateInfo";
 import BatchInfo from "../components/BatchInfo";
 import templateselector from "../components/template_selector";
 import TemplateComponents from "../js/TemplateComponents";
+import utils from "../js/utils";
 export default {
   name: "Create",
-  mixins: [TemplateComponents],
+  mixins: [TemplateComponents, utils],
   components: {
     CertificateInfo,
     BatchInfo,
@@ -111,6 +111,7 @@ export default {
       select_variant: false,
       process: false,
       IsBatch: null,
+      isSupported: true,
     };
   },
   methods: {
@@ -142,6 +143,9 @@ export default {
   },
   created() {
     this.$store.commit("cert_state/clearcert");
+    if (this.isMobileAndTablet()) {
+      this.isSupported = false;
+    }
   },
 };
 </script>
