@@ -82,7 +82,7 @@ export default {
   position: absolute;
   top: 85%;
   color: black;
-  left: 18%;
+  left: 8%;
   font-family: "Century Gothic";
   /* font-size: 1vw; */
 }
@@ -90,29 +90,29 @@ export default {
   position: absolute;
   top: 88%;
   color: black;
-  left: 18%;
+  left: 8%;
   font-family: "Century Gothic";
   /* font-size: 1vw; */
 }
 .logo {
   position: absolute;
   top: 12%;
-  left: 14%;
+  left: 10%;
   width: 10%;
   height: 12%;
   object-fit: contain;
 }
 .sign {
   position: absolute;
-  top: 88%;
-  left: 55%;
+  top: 87%;
+  left:65%;
   color: black;
   font-family: "Century Gothic";
 }
 .isign {
   position: absolute;
   top: 75%;
-  left: 65%;
+  left: 75%;
   width: 16%;
   height: 15%;
   object-fit: contain;
