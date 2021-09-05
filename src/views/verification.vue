@@ -7,11 +7,25 @@
       >
         <verify v-on:ShowView="rendercert" ref="v1" />
       </div>
-      <div class="col d-flex justify-content-center align-self-center " style="margin-top:10%" v-else>
+      <div
+        class="col d-flex justify-content-center align-self-center"
+        style="margin-top: 10%"
+        v-else
+      >
         <div>
           <div class="shadow p-3">
+            <b-button
+              class="d-inline float-left"
+              @click="() => (showcertificate = false)"
+            >
+              <b-icon icon="arrow-left-circle-fill" aria-hidden="true"></b-icon>
+            </b-button>
             <h2 :class="'d-inline text-' + alertvariant">{{ title }}!</h2>
-            <b-button class="d-inline float-right" title="Load file" @click="download">
+            <b-button
+              class="d-inline float-right"
+              title="Load file"
+              @click="download"
+            >
               <b-icon icon="cloud-download" aria-hidden="true"></b-icon>
             </b-button>
           </div>
@@ -41,12 +55,12 @@
 <script>
 import verify from "../components/verify";
 import TemplateComponents from "../js/TemplateComponents";
-import { mapState} from "vuex"
+import { mapState } from "vuex";
 export default {
   name: "verification",
   mixins: [TemplateComponents],
-  computed:{
-    ...mapState("cert_state", ["cert"])
+  computed: {
+    ...mapState("cert_state", ["cert"]),
   },
   data: function () {
     return {
@@ -77,11 +91,14 @@ export default {
       this.showDismissibleAlert = true;
     },
     download() {
-      const linkSource = `data:application/pdf;base64,${this.cert.pdf}`;
+      const linkSource = this.cert.pdf
+        ? `data:application/pdf;base64,${this.cert.pdf}`
+        : process.env.VUE_APP_API_URL + "download/" + this.cert._id;
       const downloadLink = document.createElement("a");
       const fileName = this.cert._id;
       downloadLink.href = linkSource;
       downloadLink.download = fileName;
+      downloadLink.target = "_blank";
       downloadLink.click();
     },
   },
