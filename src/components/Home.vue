@@ -1,8 +1,8 @@
 <template>
   <div
     style="
-    margin-top:90px;
-    overflow:hidden;
+      margin-top: 90px;
+      overflow: hidden;
       background-image: url(/Home/background.png);
       background-attachment: fixed;
     "
@@ -197,7 +197,9 @@
           affect systems that reside on several networks but will only appear in
           one physical area.
         </b-card-text>
-        <b-button pill class="custom-button">Apply Now</b-button>
+        <b-button pill class="custom-button" @click="applyPhysical"
+          >Apply Now</b-button
+        >
       </b-card>
 
       <b-card title="Client Organization" class="custom-card">
@@ -218,7 +220,9 @@
           business insight than just BI.with every day tasks performed
           throughout the organisation – where everyone understands how they are
         </b-card-text>
-        <b-button pill class="custom-button">Apply Now</b-button>
+        <b-button pill class="custom-button" @click="applyService"
+          >Apply Now</b-button
+        >
       </b-card>
     </b-card-group>
   </div>
@@ -245,6 +249,18 @@ export default {
     },
     onSlideEnd() {
       this.sliding = false;
+    },
+    applyPhysical() {
+      let link = document.createElement("a");
+      link.href = "https://certifis-portal.herokuapp.com/Contact";
+      link.target = "_blank";
+      link.click();
+    },
+    applyService() {
+      let link = document.createElement("a");
+      link.href = "https://certifis-portal.herokuapp.com/OrgContact";
+      link.target = "_blank";
+      link.click();
     },
   },
   mounted: function () {
