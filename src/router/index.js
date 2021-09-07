@@ -39,7 +39,15 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: dashboard,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+    },
+    beforeEnter: (to, from, next) => {
+      let x = store.state.user_state.user.roles
+      if (!CheckAuthorization(x, [Roles.SuperAdmin, Roles.Admin]))
+        return next({ path: '/certificates' })
+      next()
+    }
   },
   {
     path: "/login",

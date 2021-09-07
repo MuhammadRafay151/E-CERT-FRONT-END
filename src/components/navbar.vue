@@ -46,7 +46,7 @@
           <b-nav-item href="#" to="/verification"
             >Verify Certificate</b-nav-item
           >
-          <b-nav-item href="#" to="/about">About</b-nav-item>
+          <b-nav-item href="#" to="/about" hidden>About</b-nav-item>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav href="#" class="ml-auto">
